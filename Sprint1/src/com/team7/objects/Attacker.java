@@ -1,5 +1,6 @@
 package com.team7.objects;
 
+import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.combatUnit.CombatUnit;
 import com.team7.objects.unit.combatUnit.MeleeUnit;
@@ -321,6 +322,21 @@ public class Attacker {
             }
 
         }
+
+    }
+
+
+
+
+    private void defend(Unit attacker, Unit defender) {
+
+
+    }
+
+
+    private void defend(Unit attacker, Structure defender) {
+
+
 
     }
 

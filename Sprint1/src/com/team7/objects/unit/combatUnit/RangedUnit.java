@@ -19,7 +19,6 @@ public class RangedUnit extends CombatUnit {
         setLocation(startTile);
         setType("Ranged");
         setMovesFrozen(0);
-        setAttackDirection(0);
         setDefenseDirection(0);
     }
 

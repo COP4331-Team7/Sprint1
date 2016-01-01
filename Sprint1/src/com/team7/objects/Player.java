@@ -266,7 +266,7 @@ public class Player {
 
     }
 
-    public void subtractUpkeep() {
+    private void subtractUpkeep() {
 
         int sum = 0;
 
@@ -293,7 +293,7 @@ public class Player {
     }
 
 
-    public void subtractMovesFrozen() {
+    private void subtractMovesFrozen() {
 
         // subtract one from moves frozen for all frozen units
         for(int i = 0; i < this.units.size(); i++){
@@ -308,6 +308,11 @@ public class Player {
                 this.structures.get(i).setMovesFrozen(this.structures.get(i).getMovesFrozen() - 1);
             }
         }
+
+    }
+
+    // This function will loop through all armies and structures and execute next command in queue
+    private void updateQueues() {
 
     }
 
