@@ -1,7 +1,7 @@
 package com.team7.objects.resource;
 
 /*
- * Hieroglyphic Books will increase Research stat +20
+ * Hieroglyphic Books will affect Research stat +x
  */
 public class HieroglyphicBooks extends Resource {
     public HieroglyphicBooks() {
