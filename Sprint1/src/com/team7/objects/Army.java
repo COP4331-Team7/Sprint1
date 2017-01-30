@@ -5,9 +5,7 @@ import com.team7.objects.unit.UnitCommandQueue;
 
 import java.util.ArrayList;
 
-/**
- * Created by anip on 29/01/17.
- */
+
 public class Army {
     private long id;
     private ArrayList<Unit> units;

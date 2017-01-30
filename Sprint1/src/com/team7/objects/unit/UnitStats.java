@@ -2,9 +2,6 @@ package com.team7.objects.unit;
 
 import java.util.HashMap;
 
-/**
- * Created by anip on 29/01/17.
- */
 public class UnitStats {
     private long id;
     private int offensiveDamage;
