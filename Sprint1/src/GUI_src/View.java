@@ -438,10 +438,10 @@ class Command extends JPanel implements KeyListener {
         JPanel t = new JPanel();
         t.setLayout(new GridLayout(0,1));
 
-        modeLabel = new JLabel("MODE (CONTROL + ↑/↓): ");
-        typeLabel = new JLabel("TYPE (CONTROL + ←/→): ");
-        typeInstanceLabel = new JLabel("TYPE INSTANCE (←/→): ");
-        commandLabel = new JLabel("COMMAND (↑/↓): ");
+        modeLabel = new JLabel("MODE (CONTROL + \u2191 / \u2193): "); //up / down arrow
+        typeLabel = new JLabel("TYPE (CONTROL + \u2190 / \u2192): "); //left / right arrow
+        typeInstanceLabel = new JLabel("TYPE INSTANCE (\u2190 / \u2192): "); //left / right arrow
+        commandLabel = new JLabel("COMMAND (\u2191 / \u2193): "); //up / down arrow
 
         JLabel p = new JLabel("CONSTRUCT COMMAND BELOW");
         p.setFont(new Font("Serif", Font.BOLD, 22));
@@ -462,24 +462,24 @@ class Command extends JPanel implements KeyListener {
     private void updateCommand() {
 
 
-        modeLabel.setText("MODE (CONTROL + ↑/↓): " + ((currMode != -1)?modes[currMode]:"") );
+        modeLabel.setText("MODE (CONTROL + \u2191 / \u2193): " + ((currMode != -1)?modes[currMode]:"") ); //up / down arrow
 
         // type based off of mode
         if(currMode == 1)
-            typeLabel.setText("TYPE (CONTROL + ←/→): " + ((currType != -1)?structureTypes[currType]:""));
+            typeLabel.setText("TYPE (CONTROL + \u2190 / \u2192): " + ((currType != -1)?structureTypes[currType]:"")); //left / right arrow
         else if (currMode == 2)
-            typeLabel.setText("TYPE (CONTROL + ←/→): " + ((currType != -1)?unitTypes[currType]:""));
+            typeLabel.setText("TYPE (CONTROL + \u2190 / \u2192): " + ((currType != -1)?unitTypes[currType]:"")); //left / right arrow
         else if (currMode == 3)
-            typeLabel.setText("TYPE (CONTROL + ←/→): " + ((currType != -1)?armySubTypes[currType]:""));
+            typeLabel.setText("TYPE (CONTROL + \u2190 / \u2192): " + ((currType != -1)?armySubTypes[currType]:"")); //left / right arrow
         else 
-            typeLabel.setText("TYPE (CONTROL + ←/→): " );
+            typeLabel.setText("TYPE (CONTROL + \u2190 / \u2192): " ); //left / right arrow
 
         if(currType == 0)
-            commandLabel.setText("COMMAND (↑/↓): " + ((currCommand != -1)?structureCommands[currCommand]:""));
+            commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?structureCommands[currCommand]:"")); //up / down arrow
         else if (currType == 1)
-            commandLabel.setText("COMMAND (↑/↓): " + ((currCommand != -1)?unitCommands[currCommand]:""));
+            commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?unitCommands[currCommand]:"")); //up / down arrow
         else if (currType == 2)
-            commandLabel.setText("COMMAND (↑/↓): " + ((currCommand != -1)?armyCommands[currCommand]:""));
+            commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?armyCommands[currCommand]:"")); //up / down arrow
 
     }
 
