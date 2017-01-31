@@ -55,5 +55,28 @@ public class Map {
         }
     }
 
+    //called in Game
+    public void setMapDetails(){
+        populateMap();
+    }
+
+    //iterate through each Tile on our Map
+    private void populateMap() {
+        for (Tile[] tileArray: grid){
+            for (Tile tile: tileArray) {
+                populateTile(tile);
+            }
+        }
+    }
+
+    private void populateTile(Tile tile) {
+        //check tile terrain
+        //depending on terrain type,:
+          //Desert has 10% AreaEffect, 5% Item, 5% Resource
+          //FlatLand has 20% AreaEffect, 15% Item, 30% Resource
+         //Hills has 20% AreaEffect, 5% Item, 25% Resource
+         //Moutain has 0% AreaEffect, 0% Item, 0% Resource
+
+    }
 
 }
