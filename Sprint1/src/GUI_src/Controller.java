@@ -26,7 +26,7 @@ class Controller
         // when the next line, new Controller( view ), is executed and brings us here, the view has still not been created yet. it's weird.
         while( view.getFrame() == null ) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(50);
             }
             catch (Exception e) {}
         }      
