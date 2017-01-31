@@ -5,9 +5,11 @@ package com.team7.objects.items;
  * In the first iteration, a OneShotItem is equivalent to finding Elixir Resource
  */
 
+import com.team7.ProbabilityGenerator;
+
 public class OneShotItem extends Item {
 	public OneShotItem() {
 	    setPassable(true);
-	    setStatInfluence(20);
+	    setStatInfluence(ProbabilityGenerator.randomInteger(15,30));
     }
 }

@@ -1,9 +1,12 @@
 package com.team7.objects.resource;
+
+import com.team7.ProbabilityGenerator;
+
 /*
- * MoonRocks will affect Building stat by +x
+ * MoonRocks will affect Building stat by between +20 and +40
  */
 public class MoonRocks extends Resource {
     public MoonRocks() {
-        setStatInfluence(20);
+        setStatInfluence(ProbabilityGenerator.randomInteger(20, 40));
     }
 }

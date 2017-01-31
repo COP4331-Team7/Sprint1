@@ -1,10 +1,12 @@
 package com.team7.objects.resource;
 
+import com.team7.ProbabilityGenerator;
+
 /*
- * Hieroglyphic Books will affect Research stat +x
+ * Hieroglyphic Books will affect Research stat by between +20 and +40
  */
 public class HieroglyphicBooks extends Resource {
     public HieroglyphicBooks() {
-        setStatInfluence(20);
+        setStatInfluence(ProbabilityGenerator.randomInteger(20, 40));
     }
 }
