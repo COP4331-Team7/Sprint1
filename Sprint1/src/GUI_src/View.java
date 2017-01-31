@@ -118,7 +118,17 @@ class MyFrame extends JFrame
             }
         } );
         
-        fileMenu.add( exitItem );                	     
+        fileMenu.add( exitItem ); 
+        JMenuItem drawMapItem = new JMenuItem( "Draw Map" ); 
+        drawMapItem.addActionListener( new ActionListener()    // define what happens when this menu item is selected
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                mainScreen.drawMap();                   
+            }
+        } );
+        
+        fileMenu.add( drawMapItem );               	     
         JMenuBar menuBar = new JMenuBar();                  // create a new menu bar
         menuBar.add( fileMenu );                           	// add the "File" menu to the menu bar
         this.setJMenuBar( menuBar );                        // attach the menu bar to this frame
@@ -185,7 +195,16 @@ class MainScreen extends JPanel {
     public ScreenSelectButtons getScreenSelectButtons() {
             return screenSelectBtns;
     }
+
+    public void drawMap() {
+        mainAreaView.drawMap();
+    }
 }
+
+
+
+
+
 
 class UnitScreen extends JPanel {
 
@@ -319,7 +338,7 @@ class ScreenSelectButtons extends JPanel {
        }
 }
 
-class MainViewImage extends JPanel {
+class MainViewImage extends JPanel implements MouseListener {
 
         private BufferedImage image;
         private Graphics2D g2d;
@@ -328,23 +347,41 @@ class MainViewImage extends JPanel {
 
         public MainViewImage()
         {
-            MAP_IMAGE_WIDTH_IN_PIXELS = 700;
-            MAP_IMAGE_HEIGHT_IN_PIXELS = 500;
+            MAP_IMAGE_WIDTH_IN_PIXELS = 800;
+            MAP_IMAGE_HEIGHT_IN_PIXELS = 600;
 
             image = new BufferedImage(MAP_IMAGE_WIDTH_IN_PIXELS, MAP_IMAGE_HEIGHT_IN_PIXELS, BufferedImage.TYPE_INT_ARGB);
             g2d = (Graphics2D)image.createGraphics();
             drawMapArea();  
+            addMouseListener(this);
         }
 
         public void paintComponent( Graphics g )
         {
             super.paintComponent( g );
-            g.drawImage( image, 50, 0, this );
+            g.drawImage( image, 0, 0, this );
         }
 
         public void drawMapArea() {
             g2d.setColor( new Color(210, 210, 230) );
             g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
+        }
+
+        public void drawMap() {
+
+        }
+
+        // implement MouseListener interface methods: 
+        public void mousePressed(MouseEvent e) {}
+
+        public void mouseReleased(MouseEvent e) {}
+
+        public void mouseEntered(MouseEvent e) {}
+
+        public void mouseExited(MouseEvent e) {}
+
+        public void mouseClicked(MouseEvent e) {
+           System.out.println("mouse clicked at (" + e.getX() + ", " + e.getY() + ")" );
         }
 }
             
@@ -354,11 +391,11 @@ class MainViewInfo extends JPanel {
         {
             JPanel t = new JPanel();
             t.setLayout(new GridLayout(0,1));
-            JLabel p = new JLabel("Current selection stats");
+            JLabel p = new JLabel("Statistics:");
             p.setFont(new Font("Serif", Font.BOLD, 18));
 
-            t.add(p);
-            JLabel tt7 = new JLabel("Unit/Structure:");
+            t.add(p);   // large first label so the panel takes up more space and is spaced out
+            JLabel tt7 = new JLabel("Unit/Structure:                                    ");   
             t.add(tt7);
             JLabel tt = new JLabel("Offensive damage:");
             t.add(tt);
