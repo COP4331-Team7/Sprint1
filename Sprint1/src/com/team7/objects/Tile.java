@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * All other attributes will be generated
  */
 public class Tile {
-    private int id;
     private AreaEffect areaEffect;
     private Terrain terrain;
     private Structure structure;

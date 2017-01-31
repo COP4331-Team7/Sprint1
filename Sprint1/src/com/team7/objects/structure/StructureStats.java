@@ -6,7 +6,6 @@ import com.team7.objects.unit.Unit;
 import java.util.HashMap;
 
 public class StructureStats {
-    private long id;
     private int offensiveDamage;
     private int defensiveDamage;
     private int armor;

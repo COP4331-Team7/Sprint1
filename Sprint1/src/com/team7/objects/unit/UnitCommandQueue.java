@@ -4,6 +4,6 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 public class UnitCommandQueue {
-    private long id;
+    private int id;
     private Queue<String> commands;
 }

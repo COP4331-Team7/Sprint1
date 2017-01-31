@@ -5,7 +5,7 @@ import com.team7.objects.Tile;
 import com.team7.objects.unit.Unit;
 
 public abstract class Structure {
-    private long id;
+    private int id;
     private Player owner;
     private Tile location;
     private Unit defender;
