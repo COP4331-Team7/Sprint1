@@ -504,17 +504,17 @@ class Command extends JPanel implements KeyListener {
     // update the text displaying the currently selected command
     private void updateCommand() {
 
-        modeLabel.setText("MODE (CONTROL + \u2191 / \u2193): " + ((currMode != -1)?modes[currMode]:"") ); //up / down arrow
+        modeLabel.setText("MODE (SHIFT + \u2191 / \u2193): " + ((currMode != -1)?modes[currMode]:"") ); //up / down arrow
 
         // type based off of mode
         if(currMode == 1)
-            typeLabel.setText("TYPE (CONTROL + \u2190 / \u2192): " + ((currType != -1)?structureTypes[currType]:"")); //left / right arrow
+            typeLabel.setText("TYPE (SHIFT + \u2190 / \u2192): " + ((currType != -1)?structureTypes[currType]:"")); //left / right arrow
         else if (currMode == 2)
-            typeLabel.setText("TYPE (CONTROL + \u2190 / \u2192): " + ((currType != -1)?unitTypes[currType]:"")); //left / right arrow
+            typeLabel.setText("TYPE (SHIFT + \u2190 / \u2192): " + ((currType != -1)?unitTypes[currType]:"")); //left / right arrow
         else if (currMode == 3)
-            typeLabel.setText("TYPE (CONTROL + \u2190 / \u2192): " + ((currType != -1)?armySubTypes[currType]:"")); //left / right arrow
+            typeLabel.setText("TYPE (SHIFT + \u2190 / \u2192): " + ((currType != -1)?armySubTypes[currType]:"")); //left / right arrow
         else 
-            typeLabel.setText("TYPE (CONTROL + \u2190 / \u2192): " ); //left / right arrow
+            typeLabel.setText("TYPE (SHIFT + \u2190 / \u2192): " ); //left / right arrow
 
         if(currType == 0)
             commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?structureCommands[currCommand]:"")); //up / down arrow
@@ -529,7 +529,7 @@ class Command extends JPanel implements KeyListener {
     public void keyTyped(KeyEvent e)    {}
     public void keyReleased(KeyEvent e) {}
     public void keyPressed(KeyEvent e)  {
-        
+
         if(e.getKeyCode() == UP_KEY_CODE && e.getModifiers() == CONTROL_KEY_CODE ) {
            
             currMode = ++currMode % modes.length; 
