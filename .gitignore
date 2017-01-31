@@ -1,4 +1,5 @@
 *.class
 out/
 .idea/
-Sprint1/.idea
+Sprint1/.idea/
+Sprint1/.idea/workspace.xml
