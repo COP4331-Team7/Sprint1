@@ -18,11 +18,23 @@ class Controller
 
      public void addActionListeners()
      {
-        while( view.getFrame() == null ) {      // waiting on view construction
-            System.out.println("waiting ...");
-            try   { Thread.sleep(50);  }
-            catch (Exception e)  {}
-        }
+
+        long startTime = System.nanoTime();
+
+        // waiting on view construction because:
+        // in the main method in MVC.java, new View() returns instantly because it schedules the GUI creation to be executed asynchronously on the EDT
+        // when the next line, new Controller( view ), is executed and brings us here, the view has still not been created yet. it's weird.
+        while( view.getFrame() == null ) {
+            try {
+                Thread.sleep(10);
+            }
+            catch (Exception e) {}
+        }      
+           
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000000;  // time elapsed in milliseconds
+        System.out.println("view construction time: " + duration + " ms");
+        
     
         // add ActionListeners to home screen buttons
         view.getFrame().getHomeScreen().getHomeButtons().getQuitButton().addActionListener(new ActionListener() {
