@@ -601,5 +601,3 @@ class Command extends JPanel implements KeyListener {
 }
 
 
-
-// Github tutorial
