@@ -13,6 +13,9 @@ class View
 
     public View() 
     {
+        // SwingUtilities.invokeLater causes the Runnable to be executed asynchronously on the Event Dispatch Thread:
+        // It queues up a task (GUI update) on the EDT and instantly returns.
+        // Used to prevent long tasks from freezing up the GUI
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 createAndShowGUI();
@@ -20,6 +23,7 @@ class View
         } );
     }
     
+    // Create the GUI and show it.
     private void createAndShowGUI()
     {
         frame = new MyFrame( WIDTH, HEIGHT);                       // setup new frame
@@ -351,9 +355,9 @@ class MainViewInfo extends JPanel {
             JPanel t = new JPanel();
             t.setLayout(new GridLayout(0,1));
             JLabel p = new JLabel("Current selection stats");
-              p.setFont(new Font("Serif", Font.BOLD, 18));
+            p.setFont(new Font("Serif", Font.BOLD, 18));
 
-             t.add(p);
+            t.add(p);
             JLabel tt7 = new JLabel("Unit/Structure:");
             t.add(tt7);
             JLabel tt = new JLabel("Offensive damage:");
@@ -435,32 +439,33 @@ class Command extends JPanel implements KeyListener {
 
     public Command() {
        
-        JPanel t = new JPanel();
-        t.setLayout(new GridLayout(0,1));
+        JPanel commandSelectPanel = new JPanel();
+        commandSelectPanel.setLayout(new GridLayout(0,1));
 
         modeLabel = new JLabel("MODE (CONTROL + \u2191 / \u2193): "); //up / down arrow
         typeLabel = new JLabel("TYPE (CONTROL + \u2190 / \u2192): "); //left / right arrow
         typeInstanceLabel = new JLabel("TYPE INSTANCE (\u2190 / \u2192): "); //left / right arrow
         commandLabel = new JLabel("COMMAND (\u2191 / \u2193): "); //up / down arrow
 
-        JLabel p = new JLabel("CONSTRUCT COMMAND BELOW");
-        p.setFont(new Font("Serif", Font.BOLD, 22));
+        JLabel my_static_label = new JLabel("CONSTRUCT COMMAND BELOW");
+        my_static_label.setFont(new Font("Serif", Font.BOLD, 22));
 
-        t.add(p);
+        commandSelectPanel.add(my_static_label);
 
-        t.add(modeLabel);
-        t.add(typeLabel);
-        t.add(typeInstanceLabel);
-        t.add(commandLabel);
-        t.add(new JLabel());
-        t.add(new JLabel());
-        this.add( t, BorderLayout.SOUTH );
+        commandSelectPanel.add(modeLabel);
+        commandSelectPanel.add(typeLabel);
+        commandSelectPanel.add(typeInstanceLabel);
+        commandSelectPanel.add(commandLabel);
+        commandSelectPanel.add(new JLabel());
+        commandSelectPanel.add(new JLabel());
+        this.add( commandSelectPanel, BorderLayout.SOUTH );
 
         addKeyListener(this);
     }
 
-    private void updateCommand() {
 
+    // update the text displaying the currently selected command
+    private void updateCommand() {
 
         modeLabel.setText("MODE (CONTROL + \u2191 / \u2193): " + ((currMode != -1)?modes[currMode]:"") ); //up / down arrow
 
@@ -489,86 +494,71 @@ class Command extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e)  {
 
         if(e.getKeyCode() == UP_KEY_CODE && e.getModifiers() == CONTROL_KEY_CODE ) {
+           
             currMode = ++currMode % modes.length; 
 
-            currType = -1;
-            updateCommand();
+            currType = -1;      // when the user changes MODE, reset the currently selected TYPE 
         }
         else if(e.getKeyCode() == DOWN_KEY_CODE && e.getModifiers() == CONTROL_KEY_CODE ) {
             
-
-            if (currMode > 0) currMode--;
+            if (currMode > 0) currMode--;        
             else currMode = modes.length - 1;
 
-            currType = -1;
-            updateCommand();
+            currType = -1;      // when the user changes MODE, reset the currently selected TYPE
         }
         else if(e.getKeyCode() == LEFT_KEY_CODE && e.getModifiers() == CONTROL_KEY_CODE ) {
-            
-            int size = 0;
-
-            if(currMode == 1) 
-                size = structureTypes.length;
-            else if (currMode == 2)
-                size = unitTypes.length;
-            else if (currMode == 3)
-                size = armySubTypes.length;
-
+           
             if (currType > 0) currType--;
-            else currType = size - 1;
+            else currType = getNumTypes( currMode ) - 1;
 
-            currCommand = -1;
-            updateCommand();
+            currCommand = -1;   // when the user changes TYPE, reset the currently selected COMMAND
         }
         else if(e.getKeyCode() == RIGHT_KEY_CODE && e.getModifiers() == CONTROL_KEY_CODE ) {
+           
+            if( getNumTypes( currMode ) != 0) 
+                currType = ++currType % getNumTypes( currMode ); 
 
-             int size = 0;
+            currCommand = -1;   // when the user changes TYPE, reset the currently selected COMMAND
+        }
+        else if(e.getKeyCode() == UP_KEY_CODE) {
+            
+            if( getNumCommands( currType ) != 0) 
+                currCommand = ++currCommand % getNumCommands( currType ); 
 
+        }
+        else if(e.getKeyCode() == DOWN_KEY_CODE) {
+           
+            if (currCommand > 0) currCommand--;
+            else currCommand = getNumCommands( currType ) - 1; 
+
+        }
+
+        updateCommand();
+    }
+
+
+    private int getNumTypes(int currMode) {        // get # of options the current MODE has  
+            int size = 0;
             if(currMode == 1) 
                 size = structureTypes.length;
             else if (currMode == 2)
                 size = unitTypes.length;
             else if (currMode == 3)
                 size = armySubTypes.length;
-            
-            if(size != 0) 
-                currType = ++currType % size; 
-
-            currCommand = -1;
-            updateCommand();
-        }
-        else if(e.getKeyCode() == UP_KEY_CODE) {
-
-             int size = 0;
-
-            if(currType == 0) 
-                size = structureCommands.length;
-            else if (currType == 1)
-                size = unitCommands.length;
-            else if (currType == 2)
-                size = armyCommands.length;
-            
-            if(size != 0) 
-                currCommand = ++currCommand % size; 
-
-            updateCommand();
-        }
-        else if(e.getKeyCode() == DOWN_KEY_CODE) {
-
-             int size = 0;
-
-            if(currType == 0) 
-                size = structureCommands.length;
-            else if (currType == 1)
-                size = unitCommands.length;
-            else if (currType == 2)
-                size = armyCommands.length;
-            
-            if (currCommand > 0) currCommand--;
-            else currCommand = size - 1;
-
-            updateCommand();
-        }
+            return size;
     }
+
+    private int getNumCommands(int currType) {      // get # of options the current TYPE has 
+            int size = 0;
+            if(currType == 0) 
+                size = structureCommands.length;
+            else if (currType == 1)
+                size = unitCommands.length;
+            else if (currType == 2)
+                size = armyCommands.length;
+            return size;
+    }
+
+
 
 }
