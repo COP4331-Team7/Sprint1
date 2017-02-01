@@ -4,7 +4,7 @@ package com.team7.objects;
 import com.team7.ProbabilityGenerator;
 import com.team7.objects.items.Obstacle;
 import com.team7.objects.items.OneShotItem;
-import com.team7.objects.resource.Elixir;
+import com.team7.objects.resource.MoneyBag;
 import com.team7.objects.resource.HieroglyphicBooks;
 import com.team7.objects.resource.MoonRocks;
 import com.team7.objects.terrain.Desert;
@@ -76,10 +76,8 @@ public class Map {
     }
 
     private void populateTile(Tile tile) {
-        int rand=0;
-        int size = tile.getTerrain().getAreaEffects().size();
         //check tile terrain
-        //depending on terrain type,:
+        //depending on terrain type:
         //Desert has 10% AreaEffect, 5% Item, 5% Resource
         //FlatLand has 20% AreaEffect, 15% Item, 30% Resource
         //Hills has 20% AreaEffect, 5% Item, 25% Resource
@@ -136,7 +134,7 @@ public class Map {
         if(ProbabilityGenerator.willOccur(prob)){
             int rand = ProbabilityGenerator.randomInteger(0,2);
             if(rand == 0)
-                tile.setResource(new Elixir());
+                tile.setResource(new MoneyBag());
             else if(rand == 1)
                 tile.setResource(new HieroglyphicBooks());
             else if(rand == 2)

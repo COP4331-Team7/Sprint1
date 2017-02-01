@@ -9,7 +9,7 @@ public class Player {
     private Army[] armies;
     private int research;
     private int construction;
-    private int elixer;
+    private int money;
     private boolean isDefeated;
 
     public Player() {
@@ -18,7 +18,7 @@ public class Player {
         armies = new Army[10];
         research = 0;
         construction = 0;
-        elixer = 50;
+        money = 50;
         isDefeated = false;
     }
 
@@ -70,8 +70,8 @@ public class Player {
         isDefeated = defeated;
     }
 
-    public int getElixer() { return elixer; }
+    public int getMoney() { return money; }
 
-    public void setElixer(int elixer) { this.elixer = elixer; }
+    public void setMoney(int money) { this.money = money; }
 
 }
