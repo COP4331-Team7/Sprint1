@@ -14,7 +14,7 @@ import com.team7.objects.terrain.Hills;
 import com.team7.objects.terrain.Mountains;
 
 public class Map {
-    private long id;
+
     private String name;
     private Tile[][] grid;
 
@@ -154,5 +154,11 @@ public class Map {
         }
     }
 
+    public Tile[][] getGrid() {
+        return grid;
+    }
 
+    public void setGrid(Tile[][] grid) {
+        this.grid = grid;
+    }
 }

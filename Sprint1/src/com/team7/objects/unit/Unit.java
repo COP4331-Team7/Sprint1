@@ -5,6 +5,7 @@ import com.team7.objects.Tile;
 
 public abstract class Unit {
     private int id;
+    private String type;
     private UnitStats unitStats;
     private Tile location;
     private boolean isPowered;
@@ -40,6 +41,11 @@ public abstract class Unit {
     public void setPowered(boolean powered) {
         isPowered = powered;
     }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
+
 }
 
 

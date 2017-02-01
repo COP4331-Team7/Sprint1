@@ -2,6 +2,7 @@ package com.team7.objects;
 
 import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.nonCombatUnit.Colonist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,9 @@ public class Player {
         isDefeated = false;
     }
 
+
+    // Unit helper functions
+
     public List<Unit> getUnits() {
         return units;
     }
@@ -32,6 +36,63 @@ public class Player {
     public void setUnits(List<Unit> units) {
         this.units = units;
     }
+
+    public Unit addUnit(Unit unit) {
+
+        // Ensures we are able to have a unit
+        if(checkMaxUnitsFull() || checkMaxUnitsIndividual()){
+            return unit;
+        }
+
+        // Physically add the unit
+        this.units.add(unit);
+
+        return unit;
+    }
+
+
+    // Checks if we have 25 Units
+    public boolean checkMaxUnitsFull(){
+        if(this.units.size() == 25){
+            System.out.println("You have too many units.");
+            return true;
+        }
+        return false;
+    }
+
+    // Check if we have 10 units of a certain type
+    public boolean checkMaxUnitsIndividual(){
+        int explorerCount = 0;
+        int colonistCount = 0;
+        int meleeCount = 0;
+        int rangedCount = 0;
+
+        for(int i = 0; i < this.units.size(); i++){
+            Unit unit = this.units.get(i);
+
+            if(unit.getType() == "Colonist"){
+                colonistCount++;
+            }
+            else if(unit.getType() == "Explorer"){
+                explorerCount++;
+            }
+            else if(unit.getType() == "Melee"){
+                meleeCount++;
+            }
+            else if(unit.getType() == "Ranged"){
+                rangedCount++;
+            }
+
+            if(colonistCount == 10 || explorerCount == 10 || meleeCount == 10 || rangedCount == 10) {
+                System.out.println("You have too many units of a particular type.");
+                return true;
+            }
+        }
+            return false;
+    }
+
+
+    // Structure helper functions
 
     public List<Structure> getStructures() {
         return structures;
@@ -41,6 +102,9 @@ public class Player {
         this.structures = structures;
     }
 
+
+    // Army helper functions
+
     public List<Army> getArmies() {
         return armies;
     }
@@ -48,6 +112,10 @@ public class Player {
     public void setArmies(List<Army> armies) {
         this.armies = armies;
     }
+
+
+
+    // Extra getters and setters
 
     public int getResearch() {
         return research;
