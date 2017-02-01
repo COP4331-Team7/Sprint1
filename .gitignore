@@ -1,3 +1,5 @@
 *.class
 out/
-.idea/
+.idea/*
+Sprint1/.idea/*
+*.xml
