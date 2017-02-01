@@ -2,7 +2,7 @@ package com.team7.objects.items;
 
 /*
  * OneShotItem is picked up and can affect stats
- * In the first iteration, a OneShotItem is equivalent to finding Elixir Resource
+ * In the first iteration, a OneShotItem is equivalent to finding MoneyBag Resource
  */
 
 import com.team7.ProbabilityGenerator;
