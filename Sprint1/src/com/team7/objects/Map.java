@@ -138,7 +138,6 @@ public class Map {
 
             else if(rand == 1)
                 tile.setItem(new Obstacle());
-            System.out.print("Got reference "+tile.getItem()+"\n");
         }
     }
 
