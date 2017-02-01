@@ -1,8 +1,10 @@
-package com.team7.objects.structure;
+package com.team7.objects;
+
 
 import java.util.Queue;
 
-public class StructureCommandQueue {
+
+public class CommandQueue {
     private int id;
     private Queue<String> commands;
 }
