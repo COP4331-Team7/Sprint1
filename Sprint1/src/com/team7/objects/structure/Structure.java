@@ -3,6 +3,7 @@ package com.team7.objects.structure;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
 import com.team7.objects.unit.Unit;
+import com.team7.objects.structure.
 
 public abstract class Structure {
     private int id;
