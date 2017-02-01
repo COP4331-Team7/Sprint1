@@ -1,6 +1,12 @@
 package com.team7.objects;
 
 
+import com.team7.ProbabilityGenerator;
+import com.team7.objects.items.Obstacle;
+import com.team7.objects.items.OneShotItem;
+import com.team7.objects.resource.Elixir;
+import com.team7.objects.resource.HieroglyphicBooks;
+import com.team7.objects.resource.MoonRocks;
 import com.team7.objects.terrain.Desert;
 import com.team7.objects.terrain.FlatLand;
 import com.team7.objects.terrain.Hills;
@@ -70,13 +76,73 @@ public class Map {
     }
 
     private void populateTile(Tile tile) {
+        int rand=0;
+        int size = tile.getTerrain().getAreaEffects().size();
         //check tile terrain
         //depending on terrain type,:
-          //Desert has 10% AreaEffect, 5% Item, 5% Resource
-          //FlatLand has 20% AreaEffect, 15% Item, 30% Resource
-         //Hills has 20% AreaEffect, 5% Item, 25% Resource
-         //Moutain has 0% AreaEffect, 0% Item, 0% Resource
+        //Desert has 10% AreaEffect, 5% Item, 5% Resource
+        //FlatLand has 20% AreaEffect, 15% Item, 30% Resource
+        //Hills has 20% AreaEffect, 5% Item, 25% Resource
+        //Mountain has 0% AreaEffect, 0% Item, 0% Resource
+
+
+        if(tile.getTerrain() instanceof Desert){
+            populateAreaEffects(tile,0.1); // Populate Area Effects depending on terrain type
+            populateItem(tile,0.5); // Populate Item depending on terrain type
+            populateResource(tile,0.05);// Populate Item depending on terrain type
+
+        }
+        else if(tile.getTerrain() instanceof FlatLand){
+            populateAreaEffects(tile,0.2);
+            populateItem(tile,0.15);
+            populateResource(tile,0.3);
+        }
+        else if(tile.getTerrain() instanceof Hills){
+            populateAreaEffects(tile,0.2);
+            populateItem(tile,0.05);
+            populateResource(tile, 0.25);
+        }
+        else if(tile.getTerrain() instanceof Mountains){
+            populateAreaEffects(tile,0);
+            populateItem(tile,0);
+            populateResource(tile,0);
+        }
 
     }
+
+
+    // Populate Area Effects for each tile.
+    private void populateAreaEffects(Tile tile, double prob) {
+        if (ProbabilityGenerator.willOccur(prob)) {
+            int rand = ProbabilityGenerator.randomInteger(0, tile.getTerrain().getAreaEffects().size());
+            tile.setAreaEffect(tile.getTerrain().getAreaEffects().get(rand));
+        }
+    }
+
+    // Populate Item for each tile.
+    private void populateItem(Tile tile, double prob) {
+        int rand =0;
+        if(ProbabilityGenerator.willOccur(prob)){
+            rand = ProbabilityGenerator.randomInteger(0,1);
+            if(rand == 0)
+                tile.setItem(new OneShotItem());
+            else if(rand == 1)
+                tile.setItem(new Obstacle());
+        }
+    }
+
+    // Populate Resource for each tile.
+    private void populateResource(Tile tile, double prob) {
+        if(ProbabilityGenerator.willOccur(prob)){
+            int rand = ProbabilityGenerator.randomInteger(0,2);
+            if(rand == 0)
+                tile.setResource(new Elixir());
+            else if(rand == 1)
+                tile.setResource(new HieroglyphicBooks());
+            else if(rand == 2)
+                tile.setResource(new MoonRocks());
+        }
+    }
+
 
 }
