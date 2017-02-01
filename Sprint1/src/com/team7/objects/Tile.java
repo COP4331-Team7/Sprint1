@@ -26,6 +26,11 @@ public class Tile {
         this.terrain = terrain;
     }
 
+    public Tile() {
+
+    }
+
+
     public AreaEffect getAreaEffect() {
         return areaEffect;
     }

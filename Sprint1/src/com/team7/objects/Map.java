@@ -1,7 +1,9 @@
 package com.team7.objects;
 
 
+import com.oracle.tools.packager.Log;
 import com.team7.ProbabilityGenerator;
+import com.team7.objects.items.Item;
 import com.team7.objects.items.Obstacle;
 import com.team7.objects.items.OneShotItem;
 import com.team7.objects.resource.MoneyBag;
@@ -25,6 +27,13 @@ public class Map {
     private void createOGMap() {
         grid = new Tile[20][20];
         name = "OG Map";
+        for (int i = 0; i <20; i++)
+        {
+            for (int j = 0; j <20; j++)
+            {
+                grid[i][j]=new Tile();
+            }
+        }
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++){
@@ -42,7 +51,8 @@ public class Map {
                         grid[i][j].setTerrain(new FlatLand());
                         grid[19-i][19-j].setTerrain(new FlatLand());
                     }
-                } else{
+                }
+                else{
                     if (j >= 0 && j <= 4){
                         grid[i][j].setTerrain(new Hills());
                         grid[19-i][19-j].setTerrain(new Hills());
@@ -85,6 +95,7 @@ public class Map {
 
 
         if(tile.getTerrain() instanceof Desert){
+//            System.out.print("Checked instance of Desert");
             populateAreaEffects(tile,0.1); // Populate Area Effects depending on terrain type
             populateItem(tile,0.5); // Populate Item depending on terrain type
             populateResource(tile,0.05);// Populate Item depending on terrain type
@@ -112,7 +123,8 @@ public class Map {
     // Populate Area Effects for each tile.
     private void populateAreaEffects(Tile tile, double prob) {
         if (ProbabilityGenerator.willOccur(prob)) {
-            int rand = ProbabilityGenerator.randomInteger(0, tile.getTerrain().getAreaEffects().size());
+
+            int rand = ProbabilityGenerator.randomInteger(0, tile.getTerrain().getAreaEffects().size()-1);
             tile.setAreaEffect(tile.getTerrain().getAreaEffects().get(rand));
         }
     }
@@ -124,8 +136,10 @@ public class Map {
             rand = ProbabilityGenerator.randomInteger(0,1);
             if(rand == 0)
                 tile.setItem(new OneShotItem());
+
             else if(rand == 1)
                 tile.setItem(new Obstacle());
+            System.out.print("Got reference "+tile.getItem()+"\n");
         }
     }
 
