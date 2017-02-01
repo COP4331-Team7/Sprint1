@@ -6,7 +6,7 @@ import com.team7.objects.Tile;
 public class Colonist extends NonCombatUnit {
 
 	public Colonist(int id, Tile startTile){
-        UnitStats stats = new UnitStats(0, 0, 0, 5, 100, 1);
+	    UnitStats stats = new UnitStats(0, 0, 0, 5, 100, 1);
         setUnitStats(stats);
         setPowered(true);
 	    setId(id);
