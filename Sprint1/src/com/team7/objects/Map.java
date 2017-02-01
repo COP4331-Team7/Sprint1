@@ -1,9 +1,8 @@
 package com.team7.objects;
 
 
-import com.oracle.tools.packager.Log;
+
 import com.team7.ProbabilityGenerator;
-import com.team7.objects.items.Item;
 import com.team7.objects.items.Obstacle;
 import com.team7.objects.items.OneShotItem;
 import com.team7.objects.resource.MoneyBag;
