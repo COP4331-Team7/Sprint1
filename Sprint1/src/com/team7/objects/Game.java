@@ -30,7 +30,7 @@ public class Game {
         map = new Map();
         
         while (!players[0].isDefeated() && !players[1].isDefeated()) {
-            //players[currentPlayer].takeTurn(); --TODO
+            //currentPlayer.takeTurn(); --TODO
             nextTurn();
         }
 
