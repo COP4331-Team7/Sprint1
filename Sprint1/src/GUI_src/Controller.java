@@ -7,8 +7,6 @@ import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
 
-
-
 class Controller
 {
      // private Model model;
