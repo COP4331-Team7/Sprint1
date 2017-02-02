@@ -40,11 +40,7 @@ public class Game {
 
     //Switches the turn to the next player
     public void nextTurn() {
-        if (turn == 0) {
-            turn = 1;
-        } else {
-            turn = 0;
-        }
+        turn += 1 % 2;
     }
 
     public void endGame() {
