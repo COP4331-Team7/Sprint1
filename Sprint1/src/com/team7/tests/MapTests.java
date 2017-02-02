@@ -4,7 +4,8 @@ package com.team7.tests;
 import com.team7.objects.Map;
 import com.team7.objects.Tile;
 import com.team7.objects.terrain.Mountains;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 public class MapTests {

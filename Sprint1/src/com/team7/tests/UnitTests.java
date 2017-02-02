@@ -7,7 +7,8 @@ import com.team7.objects.unit.combatUnit.MeleeUnit;
 import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 

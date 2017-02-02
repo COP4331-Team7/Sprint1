@@ -2,7 +2,7 @@ package com.team7.tests;
 
 import com.team7.objects.Game;
 import com.team7.objects.Player;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
