@@ -27,9 +27,8 @@ public class Game {
 
     //Initializes the map, and runs the turns. Ends the game when a player is defeated
     public void startGame() {
-        Map m = new Map();
-        map = m;
-
+        map = new Map();
+        
         while (!players[0].isDefeated() && !players[1].isDefeated()) {
             //players[currentPlayer].takeTurn(); --TODO
             nextTurn();
