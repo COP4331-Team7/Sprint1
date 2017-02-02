@@ -36,3 +36,6 @@ An area effect is a process that is automatically triggered when a unit enters a
  1. Storm - takes damage to a unit at a random integer between -30 and -10 
  2. Elixir Shower - heals damage to a unit at a random integer between 20 and 30 
  3. Volcanic Vent - instantly kills a unit 
+=======
+#Design
+https://drive.google.com/drive/folders/0B1tlQl7ckmbka1Z2LXkyRGVVaVE
