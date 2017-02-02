@@ -14,7 +14,9 @@ public class Player {
     private int research;
     private int construction;
     private int money;
-    private boolean isDefeated;
+    private boolean noUnits;
+    private boolean noStructures;
+    private boolean noArmies;
 
     public Player() {
         units = new ArrayList<Unit>();                               // max size should be 25
@@ -23,7 +25,9 @@ public class Player {
         research = 0;
         construction = 0;
         money = 50;
-        isDefeated = false;
+        noUnits = true;
+        noStructures = true;
+        noArmies = true;
     }
 
 
@@ -45,8 +49,10 @@ public class Player {
             return unit;
         }
 
-        // Physically add the unit
+        // Physically add the unit and put it on the map
+        this.noUnits = false;
         this.units.add(unit);
+        unit.getLocation().addUnitToTile(unit);
 
         return unit;
     }
@@ -54,10 +60,12 @@ public class Player {
     // Removes unit from Player's ArrayList of Units
     public Unit removeUnit(Unit unit) {
 
+
         this.units.remove(unit);
+        unit.getLocation().removeUnitFromTile(unit);
 
         if(this.units.size() == 0){
-            this.isDefeated = true;
+            this.noUnits = true;
         }
 
         return unit;
@@ -116,6 +124,7 @@ public class Player {
     }
 
 
+
     // Army helper functions
 
     public List<Army> getArmies() {
@@ -124,6 +133,38 @@ public class Player {
 
     public void setArmies(List<Army> armies) {
         this.armies = armies;
+    }
+
+    // Adds army to Player's ArrayList of armies
+    public Army addArmy(Army army) {
+
+        // Ensures we are able to have a unit
+        if(this.armies.size() == 10){
+            System.out.println("You have too many units.");
+            return army;
+        }
+
+        // Physically add the unit and put it on the map
+        this.noArmies = false;
+        this.armies.add(army);
+        army.getRallyPoint().addArmyToTile(army);
+
+        return army;
+    }
+
+
+    // Removes army to Player's ArrayList of armies
+    public Army removeArmy(Army army) {
+
+       // physically remove the army
+        this.armies.remove(army);
+        army.getRallyPoint().removeArmyFromTile(army);
+
+        if(this.armies.size() == 0){
+            this.noArmies = true;
+        }
+
+        return army;
     }
 
 
@@ -155,10 +196,8 @@ public class Player {
     }
 
     public boolean isDefeated() {
-        return isDefeated;
+        return noArmies && noUnits && noStructures;
     }
 
-    public void setDefeated(boolean defeated) {
-        isDefeated = defeated;
-    }
+
 }

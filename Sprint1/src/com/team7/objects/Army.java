@@ -111,5 +111,10 @@ public class Army {
     public void setTurnsFrozen(int turnsFrozen) {
         this.turnsFrozen = turnsFrozen;
     }
+
+
+    // function processQueue will take in a string, and check for validity,
+    // decode to call helper function for attack, defend etc..
+
 }
 

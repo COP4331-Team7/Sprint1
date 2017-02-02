@@ -78,6 +78,27 @@ public class Tile {
         this.resource = resource;
     }
 
+
+    // Unit and army helper functions
+
+    // Adds unit to Tile's ArrayList of Units
+    public Unit addUnitToTile(Unit unit) {
+
+        // Physically add the unit
+        this.units.add(unit);
+
+        return unit;
+    }
+
+    // Removes unit from Tile's ArrayList of Units
+    public Unit removeUnitFromTile(Unit unit) {
+
+        this.units.remove(unit);
+
+        return unit;
+    }
+
+
     public ArrayList<Unit> getUnits() {
         return units;
     }
@@ -85,4 +106,30 @@ public class Tile {
     public void setUnits(ArrayList<Unit> units) {
         this.units = units;
     }
+
+    public ArrayList<Army> getArmies() {
+        return armies;
+    }
+
+    public void setArmies(ArrayList<Army> armies) {
+        this.armies = armies;
+    }
+
+    // Adds unit to Tile's ArrayList of Units
+    public Army addArmyToTile(Army army) {
+
+        // Physically add the unit
+        this.armies.add(army);
+
+        return army;
+    }
+
+    // Removes unit from Tile's ArrayList of Units
+    public Army removeArmyFromTile(Army army) {
+
+        this.armies.remove(army);
+
+        return army;
+    }
+
 }
