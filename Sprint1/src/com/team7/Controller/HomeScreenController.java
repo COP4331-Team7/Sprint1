@@ -1,9 +1,5 @@
 package com.team7.Controller;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import com.team7.View.*;
 import com.team7.objects.Game;
 

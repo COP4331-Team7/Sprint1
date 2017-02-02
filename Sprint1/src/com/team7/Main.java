@@ -1,9 +1,11 @@
 package com.team7;
 
 import com.team7.Controller.HomeScreenController;
+import com.team7.Controller.ScreenSelectController;
 import com.team7.View.*;
 import com.team7.Controller.MapController;
 import com.team7.objects.*;
+import javafx.stage.Screen;
 
 public class Main {
 
@@ -18,12 +20,12 @@ public class Main {
 
         MyFrame view = new MyFrame(800, 600);
 
-        MapController map = new MapController(game, view);
+        MapController mapController = new MapController(game, view);
         HomeScreenController homeScreenController = new HomeScreenController(game, view);
+        ScreenSelectController screenSelectController = new ScreenSelectController(view);
 
 
 
-        map.createMap();
     }
 
 

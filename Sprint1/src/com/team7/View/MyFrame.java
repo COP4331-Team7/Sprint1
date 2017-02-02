@@ -1,5 +1,7 @@
 package com.team7.View;
 
+import com.team7.Controller.ScreenSelectController;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,6 +16,9 @@ public class MyFrame extends JFrame
     private MainScreen mainScreen = null;
     private UnitScreen unitScreen = null;
     private StructureScreen structureScreen = null;
+    private ScreenSelectButtons screenSelectButtons;
+
+
 
     public MyFrame( int width, int height)
     {
@@ -26,6 +31,7 @@ public class MyFrame extends JFrame
         mainScreen = new MainScreen();
         unitScreen = new UnitScreen();
         structureScreen = new StructureScreen();
+        screenSelectButtons = new ScreenSelectButtons();
 
         setCurrScreen("HOME");
 
@@ -44,6 +50,10 @@ public class MyFrame extends JFrame
     public StructureScreen getStructureScreen() {
             return structureScreen;
     }
+    public ScreenSelectButtons getScreenSelectButtons() {
+        return screenSelectButtons;
+    }
+
 
     public void setCurrScreen(String selected_screen) {
 
