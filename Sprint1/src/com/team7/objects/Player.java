@@ -141,7 +141,7 @@ public class Player {
     }
 
     // Removes unit from Player's ArrayList of Units
-    public Structure removeUnit(Structure structure) {
+    public Structure removeStructure(Structure structure) {
 
         // Physically remove unit form player and tile
         this.structures.remove(structure);
@@ -203,9 +203,34 @@ public class Player {
     // units or armies that need to be removed from the array lists
     public void checkUnitArmyStructs(){
 
+        // check if any units are dead, if so remove from list
+        for(int i = 0; i < units.size(); i++) {
+            if(units.get(i).getUnitStats().getHealth() == 0) {
+                removeUnit(units.get(i));
+            }
+        }
 
+        // check if any army units are dead, if so remove them
+        // then check if army is empty, if so, remove it
+        for(int i = 0; i < armies.size(); i++) {
+            for(int j = 0; j < armies.get(i).getUnits().size(); j++){
+                // if any unit in the army is dead, remove it from the army
+                if(armies.get(i).getUnits().get(j).getUnitStats().getHealth() == 0) {
+                    armies.get(i).removeUnitFromArmy(armies.get(i).getUnits().get(j));
+                    removeUnit(armies.get(i).getUnits().get(j));
+                }
+            }
+            if(armies.get(i).getUnits().size() == 0){
+                removeArmy(armies.get(i));
+            }
+        }
 
-
+        // check for any dead structures
+        for(int i = 0; i < structures.size(); i++) {
+            if(structures.get(i).getStats().getHealth() == 0) {
+                removeStructure(structures.get(i));
+            }
+        }
 
 
     }
