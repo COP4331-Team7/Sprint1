@@ -169,4 +169,8 @@ public class Map {
     public void setGrid(Tile[][] grid) {
         this.grid = grid;
     }
+
+    public Tile getTile(int i, int j) {
+        return grid[i][j];
+    }
 }

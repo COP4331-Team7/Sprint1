@@ -27,7 +27,7 @@ class GameTest {
         Game g = new Game(p1, p2);
 
         Player t = g.getCurrentPlayer();
-        assertEquals(t, p1); 
+        assertEquals(t, p1);
     }
 
 }
