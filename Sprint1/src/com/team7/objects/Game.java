@@ -54,10 +54,10 @@ public class Game {
     //Switches the turn to the next player
     public void nextTurn() {
         
-        if(currentPlayer = p1) 
-            currentPlayer = p2;
+        if(currentPlayer == players[0])
+            currentPlayer = players[1];
         else 
-            currentPlayer = p1;
+            currentPlayer = players[0];
         
         turn += 1 % 2;
     }
