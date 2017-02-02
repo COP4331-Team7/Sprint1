@@ -2,6 +2,8 @@ package com.team7.objects;
 
 import com.team7.objects.Map;
 import com.team7.objects.Player;
+import com.team7.objects.unit.nonCombatUnit.Colonist;
+import com.team7.objects.unit.nonCombatUnit.Explorer;
 
 /*
     The Game class is just inside of the boundary of our “model” (MVC paradigm).
@@ -27,8 +29,17 @@ public class Game {
 
     //Initializes the map, and runs the turns. Ends the game when a player is defeated
     public void startGame() {
-        Map m = new Map();
-        map = m;
+        this.map = new Map();
+
+        // Put initial 2 explorers and colonists into Player's array to start game
+        // Player 1 starts in top right, player 2 starts in bottom left
+        players[0].addUnit(new Explorer(this.map.getGrid()[2][17]));
+        players[0].addUnit(new Explorer(this.map.getGrid()[2][18]));
+        players[0].addUnit(new Colonist(this.map.getGrid()[3][17]));
+
+        players[1].addUnit(new Explorer(this.map.getGrid()[18][2]));
+        players[1].addUnit(new Explorer(this.map.getGrid()[18][3]));
+        players[1].addUnit(new Colonist(this.map.getGrid()[17][2]));
 
         while (!players[0].isDefeated() && !players[1].isDefeated()) {
             //players[currentPlayer].takeTurn(); --TODO
