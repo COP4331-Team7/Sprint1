@@ -29,5 +29,6 @@ public class MainViewInfo extends JPanel {
             JLabel tt6 = new JLabel("Items:");
             t.add(tt6);
             this.add( t, BorderLayout.SOUTH );
+            
         }
 }
