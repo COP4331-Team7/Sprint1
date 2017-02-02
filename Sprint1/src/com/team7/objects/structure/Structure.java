@@ -7,7 +7,6 @@ import com.team7.objects.CommandQueue;
 public abstract class Structure {
     private int id;
     private Tile location;
-    private Unit defender;
     private StructureStats stats;
     private CommandQueue commandQueue;
     private boolean isPowered;
@@ -19,14 +18,6 @@ public abstract class Structure {
 
     public void setLocation(Tile location) {
         this.location = location;
-    }
-
-    public Unit getDefender() {
-        return defender;
-    }
-
-    public void setDefender(Unit defender) {
-        this.defender = defender;
     }
 
     public StructureStats getStats() {

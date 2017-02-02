@@ -49,7 +49,7 @@ public class Player {
             return unit;
         }
 
-        // Physically add the unit and put it on the map
+        // Physically add the unit to player and put it on the map
         this.noUnits = false;
         this.units.add(unit);
         unit.getLocation().addUnitToTile(unit);
@@ -60,7 +60,7 @@ public class Player {
     // Removes unit from Player's ArrayList of Units
     public Unit removeUnit(Unit unit) {
 
-
+        // Physically remove unit form player and tile
         this.units.remove(unit);
         unit.getLocation().removeUnitFromTile(unit);
 
@@ -123,6 +123,37 @@ public class Player {
         this.structures = structures;
     }
 
+    // Adds structure to Player's ArrayList of Structures
+    public Structure addStructure(Structure structure) {
+
+        // Ensures we are able to have a unit
+        if(this.structures.size() == 10){
+            System.out.println("You have too many units.");
+            return structure;
+        }
+
+        // Physically add the unit and put it on the map
+        this.noStructures = false;
+        this.structures.add(structure);
+        structure.getLocation().setStructure(structure);
+
+        return structure;
+    }
+
+    // Removes unit from Player's ArrayList of Units
+    public Structure removeUnit(Structure structure) {
+
+        // Physically remove unit form player and tile
+        this.structures.remove(structure);
+        structure.getLocation().setStructure(null);
+
+        if(this.structures.size() == 0){
+            this.noStructures = true;
+        }
+
+        return structure;
+    }
+
 
 
     // Army helper functions
@@ -168,7 +199,7 @@ public class Player {
         return army;
     }
 
-    // run this funciton at the end of each turn to see if there are any dead structures
+    // run this function at the end of each turn to see if there are any dead structures
     // units or armies that need to be removed from the array lists
     public void checkUnitArmyStructs(){
 
