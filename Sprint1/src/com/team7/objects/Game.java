@@ -16,13 +16,13 @@ public class Game {
     private int turn;
     /*Int value representing which player's turn it is.
     '0' means it is player 1's turn, '1' mean's it is player 2'*/
-    private int currentPlayer;
+    private Player currentPlayer;
 
     public Game(Player p1, Player p2) {
         players[0] = p1;
         players[1] = p2;
         turn = 0;
-        currentPlayer = 0;
+        currentPlayer = p1;
     }
 
     //Initializes the map, and runs the turns. Ends the game when a player is defeated
@@ -39,6 +39,12 @@ public class Game {
 
     //Switches the turn to the next player
     public void nextTurn() {
+        
+        if(currentPlayer = p1) 
+            currentPlayer = p2;
+        else 
+            currentPlayer = p1;
+        
         turn += 1 % 2;
     }
 
