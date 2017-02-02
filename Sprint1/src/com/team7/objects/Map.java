@@ -96,7 +96,7 @@ public class Map {
         if(tile.getTerrain() instanceof Desert){
 //            System.out.print("Checked instance of Desert");
             populateAreaEffects(tile,0.1); // Populate Area Effects depending on terrain type
-            populateItem(tile,0.5); // Populate Item depending on terrain type
+            populateItem(tile,0.05); // Populate Item depending on terrain type
             populateResource(tile,0.05);// Populate Item depending on terrain type
 
         }
