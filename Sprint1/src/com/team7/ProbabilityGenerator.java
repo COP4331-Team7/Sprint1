@@ -10,8 +10,7 @@ public class ProbabilityGenerator {
 
     //determines whether an event will occur using Java's random() method (double between 0 - 0.9999)
     public static boolean willOccur(double percentageOfEventOccuring){
-        return true;
-//                Math.random() < percentageOfEventOccuring;
+        return Math.random() < percentageOfEventOccuring;
     }
 
     //returns a random int number between the min and max parameters provided
