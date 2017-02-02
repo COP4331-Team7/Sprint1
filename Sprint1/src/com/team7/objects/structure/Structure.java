@@ -1,29 +1,17 @@
 package com.team7.objects.structure;
 
-import com.team7.objects.Player;
 import com.team7.objects.Tile;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.CommandQueue;
 
 public abstract class Structure {
     private int id;
-    private Player owner;
     private Tile location;
     private Unit defender;
     private StructureStats stats;
-    private CommandQueue commands;
+    private CommandQueue commandQueue;
     private boolean isPowered;
 
-    public Structure() {
-    }
-
-    public Player getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Player owner) {
-        this.owner = owner;
-    }
 
     public Tile getLocation() {
         return location;
@@ -49,12 +37,12 @@ public abstract class Structure {
         this.stats = stats;
     }
 
-    public CommandQueue getCommands() {
-        return commands;
+    public CommandQueue getCommandQueue() {
+        return commandQueue;
     }
 
-    public void setCommands(CommandQueue commands) {
-        this.commands = commands;
+    public void setCommandQueue(CommandQueue commandQueue) {
+        this.commandQueue = commandQueue;
     }
 
     public boolean isPowered() {
