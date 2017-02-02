@@ -1,4 +1,4 @@
-package GUI_src;
+package com.team7.View;
 
 import javax.swing.*;
 

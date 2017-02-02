@@ -1,4 +1,4 @@
-package GUI_src;
+package com.team7.View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

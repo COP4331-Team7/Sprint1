@@ -18,4 +18,9 @@ public class Main {
         MapController map = new MapController(game,new MyFrame(800,600));
         map.createMap();
     }
+
+
+
+
+
 }

@@ -1,5 +1,4 @@
-package GUI_src;
-import GUI_src.*;
+package com.team7.View;
 
 public class MVC 
 {

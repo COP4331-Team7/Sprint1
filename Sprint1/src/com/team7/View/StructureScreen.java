@@ -1,14 +1,14 @@
-package GUI_src;
+package com.team7.View;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class UnitScreen extends JPanel {
+public class StructureScreen extends JPanel {
 
     private ScreenSelectButtons screenSelectBtns = null;
     private JScrollPane jScrollPane = null;
 
-    public UnitScreen() {
+    public StructureScreen() {
 
         this.setLayout(new BorderLayout());
 

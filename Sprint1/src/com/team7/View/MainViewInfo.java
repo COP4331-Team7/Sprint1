@@ -1,4 +1,4 @@
-package GUI_src;
+package com.team7.View;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +29,6 @@ public class MainViewInfo extends JPanel {
             JLabel tt6 = new JLabel("Items:");
             t.add(tt6);
             this.add( t, BorderLayout.SOUTH );
-            
+
         }
 }

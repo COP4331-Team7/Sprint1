@@ -1,12 +1,5 @@
-package GUI_src;
+package com.team7.View;
 
-import com.team7.Main;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
 import javax.swing.*;
 
 public class View
@@ -15,7 +8,7 @@ public class View
     private static final int HEIGHT = 800;
     private MyFrame frame = null;
 
-    public View() 
+    public View()
     {
         // SwingUtilities.invokeLater causes the Runnable to be executed asynchronously on the Event Dispatch Thread:
         // It queues up a task (GUI update) on the EDT and instantly returns.
@@ -26,7 +19,7 @@ public class View
             }
         } );
     }
-    
+
     // Create the GUI and show it.
     private void createAndShowGUI()
     {
