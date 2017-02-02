@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 
-public class UnitTests {
+public class PlayerTests {
 
     @Test
     // Test that a Player can't add more than 10 units of the same type
@@ -62,11 +62,15 @@ public class UnitTests {
         testPLayer.removeUnit(colonist2);
         testPLayer.removeUnit(explorer);
         testPLayer.removeUnit(ranged);
+        // Comment out the line below to watch it fail
         testPLayer.removeUnit(melee);
 
         assertEquals(testPLayer.isDefeated(), true);
 
     }
+
+
+
 
 
 
