@@ -37,6 +37,7 @@ public class Player {
         this.units = units;
     }
 
+    // Adds unit to Player's ArrayList of Units
     public Unit addUnit(Unit unit) {
 
         // Ensures we are able to have a unit
@@ -46,6 +47,18 @@ public class Player {
 
         // Physically add the unit
         this.units.add(unit);
+
+        return unit;
+    }
+
+    // Removes unit from Player's ArrayList of Units
+    public Unit removeUnit(Unit unit) {
+
+        this.units.remove(unit);
+
+        if(this.units.size() == 0){
+            this.isDefeated = false;
+        }
 
         return unit;
     }

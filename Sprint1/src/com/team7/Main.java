@@ -10,9 +10,6 @@ public class Main {
         Map map = new Map();
         map.setMapDetails();
 
-        // Testing of player and units
-        Player player1 = new Player();
-        Player player2 = new Player();
 
     }
 }
