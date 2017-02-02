@@ -1,3 +1,5 @@
+package GUI_src;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -297,11 +299,14 @@ class HomeImage extends JPanel {
         public HomeImage()
         {
             try {
-               image = ImageIO.read(new File("bg.jpg"));
+               image = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/bg.jpg"));
+               System.out.println("Success!");
             } 
-            catch (IOException e) {}
-            Dimension size = new Dimension( image.getWidth(), image.getHeight());
-            setPreferredSize( size );
+            catch (IOException e) {
+                System.out.println("Fail!");
+            }
+            //Dimension size = new Dimension( image.getWidth(), image.getHeight());
+            //setPreferredSize( size );
         }
         
         public void paintComponent( Graphics g )

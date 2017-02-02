@@ -1,3 +1,6 @@
+package GUI_src;
+
+import GUI_src.*;
 
 
 public class MVC
