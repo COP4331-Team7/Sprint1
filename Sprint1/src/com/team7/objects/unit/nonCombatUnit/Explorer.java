@@ -10,6 +10,7 @@ public class Explorer extends NonCombatUnit {
         UnitStats stats = new UnitStats(0, 0, 0, 10, 100, 1);
         int id = ProbabilityGenerator.randomInteger(0, 99999);
 
+        setArmy(null);
         setUnitStats(stats);
         setPowered(true);
         setId(id);

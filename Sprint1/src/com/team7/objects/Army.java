@@ -35,6 +35,7 @@ public class Army {
 
         // Physically add the unit
         this.units.add(unit);
+        unit.setArmy(this);
 
 
         return unit;
@@ -44,6 +45,7 @@ public class Army {
     public Unit removeUnitFromArmy(Unit unit) {
 
         this.units.remove(unit);
+        unit.setArmy(null);
 
         return unit;
     }

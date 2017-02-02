@@ -1,5 +1,6 @@
 package com.team7.tests;
 
+import com.team7.objects.Army;
 import com.team7.objects.Player;
 import com.team7.objects.Map;
 import com.team7.objects.unit.Unit;
@@ -44,7 +45,7 @@ public class PlayerTests {
         Map map = new Map();
         Player testPLayer = new Player();
 
-        // create units
+        // create units, armies and structures
 
         Unit colonist1 = new Colonist(map.getGrid()[0][0]);
         Unit colonist2 = new Colonist(map.getGrid()[0][0]);
@@ -57,6 +58,12 @@ public class PlayerTests {
         testPLayer.addUnit(melee);
         testPLayer.addUnit(explorer);
         testPLayer.addUnit(ranged);
+
+        testPLayer.addArmy(new Army(map.getGrid()[0][0], 1));
+
+
+        // remove units, armies and structures
+        testPLayer.removeArmy(map.getGrid()[0][0].getArmies().get(0));
 
         testPLayer.removeUnit(colonist1);
         testPLayer.removeUnit(colonist2);

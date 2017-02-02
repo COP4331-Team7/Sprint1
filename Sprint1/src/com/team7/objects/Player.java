@@ -168,6 +168,16 @@ public class Player {
         return army;
     }
 
+    // run this funciton at the end of each turn to see if there are any dead structures
+    // units or armies that need to be removed from the array lists
+    public void checkUnitArmyStructs(){
+
+
+
+
+
+
+    }
 
 
     // Extra getters and setters

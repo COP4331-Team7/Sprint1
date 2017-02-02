@@ -1,5 +1,6 @@
 package com.team7.objects.unit;
 
+import com.team7.objects.Army;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
 
@@ -9,6 +10,7 @@ public abstract class Unit {
     private UnitStats unitStats;
     private Tile location;
     private boolean isPowered;
+    private Army army;
 
     public int getId() {
         return id;
@@ -45,6 +47,14 @@ public abstract class Unit {
     public String getType() { return type; }
 
     public void setType(String type) { this.type = type; }
+
+    public Army getArmy() {
+        return army;
+    }
+
+    public void setArmy(Army army) {
+        this.army = army;
+    }
 
 }
 
