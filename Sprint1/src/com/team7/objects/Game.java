@@ -16,15 +16,14 @@ public class Game {
     private Map map;
     //The turn number
     private int turn;
-    /*Int value representing which player's turn it is.
-    '0' means it is player 1's turn, '1' mean's it is player 2'*/
+    //Current Player
     private Player currentPlayer;
 
     public Game(Player p1, Player p2) {
         players[0] = p1;
         players[1] = p2;
-        turn = 0;
-        currentPlayer = p1;
+        turn = 1;
+        currentPlayer = players[0];
     }
 
     //Initializes the map, and runs the turns. Ends the game when a player is defeated
@@ -61,19 +60,47 @@ public class Game {
         
         turn += 1 % 2;
     }
-    
+
     //Get the current player
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-    
+
+    //Get the current turn
+    public int getTurn() {
+        return turn;
+    }
+
+    //Get the map
+    public Map getMap() {
+        return map;
+    }
+
+    //Get list of players
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public void setTurn(int num) {
+        turn = num;
+    }
+
+    public void setCurrentPlayer(int num) {
+        if (num > players.length-1) {
+            System.out.println("ERROR: Out of bounds request for setCurrentPlayer()");
+            return;
+        }
+        currentPlayer = players[num];
+    }
+
 
     public void endGame() {
         
         System.exit(0);
         
         /*   --TODO--
-        Display a game over splash screen and exit the program, gunna wait unti the GUI is integrated
+        Display a game over splash screen and exit the program, gunna wait until the GUI is integrated
         to be able to do this. */
     }
+
 }
