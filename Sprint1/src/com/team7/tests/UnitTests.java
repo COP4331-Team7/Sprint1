@@ -2,7 +2,11 @@ package com.team7.tests;
 
 import com.team7.objects.Player;
 import com.team7.objects.Map;
+import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.combatUnit.MeleeUnit;
+import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
+import com.team7.objects.unit.nonCombatUnit.Explorer;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -29,5 +33,40 @@ public class UnitTests {
         assertEquals(10, numberColonists);
 
     }
+
+    @Test
+    // Create a couple Units for a player and then remove them to see if game ends
+    public void checkPlayerDefeated() throws Exception {
+
+        // create map and player
+        Map map = new Map();
+        Player testPLayer = new Player();
+
+        // create units
+
+        Unit colonist1 = new Colonist(map.getGrid()[0][0]);
+        Unit colonist2 = new Colonist(map.getGrid()[0][0]);
+        Unit melee = new MeleeUnit(map.getGrid()[0][0]);
+        Unit explorer = new Explorer(map.getGrid()[0][0]);
+        Unit ranged = new RangedUnit(map.getGrid()[0][0]);
+
+        testPLayer.addUnit(colonist1);
+        testPLayer.addUnit(colonist2);
+        testPLayer.addUnit(melee);
+        testPLayer.addUnit(explorer);
+        testPLayer.addUnit(ranged);
+
+        testPLayer.removeUnit(colonist1);
+        testPLayer.removeUnit(colonist2);
+        testPLayer.removeUnit(explorer);
+        testPLayer.removeUnit(ranged);
+        testPLayer.removeUnit(melee);
+
+        assertEquals(testPLayer.isDefeated(), true);
+
+    }
+
+
+
 
 }

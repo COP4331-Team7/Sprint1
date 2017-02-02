@@ -9,5 +9,6 @@ import com.team7.objects.areaEffects.AreaEffect;
 public class ElixirShower extends AreaEffect {
     public ElixirShower() {
         setHealthEffect(ProbabilityGenerator.randomInteger(20,30));
+        setInstantDeath(false);
     }
 }

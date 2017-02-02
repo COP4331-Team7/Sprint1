@@ -7,6 +7,7 @@ import com.team7.objects.areaEffects.AreaEffect;
  */
 public class VolcanicVent extends AreaEffect {
     public VolcanicVent() {
+        setHealthEffect(0);
         setInstantDeath(true);
     }
 }
