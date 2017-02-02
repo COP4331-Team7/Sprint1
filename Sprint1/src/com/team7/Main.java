@@ -19,7 +19,9 @@ public class Main {
         MyFrame view = new MyFrame(800, 600);
 
         MapController map = new MapController(game, view);
-        HomeScreenController hs = new HomeScreenController(game, view);
+        HomeScreenController homeScreenController = new HomeScreenController(game, view);
+
+
 
         map.createMap();
     }
