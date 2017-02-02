@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Army {
     private long id;
+    private Player owner;
     private ArrayList<Unit> units;
     private CommandQueue commands;
     private int slowestSpeed; // Moves with speed of slowest unit
@@ -19,15 +20,16 @@ public class Army {
 
 
 
-    public Army(Tile startTile, int dir){
+    public Army(Tile startTile, int dir, Player player){
         int id = ProbabilityGenerator.randomInteger(0, 99999);
-        units = new ArrayList<Unit>();
-        commands = new CommandQueue();
-        slowestSpeed = 0;
-        rallyPoint = startTile;
-        direction = dir;
-        isPowered = true;
-        turnsFrozen = 0;
+        this.units = new ArrayList<Unit>();
+        this.commands = new CommandQueue();
+        this.owner = player;
+        this.slowestSpeed = 0;
+        this.rallyPoint = startTile;
+        this.direction = dir;
+        this.isPowered = true;
+        this.turnsFrozen = 0;
     }
 
     // Adds unit to Army's ArrayList of Units
@@ -115,6 +117,13 @@ public class Army {
         this.turnsFrozen = turnsFrozen;
     }
 
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
 
     // function processQueue will take in a string, and check for validity,
     // decode to call helper function for attack, defend etc..

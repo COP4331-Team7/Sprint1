@@ -30,7 +30,7 @@ public class MapTests {
         Map m = new Map();
         Player p1 = new Player();
 
-        Unit colonist = new Colonist(m.getGrid()[0][0]);
+        Unit colonist = new Colonist(m.getGrid()[0][0], p1);
 
         p1.addUnit(colonist);
 

@@ -29,7 +29,7 @@ public class PlayerTests {
 
         // attempt to add 11 players
         for(int i = 0; i < 11; i++){
-            testPLayer.addUnit(new Colonist(map.getGrid()[0][0]));
+            testPLayer.addUnit(new Colonist(map.getGrid()[0][0], testPLayer));
         }
 
         //check that only 10 players are added
@@ -49,11 +49,11 @@ public class PlayerTests {
 
         // create units, armies and structures
 
-        Unit colonist1 = new Colonist(map.getGrid()[0][0]);
-        Unit colonist2 = new Colonist(map.getGrid()[0][0]);
-        Unit melee = new MeleeUnit(map.getGrid()[0][0]);
-        Unit explorer = new Explorer(map.getGrid()[0][0]);
-        Unit ranged = new RangedUnit(map.getGrid()[0][0]);
+        Unit colonist1 = new Colonist(map.getGrid()[0][0], testPLayer);
+        Unit colonist2 = new Colonist(map.getGrid()[0][0], testPLayer);
+        Unit melee = new MeleeUnit(map.getGrid()[0][0], testPLayer);
+        Unit explorer = new Explorer(map.getGrid()[0][0], testPLayer);
+        Unit ranged = new RangedUnit(map.getGrid()[0][0], testPLayer);
 
         testPLayer.addUnit(colonist1);
         testPLayer.addUnit(colonist2);
@@ -61,7 +61,7 @@ public class PlayerTests {
         testPLayer.addUnit(explorer);
         testPLayer.addUnit(ranged);
 
-        testPLayer.addArmy(new Army(map.getGrid()[0][0], 1));
+        testPLayer.addArmy(new Army(map.getGrid()[0][0], 1, testPLayer));
 
 
         // remove units, armies and structures
@@ -75,7 +75,7 @@ public class PlayerTests {
 
 
         // create base with colonist 1 so he should die, then remove base
-        ((Colonist) colonist1).buildBase(testPLayer);
+        ((Colonist) colonist1).buildBase();
         testPLayer.removeStructure(testPLayer.getStructures().get(0));
 
 
@@ -93,9 +93,9 @@ public class PlayerTests {
         // create map, player, unit, army structure
         Map map = new Map();
         Player testPLayer = new Player();
-        Unit melee = new MeleeUnit(map.getGrid()[0][0]);
-        Unit colonist = new Colonist(map.getGrid()[1][0]);
-        Army army = new Army(map.getGrid()[0][0], 0);
+        Unit melee = new MeleeUnit(map.getGrid()[0][0], testPLayer);
+        Unit colonist = new Colonist(map.getGrid()[1][0], testPLayer);
+        Army army = new Army(map.getGrid()[0][0], 0, testPLayer);
 
 
         // add units and armies
@@ -113,7 +113,7 @@ public class PlayerTests {
 
 
         //destroy structure
-        ((Colonist) colonist).buildBase(testPLayer);
+        ((Colonist) colonist).buildBase();
         testPLayer.getStructures().get(0).getStats().setHealth(0);
         testPLayer.checkUnitArmyStructs();
 

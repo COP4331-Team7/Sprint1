@@ -1,11 +1,13 @@
 package com.team7.objects.structure;
 
+import com.team7.objects.Player;
 import com.team7.objects.Tile;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.CommandQueue;
 
 public abstract class Structure {
     private int id;
+    private Player owner;
     private Tile location;
     private StructureStats stats;
     private CommandQueue commandQueue;
@@ -42,5 +44,21 @@ public abstract class Structure {
 
     public void setPowered(boolean powered) {
         isPowered = powered;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 }

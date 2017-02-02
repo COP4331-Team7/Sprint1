@@ -6,6 +6,7 @@ import com.team7.objects.Tile;
 
 public abstract class Unit {
     private int id;
+    private Player owner;
     private String type;
     private UnitStats unitStats;
     private Tile location;
@@ -56,6 +57,13 @@ public abstract class Unit {
         this.army = army;
     }
 
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
 }
 
 
