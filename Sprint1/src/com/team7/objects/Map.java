@@ -154,5 +154,19 @@ public class Map {
         }
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Tile[][] getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Tile[][] grid) {
+        this.grid = grid;
+    }
 }

@@ -57,7 +57,7 @@ public class Player {
         this.units.remove(unit);
 
         if(this.units.size() == 0){
-            this.isDefeated = false;
+            this.isDefeated = true;
         }
 
         return unit;
