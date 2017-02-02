@@ -3,6 +3,8 @@ package com.team7.tests;
 import com.team7.objects.Army;
 import com.team7.objects.Player;
 import com.team7.objects.Map;
+import com.team7.objects.structure.Base;
+import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.combatUnit.MeleeUnit;
 import com.team7.objects.unit.combatUnit.RangedUnit;
@@ -65,12 +67,17 @@ public class PlayerTests {
         // remove units, armies and structures
         testPLayer.removeArmy(map.getGrid()[0][0].getArmies().get(0));
 
-        testPLayer.removeUnit(colonist1);
         testPLayer.removeUnit(colonist2);
         testPLayer.removeUnit(explorer);
         testPLayer.removeUnit(ranged);
         // Comment out the line below to watch it fail
         testPLayer.removeUnit(melee);
+
+
+        // create base with colonist 1 so he should die, then remove base
+        ((Colonist) colonist1).buildBase(testPLayer);
+        testPLayer.removeStructure(testPLayer.getStructures().get(0));
+
 
         assertEquals(testPLayer.isDefeated(), true);
 
@@ -78,8 +85,43 @@ public class PlayerTests {
 
 
 
+    @Test
+    // Tests that if a unit's health is 0 that it is deleted from army and player array and from Tile
+    // function checkUnitArmyStructs does a sweep to remove all dead things
+    public void testCheckUnitArmyStructs() throws Exception {
+
+        // create map, player, unit, army structure
+        Map map = new Map();
+        Player testPLayer = new Player();
+        Unit melee = new MeleeUnit(map.getGrid()[0][0]);
+        Unit colonist = new Colonist(map.getGrid()[1][0]);
+        Army army = new Army(map.getGrid()[0][0], 0);
 
 
+        // add units and armies
+        testPLayer.addUnit(melee);
+        testPLayer.addUnit(colonist);
+        testPLayer.addArmy(army);
+        army.addUnitToArmy(melee);
+
+        // kill unit and make sure it is out of Player array and tile array
+        melee.getUnitStats().setHealth(0);
+        testPLayer.checkUnitArmyStructs();
+        assertTrue(testPLayer.getUnits().size() == 1);          // melee should be dead, colonist should be alive
+        assertTrue(testPLayer.getArmies().size() == 0);         // army should be empty
+        assertTrue(map.getGrid()[0][0].getUnits().size() == 0); // 00 tile should be empty
+
+
+        //destroy structure
+        ((Colonist) colonist).buildBase(testPLayer);
+        testPLayer.getStructures().get(0).getStats().setHealth(0);
+        testPLayer.checkUnitArmyStructs();
+
+
+        // check that the player lost
+        assertEquals(testPLayer.isDefeated(), true);
+
+    }
 
 
 

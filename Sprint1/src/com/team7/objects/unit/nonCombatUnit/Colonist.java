@@ -32,7 +32,7 @@ public class Colonist extends NonCombatUnit {
 
 		// sacrifice colonist from tile and player
 		this.getLocation().removeUnitFromTile(this);
-		this.getUnitStats().setHealth(0);
+		player.removeUnit(this);
 	}
 
 }

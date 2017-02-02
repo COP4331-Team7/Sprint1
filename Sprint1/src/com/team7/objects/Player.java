@@ -216,8 +216,8 @@ public class Player {
             for(int j = 0; j < armies.get(i).getUnits().size(); j++){
                 // if any unit in the army is dead, remove it from the army
                 if(armies.get(i).getUnits().get(j).getUnitStats().getHealth() == 0) {
-                    armies.get(i).removeUnitFromArmy(armies.get(i).getUnits().get(j));
                     removeUnit(armies.get(i).getUnits().get(j));
+                    armies.get(i).removeUnitFromArmy(armies.get(i).getUnits().get(j));
                 }
             }
             if(armies.get(i).getUnits().size() == 0){
