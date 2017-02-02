@@ -335,7 +335,7 @@ class HomeImage extends JPanel {
         public HomeImage()
         {
             try {
-               image = ImageIO.read(new File("bg.jpg"));
+               image = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/bg.jpg"));
             } 
             catch (IOException e) {}
             Dimension size = new Dimension( image.getWidth(), image.getHeight());
@@ -406,10 +406,10 @@ class MainViewImage extends JPanel implements MouseListener {
 
             // load tile images
             try {
-               tileImage_1 = ImageIO.read(new File("mountain_img.png"));
-               tileImage_2 = ImageIO.read(new File("hills_img.png"));
-               tileImage_3 = ImageIO.read(new File("sand_img.jpg"));
-               tileImage_4 = ImageIO.read(new File("grass_img.jpg"));  
+               tileImage_1 = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/mountain_img.png"));
+               tileImage_2 = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/hills_img.png"));
+               tileImage_3 = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/sand_img.jpg"));
+               tileImage_4 = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/grass_img.jpg"));
 
 
                //  ========================
