@@ -7,6 +7,7 @@ import com.team7.objects.structure.Structure;
 import com.team7.objects.terrain.Terrain;
 import com.team7.objects.unit.Unit;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*
@@ -20,14 +21,20 @@ public class Tile {
     private Item item;
     private Resource resource;
     ArrayList<Unit> units;
+    ArrayList<Army> armies;
 
 
     public Tile(Terrain terrain) {
+
+        units = new ArrayList<Unit>();
+        armies = new ArrayList<Army>();
         this.terrain = terrain;
+
     }
 
     public Tile() {
-
+        units = new ArrayList<Unit>();
+        armies = new ArrayList<Army>();
     }
 
 
