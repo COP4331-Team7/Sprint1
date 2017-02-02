@@ -55,6 +55,9 @@ public class Game {
     
 
     public void endGame() {
+        
+        System.exit(0);
+        
         /*   --TODO--
         Display a game over splash screen and exit the program, gunna wait unti the GUI is integrated
         to be able to do this. */
