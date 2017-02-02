@@ -1,5 +1,7 @@
 package GUI_src;
 
+import com.team7.Main;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -335,9 +337,13 @@ class HomeImage extends JPanel {
         public HomeImage()
         {
             try {
-               image = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/bg.jpg"));
+
+
+               image = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/bg.jpg")).replace("file:","")));
             } 
-            catch (IOException e) {}
+            catch (IOException e) {
+            }
+
             Dimension size = new Dimension( image.getWidth(), image.getHeight());
             setPreferredSize( size );
         }
@@ -406,10 +412,10 @@ class MainViewImage extends JPanel implements MouseListener {
 
             // load tile images
             try {
-               tileImage_1 = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/mountain_img.png"));
-               tileImage_2 = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/hills_img.png"));
-               tileImage_3 = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/sand_img.jpg"));
-               tileImage_4 = ImageIO.read(new File("/Users/Thomas/Desktop/Sprint1/Sprint1/src/GUI_src/grass_img.jpg"));
+               tileImage_1 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/mountain_img.png")).replace("file:","")));
+               tileImage_2 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/hills_img.png")).replace("file:","")));
+               tileImage_3 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/sand_img.jpg")).replace("file:","")));
+               tileImage_4 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/grass_img.jpg")).replace("file:","")));
 
 
                //  ========================

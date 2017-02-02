@@ -5,7 +5,7 @@ import com.team7.objects.Player;
 import org.testng.annotations.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.testng.AssertJUnit.assertEquals;
 
 
 class GameTest {
