@@ -5,6 +5,7 @@ package com.team7.objects.items;
  */
 public class Obstacle extends Item {
 	public Obstacle() {
-	    setPassable(false);
+		setPassable(false);
+		setStatInfluence(0);
     }
 }

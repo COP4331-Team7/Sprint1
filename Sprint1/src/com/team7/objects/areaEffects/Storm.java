@@ -9,5 +9,6 @@ import com.team7.objects.areaEffects.AreaEffect;
 public class Storm extends AreaEffect {
     public Storm() {
         setHealthEffect(ProbabilityGenerator.randomInteger(-30, -10));
+        setInstantDeath(false);
     }
 }

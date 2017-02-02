@@ -154,11 +154,5 @@ public class Map {
         }
     }
 
-    public Tile[][] getGrid() {
-        return grid;
-    }
 
-    public void setGrid(Tile[][] grid) {
-        this.grid = grid;
-    }
 }
