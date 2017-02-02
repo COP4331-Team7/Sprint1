@@ -21,7 +21,7 @@ class GameTest {
     }
 
     @Test
-    void getCurrentPlayer() {
+    void getCurrentPlayer() throws Exception{
         Player p1 = new Player();
         Player p2 = new Player();
         Game g = new Game(p1, p2);

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ArmyTests {
 
     @Test
-    public void testAddUnit() {
+    public void testAddUnit() throws Exception{
         Tile t = new Tile();
         Army a = new Army(t, 0);
         MeleeUnit u = new MeleeUnit(t);
@@ -22,7 +22,7 @@ public class ArmyTests {
     }
 
     @Test
-    public void testRemoveUnit() {
+    public void testRemoveUnit() throws Exception{
         Tile t = new Tile();
         Army a = new Army(t, 0);
         MeleeUnit u = new MeleeUnit(t);
