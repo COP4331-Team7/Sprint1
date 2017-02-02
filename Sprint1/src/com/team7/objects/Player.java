@@ -31,6 +31,18 @@ public class Player {
     }
 
 
+
+    // Big function that controls everything that could happen in a turn
+    public void takeTurn() {
+
+
+
+        checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
+    }
+
+
+
+
     // Unit helper functions
 
     public List<Unit> getUnits() {

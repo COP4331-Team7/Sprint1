@@ -29,7 +29,9 @@ public class Game {
     //Initializes the map, and runs the turns. Ends the game when a player is defeated
     public void startGame() {
 
+        // create map and populate with items/resources/area effects
         this.map = new Map();
+        map.setMapDetails();
 
         // Put initial 2 explorers and colonists into Player's array to start game
         // Player 1 starts in top right, player 2 starts in bottom left
