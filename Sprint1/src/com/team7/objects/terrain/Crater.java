@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /*
- * Hills gives a Tile the characteristic of:
+ * Crater gives a Tile the characteristic of:
  *  passable
  *  slows down movement (Unit/Army) by 2 total tiles
  *  potential ElixirShower, Storm, or VolcanicVent
  */
-public class Hills extends Terrain {
-	public Hills() {
+public class Crater extends Terrain {
+	public Crater() {
         setPassable(true);
         setMovementInfluence(-2);
         setAreaEffects(new ArrayList<>

@@ -9,7 +9,7 @@ Futuristic/Space
 In the first iteration, there is one map that is 20x20 tiles. The map is described by 4 different terrains: 
  1. FlatLand - regular movement 
  2. Desert - slowed down movement by -1 tiles 
- 3. Hills - slowed down movement by -2 tiles 
+ 3. Crater - slowed down movement by -2 tiles 
  4. Mountains - impassible by any of the Units in this first iteration
  
 ##Player Stats

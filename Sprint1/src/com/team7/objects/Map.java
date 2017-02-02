@@ -10,7 +10,7 @@ import com.team7.objects.resource.HieroglyphicBooks;
 import com.team7.objects.resource.MoonRocks;
 import com.team7.objects.terrain.Desert;
 import com.team7.objects.terrain.FlatLand;
-import com.team7.objects.terrain.Hills;
+import com.team7.objects.terrain.Crater;
 import com.team7.objects.terrain.Mountains;
 
 public class Map {
@@ -41,8 +41,8 @@ public class Map {
                         grid[i][j].setTerrain(new Mountains());
                         grid[19-i][19-j].setTerrain(new Mountains());
                     } else if (j > 4 && j <= 9){
-                        grid[i][j].setTerrain(new Hills());
-                        grid[19-i][19-j].setTerrain(new Hills());
+                        grid[i][j].setTerrain(new Crater());
+                        grid[19-i][19-j].setTerrain(new Crater());
                     } else if (j > 9 && j <= 14){
                         grid[i][j].setTerrain(new Desert());
                         grid[19-i][19-j].setTerrain(new Desert());
@@ -53,8 +53,8 @@ public class Map {
                 }
                 else{
                     if (j >= 0 && j <= 4){
-                        grid[i][j].setTerrain(new Hills());
-                        grid[19-i][19-j].setTerrain(new Hills());
+                        grid[i][j].setTerrain(new Crater());
+                        grid[19-i][19-j].setTerrain(new Crater());
                     } else if (j > 4 && j <= 9){
                         grid[i][j].setTerrain(new FlatLand());
                         grid[19-i][19-j].setTerrain(new FlatLand());
@@ -89,7 +89,7 @@ public class Map {
         //depending on terrain type:
         //Desert has 10% AreaEffect, 5% Item, 5% Resource
         //FlatLand has 20% AreaEffect, 15% Item, 30% Resource
-        //Hills has 20% AreaEffect, 5% Item, 25% Resource
+        //Crater has 20% AreaEffect, 5% Item, 25% Resource
         //Mountain has 0% AreaEffect, 0% Item, 0% Resource
 
 
@@ -105,7 +105,7 @@ public class Map {
             populateItem(tile,0.15);
             populateResource(tile,0.3);
         }
-        else if(tile.getTerrain() instanceof Hills){
+        else if(tile.getTerrain() instanceof Crater){
             populateAreaEffects(tile,0.2);
             populateItem(tile,0.05);
             populateResource(tile, 0.25);
