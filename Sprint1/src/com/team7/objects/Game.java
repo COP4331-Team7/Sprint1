@@ -47,6 +47,12 @@ public class Game {
         
         turn += 1 % 2;
     }
+    
+    //Get the current player
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+    
 
     public void endGame() {
         /*   --TODO--
