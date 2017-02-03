@@ -12,7 +12,7 @@ public class MainViewInfo extends JPanel {
             p.setFont(new Font("Serif", Font.BOLD, 18));
 
             t.add(p);   // large first label so the panel takes up more space and is spaced out
-            JLabel tt7 = new JLabel("Unit/Structure:                                    ");
+            JLabel tt7 = new JLabel("Unit/Structure:      ");
             t.add(tt7);
             JLabel tt = new JLabel("Offensive damage:");
             t.add(tt);

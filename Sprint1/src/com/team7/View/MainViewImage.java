@@ -28,9 +28,9 @@ public class MainViewImage extends JPanel implements MouseListener {
         //
         private BufferedImage mapImage;
         public int[][] imageTerrains;
+        private MainViewSelection mainViewSelection;
 
-
-        public MainViewImage()
+        public MainViewImage( MainViewSelection ms )
         {
             MAP_IMAGE_WIDTH_IN_PIXELS = 733;
             MAP_IMAGE_HEIGHT_IN_PIXELS = 469;
@@ -38,6 +38,8 @@ public class MainViewImage extends JPanel implements MouseListener {
             image = new BufferedImage(MAP_IMAGE_WIDTH_IN_PIXELS, MAP_IMAGE_HEIGHT_IN_PIXELS, BufferedImage.TYPE_INT_ARGB);
             g2d = (Graphics2D)image.createGraphics();
             addMouseListener(this);
+
+            this.mainViewSelection = ms;
 
             // load tile images
             try {
@@ -223,16 +225,21 @@ public class MainViewImage extends JPanel implements MouseListener {
             g.drawImage( image, 33, 0, this );
         }
 
-        public void drawMapArea() {
-            g2d.setColor( new Color(210, 210, 230) );
-            g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
-            repaint();
-        }
+    public void drawMapArea() {
+        g2d.setColor( new Color(210, 210, 230) );
+        g2d.fillRect(0, 0, image.getWidth(), image.getHeight());
+        repaint();
+    }
 
-        public void drawMap() {
-            image = drawSubsectionOfMap(11/2 - 11/2, 7/2 - 7/2);
-            repaint();
-        }
+    public void drawMap() {
+        image = drawSubsectionOfMap(20/2, 20/2);
+        repaint();
+    }
+
+    private int[] getFocus() {
+        int[] center = {x_center, y_center};
+        return center;
+    }
 
 
         public BufferedImage getCurrImage() {
@@ -283,6 +290,7 @@ public class MainViewImage extends JPanel implements MouseListener {
             else if(y_dest > 19)
                 y_dest = 19;
 
+            mainViewSelection.setFocus((int)(x_dest/(double)19*90), (int)(y_dest/(double)19*130));
             if( x_center != x_dest || y_center != y_dest) {
 
                     new Thread( new Runnable()

@@ -10,13 +10,15 @@ public class MainScreen extends JPanel {
     private MainViewImage mainAreaView = null;
     private MainViewInfo mainStatusInfo = null;
     private Command commandSelecter = null;
+    private MainViewSelection mainViewSelection = null;
 
     public MainScreen() {
 
         this.setLayout(new BorderLayout());
 
         screenSelectBtns = new ScreenSelectButtons();
-        mainAreaView = new MainViewImage();
+        mainViewSelection = new MainViewSelection(  );
+        mainAreaView = new MainViewImage( mainViewSelection );
         mainStatusInfo = new MainViewInfo();
         commandSelecter = new Command();
 
@@ -29,6 +31,7 @@ public class MainScreen extends JPanel {
 
         temp.add( mainStatusInfo, BorderLayout.WEST );
         temp.add( commandSelecter, BorderLayout.SOUTH);
+        temp.add( mainViewSelection, BorderLayout.NORTH);
 
         this.add( temp, BorderLayout.SOUTH );
     }

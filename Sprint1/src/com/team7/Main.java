@@ -21,11 +21,11 @@ public class Main {
         waitForGUI( view );
 
         // Controller
-        ScreenSelectController screenSelectController = new ScreenSelectController(view);  // doesn't affect model
         HomeScreenController homeScreenController     = new HomeScreenController(game, view);
         MainScreenController mainScreenController            = new MainScreenController(game, view);
         UnitScreenController unitScreenController          = new UnitScreenController(game, view);
         StructureScreenController structureScreenController = new StructureScreenController(game, view);
+        ScreenSelectController screenSelectController = new ScreenSelectController(view); // this controller doesn't need to know model
 
     }
 

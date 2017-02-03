@@ -45,7 +45,6 @@ public class ScreenSelectController {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getFrame().getUnitScreen().getScreenSelectButtons().getMainScreenButton()) {
                     view.getFrame().setCurrScreen("MAIN");
-                    System.out.println("main screen selected");
                 }
             }
         });
@@ -69,7 +68,6 @@ public class ScreenSelectController {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getFrame().getStructureScreen().getScreenSelectButtons().getMainScreenButton()) {
                     view.getFrame().setCurrScreen("MAIN");
-                    System.out.println("main screen selected");
                 }
             }
         });
