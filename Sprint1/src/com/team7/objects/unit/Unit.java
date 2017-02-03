@@ -3,6 +3,13 @@ package com.team7.objects.unit;
 import com.team7.objects.Army;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
+import com.team7.objects.areaEffects.AreaEffect;
+import com.team7.objects.items.Item;
+import com.team7.objects.items.Obstacle;
+import com.team7.objects.resource.HieroglyphicBooks;
+import com.team7.objects.resource.MoneyBag;
+import com.team7.objects.resource.MoonRocks;
+import com.team7.objects.resource.Resource;
 
 public abstract class Unit {
     private int id;
@@ -35,6 +42,62 @@ public abstract class Unit {
 
     public void setLocation(Tile location) {
         this.location = location;
+
+        updateUnitOnTileChange(location);
+    }
+
+    private void updateUnitOnTileChange(Tile location) {
+        //Terrain
+        //TODO implement movement slowdown based on Terrain
+
+
+        //AreaEffect
+        if (location.getAreaEffect() != null){
+            int currentUnitElixir = this.unitStats.getHealth();
+            int updatedUnitElixir = currentUnitElixir + location.getAreaEffect().getHealthEffect();
+
+            if (location.getAreaEffect().isInstantDeath()){ //instant death is equivalent to health of 0
+                this.unitStats.setHealth(0);
+            }else{ //not instant death, update health level and movement
+                this.unitStats.setHealth(updatedUnitElixir);    //update UnitStat
+            }
+        }
+
+        //Resource
+        if (location.getResource() != null){
+            int updatedPlayerResourceLevel = location.getResource().getStatInfluence();
+
+            if (location.getResource() instanceof MoneyBag){
+                //increase Money stat
+                updatedPlayerResourceLevel += owner.getMoney();
+                this.owner.setMoney(updatedPlayerResourceLevel);
+            }
+            if (location.getResource() instanceof HieroglyphicBooks){
+                //increase Research stat
+                updatedPlayerResourceLevel += owner.getResearch();
+                this.owner.setResearch(updatedPlayerResourceLevel);
+            }
+            if (location.getResource() instanceof MoonRocks){
+                //increase Construction stat
+                updatedPlayerResourceLevel += owner.getConstruction();
+                this.owner.setConstruction(updatedPlayerResourceLevel);
+            }
+            location.setResource(null);
+        }
+
+        //Item
+        if (location.getItem() != null){
+            if(location.getItem() instanceof Obstacle){
+                //impassable!
+                //indicate that Model cannot change, Tile cannot be accessed
+            } else{ //item is a OneShotItem
+                if(!location.getItem().isInactive()){ //OneShotItem is still in play
+                    location.getItem().setInactive(true); //disable item
+                    int updatedMoneyLevel = owner.getMoney() + location.getItem().getStatInfluence();
+                    this.owner.setMoney(updatedMoneyLevel); //first iter: all OneShotItems increase the Money stat
+                }
+            }
+        }
     }
 
     public boolean isPowered() {

@@ -95,8 +95,6 @@ public class Tile {
         // Physically add the unit
         this.units.add(unit);
 
-        // TODO: Add resource/areaEffect/item adjustments and remove item. Put this in functions
-
 
         return unit;
     }
@@ -141,15 +139,6 @@ public class Tile {
         this.armies.remove(army);
 
         return army;
-    }
-
-
-    public void handleAreaEffects(Unit unit) {
-        if(this.getAreaEffect() != null){
-            int effect = this.getAreaEffect().getHealthEffect();
-            unit.getUnitStats().setHealth(unit.getUnitStats().getHealth() + effect);
-            System.out.println(unit.getUnitStats().getHealth());
-        }
     }
 
 
