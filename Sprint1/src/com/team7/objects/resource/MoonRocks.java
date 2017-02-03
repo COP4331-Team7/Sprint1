@@ -8,5 +8,6 @@ import com.team7.ProbabilityGenerator;
 public class MoonRocks extends Resource {
     public MoonRocks() {
         setStatInfluence(ProbabilityGenerator.randomInteger(20, 40));
+        setDiscovered(false);
     }
 }

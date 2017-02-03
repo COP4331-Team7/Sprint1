@@ -8,5 +8,6 @@ import com.team7.ProbabilityGenerator;
 public class MoneyBag extends Resource {
     public MoneyBag(){
         setStatInfluence(ProbabilityGenerator.randomInteger(20, 40));
+        setDiscovered(false);
     }
 }
