@@ -8,5 +8,6 @@ import com.team7.ProbabilityGenerator;
 public class HieroglyphicBooks extends Resource {
     public HieroglyphicBooks() {
         setStatInfluence(ProbabilityGenerator.randomInteger(20, 40));
+        setDiscovered(false);
     }
 }
