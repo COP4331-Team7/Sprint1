@@ -47,6 +47,9 @@ public abstract class Unit {
     }
 
     private void updateUnitOnTileChange(Tile location) {
+        //Terrain
+        //TODO implement movement slowdown based on Terrain
+
 
         //AreaEffect
         if (location.getAreaEffect() != null){
@@ -55,7 +58,7 @@ public abstract class Unit {
 
             if (location.getAreaEffect().isInstantDeath()){ //instant death is equivalent to health of 0
                 this.unitStats.setHealth(0);
-            }else{ //not instant death, update health level
+            }else{ //not instant death, update health level and movement
                 this.unitStats.setHealth(updatedUnitElixir);    //update UnitStat
             }
         }
