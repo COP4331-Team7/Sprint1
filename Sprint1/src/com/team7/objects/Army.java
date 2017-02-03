@@ -20,14 +20,14 @@ public class Army {
 
 
 
-    public Army(Tile startTile, int dir, Player player){
+    public Army(Tile startTile, Player player){
         int id = ProbabilityGenerator.randomInteger(0, 99999);
         this.units = new ArrayList<Unit>();
         this.commands = new CommandQueue();
         this.owner = player;
         this.slowestSpeed = 0;
         this.rallyPoint = startTile;
-        this.direction = dir;
+        this.direction = 0;
         this.isPowered = true;
         this.turnsFrozen = 0;
     }

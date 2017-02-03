@@ -216,31 +216,35 @@ public class Player {
     public void checkUnitArmyStructs(){
 
         // check if any units are dead, if so remove from list
-        for(int i = 0; i < units.size(); i++) {
-            if(units.get(i).getUnitStats().getHealth() == 0) {
-                removeUnit(units.get(i));
+        int unitSize = this.units.size();
+        for(int i = unitSize - 1; i >= 0; i--) {
+            if(this.units.get(i).getUnitStats().getHealth() <= 0) {
+                removeUnit(this.units.get(i));
             }
         }
 
+        int armySize = this.armies.size();
         // check if any army units are dead, if so remove them
         // then check if army is empty, if so, remove it
-        for(int i = 0; i < armies.size(); i++) {
-            for(int j = 0; j < armies.get(i).getUnits().size(); j++){
+        for(int i = armySize - 1; i >= 0; i--) {
+            int armyUnitSize = this.armies.get(i).getUnits().size();
+            for(int j = armyUnitSize - 1; j >= 0; j--){
                 // if any unit in the army is dead, remove it from the army
-                if(armies.get(i).getUnits().get(j).getUnitStats().getHealth() == 0) {
-                    removeUnit(armies.get(i).getUnits().get(j));
-                    armies.get(i).removeUnitFromArmy(armies.get(i).getUnits().get(j));
+                if(this.armies.get(i).getUnits().get(j).getUnitStats().getHealth() <= 0) {
+                    removeUnit(this.armies.get(i).getUnits().get(j));
+                    this.armies.get(i).removeUnitFromArmy(this.armies.get(i).getUnits().get(j));
                 }
             }
-            if(armies.get(i).getUnits().size() == 0){
-                removeArmy(armies.get(i));
+            if(this.armies.get(i).getUnits().size() == 0){
+                removeArmy(this.armies.get(i));
             }
         }
 
+        int structureSize = this.structures.size();
         // check for any dead structures
-        for(int i = 0; i < structures.size(); i++) {
-            if(structures.get(i).getStats().getHealth() == 0) {
-                removeStructure(structures.get(i));
+        for(int i = structureSize - 1; i >= 0; i--) {
+            if(this.structures.get(i).getStats().getHealth() <= 0) {
+                removeStructure(this.structures.get(i));
             }
         }
 
@@ -278,5 +282,15 @@ public class Player {
         return noArmies && noUnits && noStructures;
     }
 
+    public boolean isNoUnits() {
+        return noUnits;
+    }
 
+    public boolean isNoStructures() {
+        return noStructures;
+    }
+
+    public boolean isNoArmies() {
+        return noArmies;
+    }
 }

@@ -14,7 +14,7 @@ public class ArmyTests {
     public void testAddUnit() throws Exception{
         Tile t = new Tile();
         Player p = new Player();
-        Army a = new Army(t, 0, p);
+        Army a = new Army(t, p);
         MeleeUnit u = new MeleeUnit(t, p);
         a.addUnitToArmy(u);
 
@@ -27,7 +27,7 @@ public class ArmyTests {
     public void testRemoveUnit() throws Exception{
         Tile t = new Tile();
         Player p = new Player();
-        Army a = new Army(t, 0, p);
+        Army a = new Army(t, p);
         MeleeUnit u = new MeleeUnit(t, p);
         a.addUnitToArmy(u);
         a.removeUnitFromArmy(u);
