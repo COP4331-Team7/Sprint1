@@ -94,7 +94,7 @@ public class Tile {
 
         // Physically add the unit
         this.units.add(unit);
-
+        unit.updateUnitOnTileChange(this);
 
         return unit;
     }
@@ -140,6 +140,7 @@ public class Tile {
 
         return army;
     }
+
 
 
 }
