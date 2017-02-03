@@ -41,8 +41,11 @@ class MainViewSelection extends JPanel implements MouseListener {
         g2d.setColor( new Color(255, 255, 255, 155) );
         g2d.fillRect(0, 0, MAP_IMAGE_WIDTH_IN_PIXELS, MAP_IMAGE_HEIGHT_IN_PIXELS);
 
-        g2d.setColor( new Color( 100, 140, 140) );
+        g2d.setColor( new Color( 100, 170, 140) );
         g2d.fillRect(x_center, y_center, 110, 70);
+        g2d.setColor( new Color( 0, 0, 0, 255) );
+        g2d.drawRect(x_center, y_center, 110, 70);
+
 
         repaint();
     }
