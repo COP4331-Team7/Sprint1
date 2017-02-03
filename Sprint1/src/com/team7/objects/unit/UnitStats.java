@@ -56,6 +56,9 @@ public class UnitStats {
     }
 
     public void setHealth(int health) {
+        if (health > 100){
+            health = 100;
+        }
         this.health = health;
     }
 
