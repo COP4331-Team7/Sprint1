@@ -73,8 +73,10 @@ public class Player {
     public Unit removeUnit(Unit unit) {
 
         // Physically remove unit form player and tile
+        // Put skull  on tile because unit died?
         this.units.remove(unit);
         unit.getLocation().removeUnitFromTile(unit);
+        unit.getLocation().setDecal(new Decal("Skull"));
 
         if(this.units.size() == 0){
             this.noUnits = true;
@@ -281,6 +283,8 @@ public class Player {
     public boolean isDefeated() {
         return noArmies && noUnits && noStructures;
     }
+
+
 
     public boolean isNoUnits() {
         return noUnits;

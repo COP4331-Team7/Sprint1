@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 public class Tile {
     private AreaEffect areaEffect;
+    private Decal decal;
     private Terrain terrain;
     private Structure structure;
     private Item item;
@@ -78,8 +79,15 @@ public class Tile {
         this.resource = resource;
     }
 
+    public Decal getDecal() {
+        return decal;
+    }
 
-    // Unit and army helper functions
+    public void setDecal(Decal decal) {
+        this.decal = decal;
+    }
+
+// Unit and army helper functions
 
     // Adds unit to Tile's ArrayList of Units
     public Unit addUnitToTile(Unit unit) {
