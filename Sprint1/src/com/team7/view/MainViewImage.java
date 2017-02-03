@@ -198,7 +198,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                 }
             }
 
-            int center_pixel_x = (TILES_VISIBLE_X/2)*TILE_SIZE + TILE_SIZE/2;
+            int center_pixel_x = (TILES_VISIBLE_X/2)*TILE_SIZE  + TILE_SIZE/2;
             int center_pixel_y = (TILES_VISIBLE_Y/2)*TILE_SIZE  + TILE_SIZE/2;
 
              g2ds.setColor(Color.BLACK);
@@ -263,7 +263,6 @@ public class MainViewImage extends JPanel implements MouseListener {
             y_offset += -1;
            }
 
-           // System.out.println("focus at (" + (int)x_center + ", " + (int)y_center + ")" );
            // System.out.println("go towards (" + (int)x_offset + ", " + (int)y_offset + ")" );
 
            x_dest = x_center + (int)x_offset;
@@ -271,15 +270,15 @@ public class MainViewImage extends JPanel implements MouseListener {
 
             if(x_dest < 0)              // adjust if out of bounds
                 x_dest = 0;
-            else if (x_dest > 19)
-                x_dest = 19;
+            else if (x_dest >= 20 - TILES_VISIBLE_X)
+                x_dest = 20 - TILES_VISIBLE_X;
 
             if(y_dest < 0)
                 y_dest = 0;
-            else if(y_dest > 19)
-                y_dest = 19;
+            else if(y_dest >= 20 - TILES_VISIBLE_Y)
+                y_dest = 20 - TILES_VISIBLE_Y;
 
-            mainViewSelection.setFocus((int)(x_dest/(double)19*90), (int)(y_dest/(double)19*130));
+            mainViewSelection.setFocus( x_dest , y_dest );
             if( x_center != x_dest || y_center != y_dest) {
 
                     new Thread( new Runnable()
@@ -308,6 +307,18 @@ public class MainViewImage extends JPanel implements MouseListener {
                                     y_center += delta_y;
                                     y_diff -= delta_y;
                                 }
+
+//                                if(x_center < 0)              // adjust if out of bounds
+//                                    x_center = 0;
+//                                else if (x_center >= 20 - TILES_VISIBLE_X - 1)
+//                                    x_center = 20 - TILES_VISIBLE_X/2 - 1;
+//
+//                                if(y_center < 0)
+//                                    y_center = 0;
+//                                else if(y_center >= 20 - TILES_VISIBLE_Y/2 - 1)
+//                                    y_center = 20 - TILES_VISIBLE_Y/2 - 1;
+
+                                System.out.println("get frame focus at (" + (int)x_center + ", " + (int)y_center + ")" );
 
                                 final BufferedImage mapSubsection = drawSubsectionOfMap(x_center, y_center);
                                 SwingUtilities.invokeLater( new Runnable()   // queue frame i on EDT for display
