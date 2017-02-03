@@ -56,9 +56,6 @@ public abstract class Unit {
             if (location.getAreaEffect().isInstantDeath()){ //instant death is equivalent to health of 0
                 this.unitStats.setHealth(0);
             }else{ //not instant death, update health level
-                if (updatedUnitElixir > 100){
-                    updatedUnitElixir = 100; //health maximum of 100
-                }
                 this.unitStats.setHealth(updatedUnitElixir);    //update UnitStat
             }
         }
@@ -70,25 +67,16 @@ public abstract class Unit {
             if (location.getResource() instanceof MoneyBag){
                 //increase Money stat
                 updatedPlayerResourceLevel += owner.getMoney();
-                if (updatedPlayerResourceLevel > 100){
-                   updatedPlayerResourceLevel = 100; //Money maximum of 100
-                }
                 this.owner.setMoney(updatedPlayerResourceLevel);
             }
             if (location.getResource() instanceof HieroglyphicBooks){
                 //increase Research stat
                 updatedPlayerResourceLevel += owner.getResearch();
-                if (updatedPlayerResourceLevel > 100){
-                    updatedPlayerResourceLevel = 100; //Research maximum of 100
-                }
                 this.owner.setResearch(updatedPlayerResourceLevel);
             }
             if (location.getResource() instanceof MoonRocks){
                 //increase Construction stat
                 updatedPlayerResourceLevel += owner.getConstruction();
-                if (updatedPlayerResourceLevel > 100){
-                    updatedPlayerResourceLevel = 100;   //Construction maximum of 100
-                }
                 this.owner.setConstruction(updatedPlayerResourceLevel);
             }
         }
@@ -102,9 +90,6 @@ public abstract class Unit {
                 if(!location.getItem().isInactive()){ //OneShotItem is still in play
                     location.getItem().setInactive(true); //disable item
                     int updatedMoneyLevel = owner.getMoney() + location.getItem().getStatInfluence();
-                    if (updatedMoneyLevel > 100){
-                        updatedMoneyLevel = 100;
-                    }
                     this.owner.setMoney(updatedMoneyLevel); //first iter: all OneShotItems increase the Money stat
                 }
             }

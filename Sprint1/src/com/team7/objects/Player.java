@@ -255,6 +255,9 @@ public class Player {
     }
 
     public void setResearch(int research) {
+        if (research > 100){ //Research stat max of 100
+            research = 100;
+        }
         this.research = research;
     }
 
@@ -263,6 +266,9 @@ public class Player {
     }
 
     public void setConstruction(int construction) {
+        if (construction > 100){ //Construction stat max of 100
+            construction = 100;
+        }
         this.construction = construction;
     }
 
@@ -271,6 +277,9 @@ public class Player {
     }
 
     public void setMoney(int money) {
+        if (money > 100){ //Money stat max of 100
+            money = 100;
+        }
         this.money = money;
     }
 
