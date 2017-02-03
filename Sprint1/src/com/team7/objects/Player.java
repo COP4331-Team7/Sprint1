@@ -56,6 +56,7 @@ public class Player {
     // Adds unit to Player's ArrayList of Units
     public Unit addUnit(Unit unit) {
 
+
         // Ensures we are able to have a unit
         if(checkMaxUnitsFull() || checkMaxUnitsIndividual()){
             return unit;
