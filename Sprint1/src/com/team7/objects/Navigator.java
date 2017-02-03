@@ -49,18 +49,24 @@ public class Navigator {
             }
         }
 
-        calculateNetEffectByTile(tilePath);
+        calculateNetEffectByTile(tilePath, unit);
 
 
 
     }
 
     //calculate all tile effects
-    private void calculateNetEffectByTile(Queue<Tile> tilePath) {
+    private void calculateNetEffectByTile(Queue<Tile> tilePath, Unit unit) {
         int collectedElixir = 0;
         int collectedMoney = 0;
         int collectedResearch = 0;
         int collectedConstruction = 0;
+
+        int unitElixir = unit.getUnitStats().getHealth();
+
+        collectedElixir += unitElixir;  //collectedElixir is buffered by current Health
+                                        //need collectedElixir to be above 0 at all times, or Unit is dead and movement ends
+
 
         Tile currentTile;
         while (!tilePath.isEmpty()) {
