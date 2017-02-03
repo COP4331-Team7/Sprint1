@@ -3,6 +3,8 @@ package com.team7.controller;
 import com.team7.view.*;
 import com.team7.objects.*;
 
+import java.util.ArrayList;
+
 public class MainScreenController {
  private Game game;
  private View view;
@@ -16,6 +18,4 @@ public class MainScreenController {
     public void setMap(  Map map ) {
         view.getScreen().getMainScreen().getMainViewImage().setMap( map );
     }
-
-
 }

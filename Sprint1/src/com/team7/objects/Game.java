@@ -1,7 +1,5 @@
 package com.team7.objects;
 
-import com.team7.objects.Map;
-import com.team7.objects.Player;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 
@@ -105,4 +103,22 @@ public class Game {
         to be able to do this. */
     }
 
-}
+
+
+
+    public Tile moveUnit(Player player,Tile current, String command,int commandIndex){
+        Tile next = new Tile();
+        if (command == "east") {
+            next = map.getTile(current.getxCoordinate(), current.getyCoordinate() + 1);
+        } else if (command == "west") {
+            next = map.getTile(current.getxCoordinate(), current.getyCoordinate() - 1);
+        } else if (command == "north") {
+            next = map.getTile(current.getxCoordinate() + 1, current.getyCoordinate());
+        } else if (command == "south") {
+            next = map.getTile(current.getxCoordinate() - 1, current.getyCoordinate());
+        }
+        return next;
+
+    }
+
+    }

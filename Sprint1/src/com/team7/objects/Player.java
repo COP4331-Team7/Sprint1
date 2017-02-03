@@ -33,7 +33,7 @@ public class Player {
 
 
     // Big function that controls everything that could happen in a turn
-    public void takeTurn() {
+    public void Turn() {
         //get cursor commands from controller
         //parse command
         //keep track of movement state
@@ -53,6 +53,7 @@ public class Player {
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
     }
+
 
 
 

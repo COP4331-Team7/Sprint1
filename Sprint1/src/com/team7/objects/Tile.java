@@ -7,7 +7,6 @@ import com.team7.objects.structure.Structure;
 import com.team7.objects.terrain.Terrain;
 import com.team7.objects.unit.Unit;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*
@@ -23,13 +22,15 @@ public class Tile {
     private Resource resource;
     ArrayList<Unit> units;
     ArrayList<Army> armies;
+    private int xCoordinate;
+    private int yCoordinate;
 
 
-    public Tile(Terrain terrain) {
-
+    public Tile(int xCoordinate, int yCoordinate) {
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
         units = new ArrayList<Unit>();
         armies = new ArrayList<Army>();
-        this.terrain = terrain;
 
     }
 
@@ -95,7 +96,6 @@ public class Tile {
         // Physically add the unit
         this.units.add(unit);
 
-        // TODO: Add resource/areaEffect/item adjustments and remove item. Put this in functions
 
 
         return unit;
@@ -153,4 +153,11 @@ public class Tile {
     }
 
 
+    public int getxCoordinate() {
+        return xCoordinate;
+    }
+
+    public int getyCoordinate() {
+        return yCoordinate;
+    }
 }
