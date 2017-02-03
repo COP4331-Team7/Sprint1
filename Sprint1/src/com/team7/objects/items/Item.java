@@ -4,6 +4,7 @@ public abstract class Item {
 
     private boolean isPassable;
     private int statInfluence;
+    private boolean isInactive;
 
     public Item() {
     }
@@ -22,5 +23,13 @@ public abstract class Item {
 
     public void setStatInfluence(int statInfluence) {
         this.statInfluence = statInfluence;
+    }
+
+    public boolean isInactive() {
+        return isInactive;
+    }
+
+    public void setInactive(boolean inactive) {
+        isInactive = inactive;
     }
 }
