@@ -1,7 +1,11 @@
 package com.team7.view;
 
+import com.team7.objects.Player;
+import com.team7.objects.Tile;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.UnitStats;
+import com.team7.objects.unit.nonCombatUnit.Colonist;
+import com.team7.objects.unit.nonCombatUnit.Explorer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -26,6 +30,7 @@ public class UnitScreen extends JPanel {
         addElements(this);
 
         this.add(screenSelectBtns, BorderLayout.NORTH);
+        repaint();
     }
 
     public ScreenSelectButtons getScreenSelectButtons() {
@@ -36,6 +41,19 @@ public class UnitScreen extends JPanel {
         JPanel temp = new JPanel();
 
         list1.setModel(new AbstractListModel() {
+            Tile t = new Tile();
+            Player p = new Player();
+            Unit[] test = {new Colonist(t,p), new Colonist(t,p), new Colonist(t,p), new Explorer(t, p), new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p), new Explorer(t, p),
+                    new Colonist(t,p)};
             @Override
             public int getSize() {
                 return units.length;
@@ -54,18 +72,25 @@ public class UnitScreen extends JPanel {
         });
 
         textArea.setColumns(35);
-        textArea.setRows(10);
-        temp.setLayout(new BorderLayout());
-        jScrollPane = new JScrollPane(temp);
-        jScrollPane.add(list1);
-        temp.setPreferredSize(new Dimension(800, 800 * 2));
+        textArea.setRows(15);
+        textArea.setEditable(false);
+        temp.setLayout(new SpringLayout());
+        jScrollPane = new JScrollPane(list1);
+        temp.setPreferredSize(new Dimension(400, 800));
         JPanel scrollBox = new JPanel();
         scrollBox.add(jScrollPane);
+        //list1.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        list1.setVisibleRowCount(10);
         JPanel textBox = new JPanel();
-        textBox.setPreferredSize(new Dimension(800,800));
+        textBox.setPreferredSize(new Dimension(400,800));
         textBox.add(textArea);
-        pane.add(textBox, BorderLayout.EAST);
-        pane.add(scrollBox, BorderLayout.WEST);
+        JPanel unitOverveiwComponents = new JPanel();
+        unitOverveiwComponents.setLayout(new BoxLayout(unitOverveiwComponents, BoxLayout.LINE_AXIS));
+        unitOverveiwComponents.add(scrollBox);
+        unitOverveiwComponents.add(textBox);
+        scrollBox.setMaximumSize(new Dimension(400, Short.MAX_VALUE));
+        textBox.setMaximumSize(new Dimension(400, Short.MAX_VALUE));
+        pane.add(unitOverveiwComponents);
     }
 
     private void changeListVal(javax.swing.event.ListSelectionEvent e) {
@@ -78,7 +103,7 @@ public class UnitScreen extends JPanel {
         String out = new String();
         for (Unit u: units) {
             String test = u.getType() + " " + u.getId();
-            if (test == unitString) {
+            if (test.equals(unitString)) {
                 UnitStats stats = u.getUnitStats();
                 out = "Offensive Damage: " + stats.getOffensiveDamage()
                         + "\nDefensive Damage: " + stats.getDefensiveDamage()
@@ -95,5 +120,6 @@ public class UnitScreen extends JPanel {
 
     public void setUnits(ArrayList<Unit> unitList) {
         this.units = unitList.toArray(new Unit[unitList.size()]);
+        repaint();
     }
 }
