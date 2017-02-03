@@ -35,21 +35,21 @@ public class Game {
 
         // Put initial 2 explorers and colonists into Player's array to start game
         // Player 1 starts in top right, player 2 starts in bottom left
-        players[0].addUnit(new Explorer(this.map.getGrid()[2][17], players[0]));
-        players[0].addUnit(new Explorer(this.map.getGrid()[2][18], players[0]));
-        players[0].addUnit(new Colonist(this.map.getGrid()[3][17], players[0]));
+        players[0].addUnit(new Explorer(this.map.getGrid()[0][1], players[0]));
+        players[0].addUnit(new Explorer(this.map.getGrid()[1][0], players[0]));
+        players[0].addUnit(new Colonist(this.map.getGrid()[2][2], players[0]));
 
-        players[1].addUnit(new Explorer(this.map.getGrid()[18][2], players[1]));
-        players[1].addUnit(new Explorer(this.map.getGrid()[18][3], players[1]));
-        players[1].addUnit(new Colonist(this.map.getGrid()[17][2], players[1]));
+        players[1].addUnit(new Explorer(this.map.getGrid()[19][18], players[1]));
+        players[1].addUnit(new Explorer(this.map.getGrid()[18][19], players[1]));
+        players[1].addUnit(new Colonist(this.map.getGrid()[18][18], players[1]));
 
-
-        while (!players[0].isDefeated() && !players[1].isDefeated()) {
-            //currentPlayer.takeTurn(); --TODO
-            nextTurn();
-        }
-
-        endGame();
+//
+//        while (!players[0].isDefeated() && !players[1].isDefeated()) {
+//            //currentPlayer.takeTurn(); --TODO
+//            nextTurn();
+//        }
+//
+//        endGame();
     }
 
     //Switches the turn to the next player

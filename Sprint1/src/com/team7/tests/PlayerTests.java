@@ -12,9 +12,8 @@ import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 import org.testng.annotations.Test;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 
 public class PlayerTests {
