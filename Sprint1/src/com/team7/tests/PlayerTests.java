@@ -167,5 +167,23 @@ public class PlayerTests {
     }
 
 
+    @Test
+    // Test creating units and making sure they exist on the tiles
+    public void checkUnitType() throws Exception {
+        Map m = new Map();
+        Player p1 = new Player();
+
+        Unit colonist = new Colonist(m.getGrid()[0][0], p1);
+
+        p1.addUnit(colonist);
+
+        Unit testUnit = p1.getUnits().get(0);
+
+        assertTrue(testUnit.getType() ==  "Colonist");
+        assertTrue(testUnit == colonist);
+
+    }
+
+
 
 }
