@@ -65,6 +65,8 @@ public class MainViewImage extends JPanel implements MouseListener {
         private Map map;
         private Tile[][] grid;
 
+        private Player currentPlayer = null;
+
         public MainViewImage( MainViewSelection ms )
         {
             MAP_IMAGE_WIDTH_IN_PIXELS = 733;
@@ -111,6 +113,10 @@ public class MainViewImage extends JPanel implements MouseListener {
             this.map = map;
             this.grid = map.getGrid();
         }
+
+        public void setCurrentPlayer( Player player ) {
+            this.currentPlayer = player;
+         }
 
         private BufferedImage drawSubsectionOfMap(int x, int y) {
 

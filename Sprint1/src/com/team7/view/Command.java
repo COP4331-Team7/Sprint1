@@ -1,11 +1,21 @@
 package com.team7.view;
 
+import com.team7.objects.Player;
+import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.combatUnit.MeleeUnit;
+import com.team7.objects.unit.combatUnit.RangedUnit;
+import com.team7.objects.unit.nonCombatUnit.Colonist;
+import com.team7.objects.unit.nonCombatUnit.Explorer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class Command extends JPanel implements KeyListener {
+
+    private Player currentPlayer = null;
 
     JLabel modeLabel;
     JLabel typeLabel;
@@ -112,8 +122,61 @@ public class Command extends JPanel implements KeyListener {
         else if (currType == 2)
             commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?armyCommands[currCommand]:"")); //up / down arrow
 
-    }
+        if(currTypeInstance == -1) {
+            typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): ");
 
+        }
+        else if(currMode == 2 && currType == 1) { // get list of player's Colonist instances
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Colonist> colonists = new ArrayList<Colonist>();
+            if( !units.isEmpty() ) {    // if there are units on this tile
+                for(int n = 0; n < units.size(); n++) {
+                    if( units.get(n) instanceof Colonist) {
+                        colonists.add((Colonist) units.get(n));
+                    }
+                }
+                typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?colonists.get(currTypeInstance).getId():""));
+            }
+        }
+        else if(currMode == 2 && currType == 0) { // get list of player's Colonist instances
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Explorer> explorers = new ArrayList<Explorer>();
+            if( !units.isEmpty() ) {    // if there are units on this tile
+                for(int n = 0; n < units.size(); n++) {
+                    if( units.get(n) instanceof Explorer) {
+                        explorers.add((Explorer) units.get(n));
+                    }
+                }
+                typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?explorers.get(currTypeInstance).getId():""));
+            }
+        }
+        else if(currMode == 2 && currType == 2) { // get list of player's Ranged Unit instances
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<RangedUnit> rangeUnits = new ArrayList<RangedUnit>();
+            if (!units.isEmpty()) {    // if there are units on this tile
+                for (int n = 0; n < units.size(); n++) {
+                    if (units.get(n) instanceof RangedUnit) {
+                        rangeUnits.add((RangedUnit) units.get(n));
+                    }
+                }
+            }
+            typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?rangeUnits.get(currTypeInstance).getId():""));
+
+        }
+        else if(currMode == 2 && currType == 3) { // get list of player's Melee Unit instances
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<MeleeUnit> meleeUnits = new ArrayList<MeleeUnit>();
+            if (!units.isEmpty()) {    // if there are units on this tile
+                for (int n = 0; n < units.size(); n++) {
+                    if (units.get(n) instanceof MeleeUnit) {
+                        meleeUnits.add((MeleeUnit) units.get(n));
+                    }
+                }
+            }
+            typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?meleeUnits.get(currTypeInstance).getId():""));
+        }
+
+    }
 
     public void keyTyped(KeyEvent e)    {}
     public void keyReleased(KeyEvent e) {}
@@ -124,6 +187,7 @@ public class Command extends JPanel implements KeyListener {
             currMode = ++currMode % modes.length;
 
             currType = -1;      // when the user changes MODE, reset the currently selected TYPE
+            currTypeInstance = -1;
         }
         else if(e.getKeyCode() == DOWN_KEY_CODE && e.getModifiers() == CONTROL_KEY_CODE ) {
 
@@ -131,6 +195,7 @@ public class Command extends JPanel implements KeyListener {
             else currMode = modes.length - 1;
 
             currType = -1;      // when the user changes MODE, reset the currently selected TYPE
+            currTypeInstance = -1;
         }
         else if(e.getKeyCode() == LEFT_KEY_CODE && e.getModifiers() == CONTROL_KEY_CODE ) {
 
@@ -138,6 +203,7 @@ public class Command extends JPanel implements KeyListener {
             else currType = getNumTypes( currMode ) - 1;
 
             currCommand = -1;   // when the user changes TYPE, reset the currently selected COMMAND
+            currTypeInstance = -1;
         }
         else if(e.getKeyCode() == RIGHT_KEY_CODE && e.getModifiers() == CONTROL_KEY_CODE ) {
 
@@ -145,6 +211,7 @@ public class Command extends JPanel implements KeyListener {
                 currType = ++currType % getNumTypes( currMode );
 
             currCommand = -1;   // when the user changes TYPE, reset the currently selected COMMAND
+            currTypeInstance = -1;
         }
         else if(e.getKeyCode() == UP_KEY_CODE) {
 
@@ -156,6 +223,18 @@ public class Command extends JPanel implements KeyListener {
 
             if (currCommand > 0) currCommand--;
             else currCommand = getNumCommands( currType ) - 1;
+
+        }
+        else if(e.getKeyCode() == RIGHT_KEY_CODE) {
+
+            if( getNumInstances( currMode, currType ) != 0)
+                currTypeInstance = ++currTypeInstance % getNumInstances( currMode, currType );
+
+        }
+        else if(e.getKeyCode() == LEFT_KEY_CODE) {
+
+            if (currTypeInstance > 0) currTypeInstance--;
+            else currTypeInstance = getNumInstances( currMode, currType ) - 1;
 
         }
 
@@ -185,6 +264,62 @@ public class Command extends JPanel implements KeyListener {
             return size;
     }
 
+    private int getNumInstances(int currMode, int currType) {      // get # instances of a given type
 
+        if(currMode == 2 && currType == 0) { // get list of player's Explorer instances
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Explorer> explorers = new ArrayList<Explorer>();
+            if( !units.isEmpty() ) {    // if there are units on this tile
+                for(int n = 0; n < units.size(); n++) {
+                    if( units.get(n) instanceof Explorer) {
+                        explorers.add((Explorer) units.get(n));
+                    }
+                }
+            }
+            return explorers.size();
+        }
+        else if(currMode == 2 && currType == 1) { // get list of player's Colonist instances
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Colonist> colonists = new ArrayList<Colonist>();
+            if (!units.isEmpty()) {    // if there are units on this tile
+                for (int n = 0; n < units.size(); n++) {
+                    if (units.get(n) instanceof Colonist) {
+                        colonists.add((Colonist) units.get(n));
+                    }
+                }
+            }
+            return colonists.size();
+        }
+        else if(currMode == 2 && currType == 2) { // get list of player's Ranged Unit instances
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<RangedUnit> rangeUnits = new ArrayList<RangedUnit>();
+            if (!units.isEmpty()) {    // if there are units on this tile
+                for (int n = 0; n < units.size(); n++) {
+                    if (units.get(n) instanceof RangedUnit) {
+                        rangeUnits.add((RangedUnit) units.get(n));
+                    }
+                }
+            }
+            return rangeUnits.size();
+        }
+        else if(currMode == 2 && currType == 3) { // get list of player's Melee Unit instances
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<MeleeUnit> meleeUnits = new ArrayList<MeleeUnit>();
+            if (!units.isEmpty()) {    // if there are units on this tile
+                for (int n = 0; n < units.size(); n++) {
+                    if (units.get(n) instanceof MeleeUnit) {
+                        meleeUnits.add((MeleeUnit) units.get(n));
+                    }
+                }
+            }
+            return meleeUnits.size();
+        }
+        else
+            return 0;
+    }
+
+    public void setCurrentPlayer( Player player ) {
+        this.currentPlayer = player;
+    }
 
 }

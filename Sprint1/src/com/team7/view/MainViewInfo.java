@@ -1,9 +1,14 @@
 package com.team7.view;
 
+import com.team7.objects.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MainViewInfo extends JPanel {
+
+    private Player currentPlayer;
+
         public MainViewInfo()
         {
             JPanel t = new JPanel();
@@ -31,4 +36,8 @@ public class MainViewInfo extends JPanel {
             this.add( t, BorderLayout.SOUTH );
 
         }
+
+    public void setCurrentPlayer( Player player ) {
+        this.currentPlayer = player;
+    }
 }

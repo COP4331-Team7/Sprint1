@@ -51,4 +51,12 @@ public class MainScreen extends JPanel {
     public MainViewImage getMainViewImage() {
         return mainAreaView;
     }
+
+    public MainViewInfo getMainViewInfo() {
+        return mainStatusInfo;
+    }
+
+    public Command getCommand() {
+        return commandSelecter;
+    }
 }
