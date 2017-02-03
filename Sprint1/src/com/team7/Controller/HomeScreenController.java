@@ -9,9 +9,9 @@ import java.awt.event.ActionListener;
 
 public class HomeScreenController {
     private Game game;
-    private MyFrame view;
+    private View view;
 
-    public HomeScreenController(Game game, MyFrame view) {
+    public HomeScreenController(Game game, View view) {
         this.game = game;
         this.view = view;
 
@@ -21,19 +21,19 @@ public class HomeScreenController {
 
     private void addActionListeners() {
         // add ActionListeners to home screen buttons
-        view.getHomeScreen().getHomeButtons().getQuitButton().addActionListener(new ActionListener() {
+        view.getFrame().getHomeScreen().getHomeButtons().getQuitButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(e.getSource() == view.getHomeScreen().getHomeButtons().getQuitButton()) {
+                if(e.getSource() == view.getFrame().getHomeScreen().getHomeButtons().getQuitButton()) {
                     System.exit( 0 );
                 }
             }
         } );
-        view.getHomeScreen().getHomeButtons().getPlayButton().addActionListener(new ActionListener() {
+        view.getFrame().getHomeScreen().getHomeButtons().getPlayButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(e.getSource() == view.getHomeScreen().getHomeButtons().getPlayButton()) {
+                if(e.getSource() == view.getFrame().getHomeScreen().getHomeButtons().getPlayButton()) {
                     SwingUtilities.invokeLater(new Runnable(){
                         public void run(){
-                            view.setCurrScreen( "MAIN" );
+                            view.getFrame().setCurrScreen( "MAIN" );
                         }
                     });
                 }
@@ -42,6 +42,6 @@ public class HomeScreenController {
     }
 
     public void createMap(){
-        view.getMainScreen();
+        view.getFrame().getMainScreen();
     }
 }

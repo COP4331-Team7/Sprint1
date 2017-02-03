@@ -1,7 +1,6 @@
 package com.team7.Controller;
 
 import com.team7.View.*;
-import com.team7.objects.Game;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,9 +8,9 @@ import java.awt.event.ActionListener;
 
 public class ScreenSelectController {
 
-    private MyFrame view;
+    private View view;
 
-    public ScreenSelectController(MyFrame view) {
+    public ScreenSelectController(View view) {
         this.view = view;
         addActionListeners();
     }
@@ -19,24 +18,72 @@ public class ScreenSelectController {
     private void addActionListeners() {
 
         // add ActionListeners screen selection buttons on MainScreen
-        view.getScreenSelectButtons().getMainScreenButton().addActionListener(new ActionListener() {
+        view.getFrame().getMainScreen().getScreenSelectButtons().getMainScreenButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == view.getScreenSelectButtons()) {
-                    view.setCurrScreen("MAIN");
+                if (e.getSource() == view.getFrame().getMainScreen().getScreenSelectButtons().getMainScreenButton()) {
+                    view.getFrame().setCurrScreen("MAIN");
                 }
             }
         });
-        view.getScreenSelectButtons().getUnitScreenButton().addActionListener(new ActionListener() {
+        view.getFrame().getMainScreen().getScreenSelectButtons().getUnitScreenButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == view.getScreenSelectButtons()) {
-                    view.setCurrScreen("UNIT_OVERVIEW");
+                if (e.getSource() == view.getFrame().getMainScreen().getScreenSelectButtons().getUnitScreenButton()) {
+                    view.getFrame().setCurrScreen("UNIT_OVERVIEW");
                 }
             }
         });
-        view.getScreenSelectButtons().getStructureScreenButton().addActionListener(new ActionListener() {
+        view.getFrame().getMainScreen().getScreenSelectButtons().getStructureScreenButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == view.getScreenSelectButtons()) {
-                    view.setCurrScreen("STRUCTURE_OVERVIEW");
+                if (e.getSource() == view.getFrame().getMainScreen().getScreenSelectButtons().getStructureScreenButton()) {
+                    view.getFrame().setCurrScreen("STRUCTURE_OVERVIEW");
+                }
+            }
+        });
+
+        // add ActionListeners screen selection buttons on MainScreen
+        view.getFrame().getUnitScreen().getScreenSelectButtons().getMainScreenButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getFrame().getUnitScreen().getScreenSelectButtons().getMainScreenButton()) {
+                    view.getFrame().setCurrScreen("MAIN");
+                    System.out.println("main screen selected");
+                }
+            }
+        });
+        view.getFrame().getUnitScreen().getScreenSelectButtons().getUnitScreenButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getFrame().getUnitScreen().getScreenSelectButtons().getUnitScreenButton()) {
+                    view.getFrame().setCurrScreen("UNIT_OVERVIEW");
+                }
+            }
+        });
+        view.getFrame().getUnitScreen().getScreenSelectButtons().getStructureScreenButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getFrame().getUnitScreen().getScreenSelectButtons().getStructureScreenButton()) {
+                    view.getFrame().setCurrScreen("STRUCTURE_OVERVIEW");
+                }
+            }
+        });
+
+        // add ActionListeners screen selection buttons on MainScreen
+        view.getFrame().getStructureScreen().getScreenSelectButtons().getMainScreenButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getFrame().getStructureScreen().getScreenSelectButtons().getMainScreenButton()) {
+                    view.getFrame().setCurrScreen("MAIN");
+                    System.out.println("main screen selected");
+                }
+            }
+        });
+        view.getFrame().getStructureScreen().getScreenSelectButtons().getUnitScreenButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getFrame().getStructureScreen().getScreenSelectButtons().getUnitScreenButton()) {
+                    view.getFrame().setCurrScreen("UNIT_OVERVIEW");
+                }
+            }
+        });
+        view.getFrame().getStructureScreen().getScreenSelectButtons().getStructureScreenButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getFrame().getStructureScreen().getScreenSelectButtons().getStructureScreenButton()) {
+                    view.getFrame().setCurrScreen("STRUCTURE_OVERVIEW");
                 }
             }
         });

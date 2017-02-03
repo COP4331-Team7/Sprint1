@@ -4,16 +4,16 @@ package com.team7.Controller;
 import com.team7.View.*;
 import com.team7.objects.Game;
 
-public class MapController {
+public class MainScreenController {
  private Game game;
- private MyFrame view;
+ private View view;
 
-    public MapController(Game game, MyFrame view) {
+    public MainScreenController(Game game, View view) {
         this.game = game;
         this.view = view;
 
     }
     public void createMap(){
-        view.getMainScreen();
+        //
     }
 }
