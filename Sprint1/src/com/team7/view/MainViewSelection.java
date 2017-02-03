@@ -44,8 +44,6 @@ class MainViewSelection extends JPanel implements MouseListener {
         repaint();
     }
 
-
-    // TODO: Check this function
     public void setFocus(int x, int y) {
         x_center = (int)(x * WIDTH / 20);
         y_center = (int)(y * HEIGHT / 20);

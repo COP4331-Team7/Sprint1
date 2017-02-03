@@ -20,7 +20,6 @@ public class MainScreenController {
 
     public void setCurrentPlayer( Player player ) {
         view.getScreen().getMainScreen().getMainViewImage().setCurrentPlayer( player );
-        view.getScreen().getMainScreen().getMainViewInfo().setCurrentPlayer(  player );
         view.getScreen().getMainScreen().getCommand().setCurrentPlayer(  player );
     }
 

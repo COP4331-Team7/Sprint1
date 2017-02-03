@@ -1,13 +1,18 @@
 package com.team7.view;
 
 import com.team7.objects.Player;
+import com.team7.objects.structure.Structure;
+import com.team7.objects.unit.Unit;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainViewInfo extends JPanel {
 
-    private Player currentPlayer;
+    private Unit unit = null;
+    private Structure structure = null;
+
+    JLabel offensiveDamageLabel;
 
         public MainViewInfo()
         {
@@ -19,8 +24,8 @@ public class MainViewInfo extends JPanel {
             t.add(p);   // large first label so the panel takes up more space and is spaced out
             JLabel tt7 = new JLabel("Unit/Structure:      ");
             t.add(tt7);
-            JLabel tt = new JLabel("Offensive damage:");
-            t.add(tt);
+            offensiveDamageLabel = new JLabel("Offensive damage:");
+            t.add(offensiveDamageLabel);
             JLabel tt1 = new JLabel("Defensive damage:");
             t.add(tt1);
             JLabel tt2 = new JLabel("Armor:");
@@ -37,7 +42,5 @@ public class MainViewInfo extends JPanel {
 
         }
 
-    public void setCurrentPlayer( Player player ) {
-        this.currentPlayer = player;
-    }
+
 }
