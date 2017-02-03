@@ -1,8 +1,6 @@
 package com.team7;
 
-import com.team7.Controller.HomeScreenController;
-import com.team7.Controller.MainScreenController;
-import com.team7.Controller.ScreenSelectController;
+import com.team7.Controller.*;
 import com.team7.View.*;
 import com.team7.objects.*;
 import javafx.stage.Screen;
@@ -25,7 +23,10 @@ public class Main {
         // Controller
         ScreenSelectController screenSelectController = new ScreenSelectController(view);  // doesn't affect model
         HomeScreenController homeScreenController     = new HomeScreenController(game, view);
-        MainScreenController mapController            = new MainScreenController(game, view);
+        MainScreenController mainScreenController            = new MainScreenController(game, view);
+        UnitScreenController unitScreenController          = new UnitScreenController(game, view);
+        StructureScreenController structureScreenController = new StructureScreenController(game, view);
+
     }
 
     private static void waitForGUI(View view) {
