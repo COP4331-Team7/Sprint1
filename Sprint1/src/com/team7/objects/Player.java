@@ -34,8 +34,22 @@ public class Player {
 
     // Big function that controls everything that could happen in a turn
     public void takeTurn() {
+        //get cursor commands from controller
+        //parse command
+        //keep track of movement state
+        ArrayList<Tile> path = new ArrayList<Tile>();
+        Tile start = new Tile();
+        if("key-pressed"=="right"){}
+            //check is it possible
+            //then
+                //Create a cursor of TIle class
+                    //Added this to path ArrayList
+        Tile end = new Tile();
+        if ("key-pressed" == "Enter") {
 
+             }
 
+    Navigation navigation =new Navigation(path,start, end);
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
     }
