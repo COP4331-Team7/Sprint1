@@ -49,7 +49,7 @@ public class MainScreen extends JPanel {
         mainAreaView.drawMap();
     }
 
-    public BufferedImage getMainViewImage() {
-        return mainAreaView.getCurrImage();
+    public MainViewImage getMainViewImage() {
+        return mainAreaView;
     }
 }

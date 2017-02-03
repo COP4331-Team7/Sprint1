@@ -1,6 +1,12 @@
 package com.team7.View;
 
 import com.team7.Main;
+import com.team7.objects.*;
+import com.team7.objects.terrain.Crater;
+import com.team7.objects.terrain.Desert;
+import com.team7.objects.terrain.FlatLand;
+import com.team7.objects.terrain.Mountains;
+import sun.security.krb5.internal.crypto.Des;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -30,6 +36,10 @@ public class MainViewImage extends JPanel implements MouseListener {
         public int[][] imageTerrains;
         private MainViewSelection mainViewSelection;
 
+        // -------
+        private Map map;
+        private Tile[][] grid;
+
         public MainViewImage( MainViewSelection ms )
         {
             MAP_IMAGE_WIDTH_IN_PIXELS = 733;
@@ -48,70 +58,24 @@ public class MainViewImage extends JPanel implements MouseListener {
                tileImage_3 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/sand_img.jpg")).replace("file:","")));
                tileImage_4 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/grass_img.jpg")).replace("file:","")));
 
-
-               //  ========================
                 mapImage = new BufferedImage(1340 , 1340, BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g2 = (Graphics2D)mapImage.createGraphics();
                 int tileSize = 67;
-
-            // tileImage1 = Mountain
-            // tileImage2 = Hill
-            // tileImage3 = Desert
-            // tileImage4 = Flatland
-
-                imageTerrains = new int[20][20];
-
-                for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 20; j++){
-
-                    int x = tileSize * i;
-                    int y = tileSize * j;
-
-                    if (i >= 0 && i <= 4){
-                        if (j >= 0 && j <= 4){
-                          imageTerrains[i][j] =  1;
-                          imageTerrains[19-i][19-j] =  1;
-                        } else if (j > 4 && j <= 9){
-                            imageTerrains[i][j] =  2;
-                          imageTerrains[19-i][19-j] =  2;
-                        } else if (j > 9 && j <= 14){
-                           imageTerrains[i][j] =  3;
-                          imageTerrains[19-i][19-j] =  3;
-                        } else if (j > 14 && j <= 19){
-                            imageTerrains[i][j] =  4;
-                          imageTerrains[19-i][19-j] =  4;
-                        }
-                    } else{
-                        if (j >= 0 && j <= 4){
-                            imageTerrains[i][j] =  2;
-                          imageTerrains[19-i][19-j] =  2;
-                        } else if (j > 4 && j <= 9){
-                          imageTerrains[i][j] =  4;
-                          imageTerrains[19-i][19-j] =  4;
-                        } else if (j > 9 && j <= 14){
-                           imageTerrains[i][j] =  3;
-                          imageTerrains[19-i][19-j] =  3;
-                        } else if (j > 14 && j <= 19){
-                          imageTerrains[i][j] =  4;
-                          imageTerrains[19-i][19-j] =  4;
-                        }
-                    }
-                }
-                }
                 }
             catch (IOException e) {}
-            //  ========================
 
             drawMapArea();
-
 
             x_center = 0;
             y_center = 0;
             x_dest = 0;
             y_dest = 0;
-            drawMap();
         }
 
+        public void setMap(Map map) {
+            this.map = map;
+            this.grid = map.getGrid();
+        }
 
         private BufferedImage drawSubsectionOfMap(int x, int y) {
 
@@ -135,16 +99,21 @@ public class MainViewImage extends JPanel implements MouseListener {
                     else if(yy > 19)
                         yy = 19;
 
-                    if(imageTerrains[xx][yy] == 1) {
+                    // tileImage1 = Mountain
+                    // tileImage2 = Hill
+                    // tileImage3 = Desert
+                    // tileImage4 = Flatland
+
+                    if( grid[xx][yy].getTerrain() instanceof Mountains) {
                         g2ds.drawImage(tileImage_1, i*67, j*67, null);
                     }
-                    else if (imageTerrains[xx][yy] == 2) {
+                    else if (grid[xx][yy].getTerrain() instanceof Crater) {
                         g2ds.drawImage(tileImage_2, i*67, j*67, null);
                     }
-                    else if (imageTerrains[xx][yy] == 3) {
+                    else if (grid[xx][yy].getTerrain() instanceof Desert) {
                         g2ds.drawImage(tileImage_3, i*67, j*67, null);
                     }
-                    else if (imageTerrains[xx][yy] == 4) {
+                    else if (grid[xx][yy].getTerrain() instanceof FlatLand) {
                         g2ds.drawImage(tileImage_4, i*67, j*67, null);
                     }
 
@@ -195,16 +164,16 @@ public class MainViewImage extends JPanel implements MouseListener {
                         y_offsett = 67/2;
                     }
 
-                    if(imageTerrains[xx][yy] == 1) {
+                    if( grid[xx][yy].getTerrain() instanceof Mountains) {
                         g2ds.drawImage(tileImage_1, i*67 + x_offsett, j*67 + y_offsett, null);
                     }
-                    else if (imageTerrains[xx][yy] == 2) {
+                    else if ( grid[xx][yy].getTerrain() instanceof Crater) {
                         g2ds.drawImage(tileImage_2, i*67 + x_offsett, j*67 + y_offsett, null);
                     }
-                    else if (imageTerrains[xx][yy] == 3) {
+                    else if ( grid[xx][yy].getTerrain() instanceof Desert) {
                         g2ds.drawImage(tileImage_3, i*67 + x_offsett, j*67 + y_offsett, null);
                     }
-                    else if (imageTerrains[xx][yy] == 4) {
+                    else if ( grid[xx][yy].getTerrain() instanceof FlatLand) {
                         g2ds.drawImage(tileImage_4, i*67 + x_offsett, j*67 + y_offsett, null);
                     }
 

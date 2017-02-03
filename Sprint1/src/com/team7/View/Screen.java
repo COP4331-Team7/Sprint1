@@ -123,7 +123,7 @@ public class Screen extends JFrame
     private void saveImage()    // prompt the user to specify the size of the n by n image
     {
 
-        BufferedImage temp_img = mainScreen.getMainViewImage();
+        BufferedImage temp_img = null;
 
         String inputString = JOptionPane.showInputDialog("ouput file?");
         try
