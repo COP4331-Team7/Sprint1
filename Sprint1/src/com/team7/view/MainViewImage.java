@@ -76,7 +76,6 @@ public class MainViewImage extends JPanel implements MouseListener {
 
             this.mainViewSelection = ms;
 
-            // load tile images
             try {
                tileImage_1 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/mountain_img.png")).replace("file:","")));
                tileImage_2 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/hills_img.png")).replace("file:","")));
