@@ -12,9 +12,8 @@ import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 import org.testng.annotations.Test;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 
 public class PlayerTests {
@@ -61,7 +60,7 @@ public class PlayerTests {
         testPLayer.addUnit(explorer);
         testPLayer.addUnit(ranged);
 
-        testPLayer.addArmy(new Army(map.getGrid()[0][0], 1, testPLayer));
+        testPLayer.addArmy(new Army(map.getGrid()[0][0], testPLayer));
 
 
         // remove units, armies and structures
@@ -95,7 +94,7 @@ public class PlayerTests {
         Player testPLayer = new Player();
         Unit melee = new MeleeUnit(map.getGrid()[0][0], testPLayer);
         Unit colonist = new Colonist(map.getGrid()[1][0], testPLayer);
-        Army army = new Army(map.getGrid()[0][0], 0, testPLayer);
+        Army army = new Army(map.getGrid()[0][0],  testPLayer);
 
 
         // add units and armies
@@ -124,8 +123,65 @@ public class PlayerTests {
     }
 
 
+    @Test
+    // Check Structure is being created, make some units. Kill them and check defeated
+    public void testBaseCreateUnit() throws Exception {
+
+        // create map, player, unit, army structure
+        Map map = new Map();
+        Player testPLayer = new Player();
+        Unit colonist = new Colonist(map.getGrid()[17][3], testPLayer);
+        testPLayer.addUnit(colonist);
+        testPLayer.addArmy(new Army(map.getGrid()[17][3], testPLayer));
+
+        assertTrue(testPLayer.getUnits().size() == 1);
+
+        // Build base and create units
+        ((Colonist) colonist).buildBase();
+
+        ((Base) testPLayer.getStructures().get(0)).createUnit("Explorer");
+        ((Base) testPLayer.getStructures().get(0)).createUnit("Melee");
+        ((Base) testPLayer.getStructures().get(0)).createUnit("Melee");
+
+        // add units to army
+        testPLayer.getArmies().get(0).addUnitToArmy(testPLayer.getUnits().get(1));
+        testPLayer.getArmies().get(0).addUnitToArmy(testPLayer.getUnits().get(2));
+
+        assertTrue(testPLayer.getUnits().size() == 3);
+
+        // kill all units and structures
+        for(int i = 0; i < testPLayer.getUnits().size(); i++){
+            testPLayer.getUnits().get(i).getUnitStats().setHealth(0);
+        }
+        testPLayer.getStructures().get(0).getStats().setHealth(0);
+
+        // delete dead everything
+        testPLayer.checkUnitArmyStructs();
 
 
+        // check that the player lost
+        assertEquals(testPLayer.isDefeated(), true);
+
+
+    }
+
+
+    @Test
+    // Test creating units and making sure they exist on the tiles
+    public void checkUnitType() throws Exception {
+        Map m = new Map();
+        Player p1 = new Player();
+
+        Unit colonist = new Colonist(m.getGrid()[0][0], p1);
+
+        p1.addUnit(colonist);
+
+        Unit testUnit = p1.getUnits().get(0);
+
+        assertTrue(testUnit.getType() ==  "Colonist");
+        assertTrue(testUnit == colonist);
+
+    }
 
 
 

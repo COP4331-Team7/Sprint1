@@ -20,14 +20,14 @@ public class Army {
 
 
 
-    public Army(Tile startTile, int dir, Player player){
+    public Army(Tile startTile, Player player){
         int id = ProbabilityGenerator.randomInteger(0, 99999);
         this.units = new ArrayList<Unit>();
         this.commands = new CommandQueue();
         this.owner = player;
-        this.slowestSpeed = 0;
+        this.slowestSpeed = 100;
         this.rallyPoint = startTile;
-        this.direction = dir;
+        this.direction = 0;
         this.isPowered = true;
         this.turnsFrozen = 0;
     }
@@ -38,6 +38,11 @@ public class Army {
         // Physically add the unit
         this.units.add(unit);
         unit.setArmy(this);
+
+        // Check for new slowest speed
+        if(unit.getUnitStats().getMovement() < this.slowestSpeed){
+            this.slowestSpeed = unit.getUnitStats().getMovement();
+        }
 
 
         return unit;
@@ -105,8 +110,15 @@ public class Army {
         return isPowered;
     }
 
-    public void setPowered(boolean powered) {
-        isPowered = powered;
+    public void powerUp() {
+
+        // TODO: fill out what happens to units when power up happens (frozen?)
+        isPowered = true;
+    }
+
+    public void powerDown() {
+        // TODO: fill out what happens to units when power down happens (frozen?)
+        isPowered = false;
     }
 
     public int getTurnsFrozen() {
