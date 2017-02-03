@@ -94,7 +94,6 @@ public class Tile {
 
         // Physically add the unit
         this.units.add(unit);
-        unit.updateUnitOnTileChange(this);
 
         return unit;
     }
