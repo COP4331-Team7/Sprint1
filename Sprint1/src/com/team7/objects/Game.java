@@ -43,13 +43,13 @@ public class Game {
         players[1].addUnit(new Explorer(this.map.getGrid()[18][3], players[1]));
         players[1].addUnit(new Colonist(this.map.getGrid()[17][2], players[1]));
 
-
-        while (!players[0].isDefeated() && !players[1].isDefeated()) {
-            //currentPlayer.takeTurn(); --TODO
-            nextTurn();
-        }
-
-        endGame();
+//
+//        while (!players[0].isDefeated() && !players[1].isDefeated()) {
+//            //currentPlayer.takeTurn(); --TODO
+//            nextTurn();
+//        }
+//
+//        endGame();
     }
 
     //Switches the turn to the next player
