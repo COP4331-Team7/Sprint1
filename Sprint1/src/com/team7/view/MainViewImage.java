@@ -2,6 +2,8 @@ package com.team7.view;
 
 import com.team7.Main;
 import com.team7.objects.*;
+import com.team7.objects.areaEffects.ElixirShower;
+import com.team7.objects.areaEffects.Storm;
 import com.team7.objects.resource.HieroglyphicBooks;
 import com.team7.objects.resource.MoneyBag;
 import com.team7.objects.resource.MoonRocks;
@@ -9,6 +11,11 @@ import com.team7.objects.terrain.Crater;
 import com.team7.objects.terrain.Desert;
 import com.team7.objects.terrain.FlatLand;
 import com.team7.objects.terrain.Mountains;
+import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.nonCombatUnit.Colonist;
+import com.team7.objects.unit.nonCombatUnit.Explorer;
+
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,6 +25,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainViewImage extends JPanel implements MouseListener {
 
@@ -37,7 +45,13 @@ public class MainViewImage extends JPanel implements MouseListener {
         private BufferedImage moneyBagImage;
         private BufferedImage moonRockImage;
         private BufferedImage hieroglyphicBookImage;
-        //
+
+        private BufferedImage elixerShowerImage;
+        private BufferedImage stormImage;
+
+        private  BufferedImage colonistImage;
+        private  BufferedImage explorerImage;
+            //
         private BufferedImage mapImage;
         public int[][] imageTerrains;
         private MainViewSelection mainViewSelection;
@@ -68,7 +82,12 @@ public class MainViewImage extends JPanel implements MouseListener {
                moonRockImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moonRock.png")).replace("file:","")));
                hieroglyphicBookImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/hieroglyphicBook.png")).replace("file:","")));
 
-//                moneyBagImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+                elixerShowerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/elixirShowerImage.png")).replace("file:","")));
+                stormImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/stormImage.png")).replace("file:","")));
+                colonistImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/colonistImage.png")).replace("file:","")));
+                explorerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/explorerImage.png")).replace("file:","")));
+
+
 //                moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 //                hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 
@@ -98,6 +117,8 @@ public class MainViewImage extends JPanel implements MouseListener {
 
             BufferedImage tempImg = new BufferedImage(733, 439, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2ds = (Graphics2D)tempImg.createGraphics();
+            g2ds.setFont(g2ds.getFont().deriveFont(30f));
+
 
             for(int i = 0; i < 11; i++) {                               // tile index on sub-screen
                 for(int j = 0; j < 7; j++) {
@@ -115,11 +136,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                     else if(yy > 19)
                         yy = 19;
 
-                    // tileImage1 = Mountain
-                    // tileImage2 = Hill
-                    // tileImage3 = Desert
-                    // tileImage4 = Flatland
-
+                    // draw terrain
                     if( grid[xx][yy].getTerrain() instanceof Mountains) {
                         g2ds.drawImage(tileImage_1, i*67, j*67, null);
                     }
@@ -133,7 +150,15 @@ public class MainViewImage extends JPanel implements MouseListener {
                         g2ds.drawImage(tileImage_4, i*67, j*67, null);
                     }
 
+                    // draw area effects
+                    if(grid[xx][yy].getAreaEffect() instanceof Storm) {
+                        g2ds.drawImage(stormImage, i*67, j*67, null);
+                    }
+                    else if (grid[xx][yy].getAreaEffect() instanceof ElixirShower) {
+                        g2ds.drawImage(elixerShowerImage, i*67, j*67, null);
+                    }
 
+                    // draw resources
                     if( grid[xx][yy].getResource() instanceof MoonRocks) {
                         g2ds.drawImage(moonRockImage, i*67, j*67, null);
                     }
@@ -142,6 +167,27 @@ public class MainViewImage extends JPanel implements MouseListener {
                     }
                     else if ( grid[xx][yy].getResource() instanceof HieroglyphicBooks) {
                         g2ds.drawImage(hieroglyphicBookImage, i*67, j*67, null);
+                    }
+
+                    // draw units
+                    int colonistCount = 0, explorerCount = 0;
+                    ArrayList<Unit> units = grid[xx][yy].getUnits();
+                    if( !units.isEmpty() ) {    // if there are units on this tile
+                        for(int n = 0; n < units.size(); n++) {
+                            if( units.get(n) instanceof Colonist)
+                                colonistCount++;
+                            if( units.get(n) instanceof Explorer)
+                                explorerCount++;
+                        }
+                        System.out.println("tile[" + xx + "][" + yy + "] has " + colonistCount + " colonist and " + explorerCount + " explorer(s)");
+                        if(colonistCount != 0) {
+                            g2ds.drawImage(colonistImage, i*67, j*67, null);
+                            g2ds.drawString( Integer.toString( colonistCount ), i*67, j*67 + 45);
+                        }
+                        if(explorerCount != 0) {
+                            g2ds.drawImage(explorerImage, i*67, j*67, null);
+                            g2ds.drawString( Integer.toString( explorerCount ), i*67, j*67 + 45);
+                        }
                     }
 
 
