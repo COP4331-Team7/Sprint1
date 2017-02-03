@@ -57,7 +57,7 @@ public class MapTests {
 //        Unit unit = new Colonist(map.getGrid()[0][0], p1);
 //
 //        // helper function to add area effects
-//        map.getGrid()[0][0].handleAreaEffects(unit);
+////        unit.updateUnitOnTileChange();
 //
 //        assertTrue(unit.getUnitStats().getHealth() < 100);
 
