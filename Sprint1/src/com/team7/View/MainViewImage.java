@@ -232,7 +232,7 @@ public class MainViewImage extends JPanel implements MouseListener {
     }
 
     public void drawMap() {
-        image = drawSubsectionOfMap(20/2, 20/2);
+        image = drawSubsectionOfMap(11/2 - 11/2, 7/2 - 7/2);
         repaint();
     }
 
