@@ -1,8 +1,7 @@
-package com.team7.View;
+package com.team7.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class MainScreen extends JPanel {
 

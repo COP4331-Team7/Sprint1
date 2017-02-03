@@ -1,11 +1,7 @@
-package com.team7.Controller;
+package com.team7.controller;
 
-import com.team7.View.*;
+import com.team7.view.*;
 import com.team7.objects.Game;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class UnitScreenController {
     private Game game;

@@ -1,6 +1,6 @@
-package com.team7.Controller;
+package com.team7.controller;
 
-import com.team7.View.*;
+import com.team7.view.*;
 import com.team7.objects.Game;
 
 import javax.swing.*;

@@ -1,12 +1,14 @@
-package com.team7.View;
+package com.team7.view;
 
 import com.team7.Main;
 import com.team7.objects.*;
+import com.team7.objects.resource.HieroglyphicBooks;
+import com.team7.objects.resource.MoneyBag;
+import com.team7.objects.resource.MoonRocks;
 import com.team7.objects.terrain.Crater;
 import com.team7.objects.terrain.Desert;
 import com.team7.objects.terrain.FlatLand;
 import com.team7.objects.terrain.Mountains;
-import sun.security.krb5.internal.crypto.Des;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,6 +33,10 @@ public class MainViewImage extends JPanel implements MouseListener {
         private BufferedImage tileImage_2;
         private BufferedImage tileImage_3;
         private BufferedImage tileImage_4;
+
+        private BufferedImage moneyBagImage;
+        private BufferedImage moonRockImage;
+        private BufferedImage hieroglyphicBookImage;
         //
         private BufferedImage mapImage;
         public int[][] imageTerrains;
@@ -57,6 +63,16 @@ public class MainViewImage extends JPanel implements MouseListener {
                tileImage_2 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/hills_img.png")).replace("file:","")));
                tileImage_3 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/sand_img.jpg")).replace("file:","")));
                tileImage_4 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/grass_img.jpg")).replace("file:","")));
+
+               moneyBagImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moneyBag.png")).replace("file:","")));
+               moonRockImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moonRock.png")).replace("file:","")));
+               hieroglyphicBookImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/hieroglyphicBook.png")).replace("file:","")));
+
+//                moneyBagImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+//                moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+//                hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+
+
 
                 mapImage = new BufferedImage(1340 , 1340, BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g2 = (Graphics2D)mapImage.createGraphics();
@@ -117,6 +133,21 @@ public class MainViewImage extends JPanel implements MouseListener {
                         g2ds.drawImage(tileImage_4, i*67, j*67, null);
                     }
 
+
+                    if( grid[xx][yy].getResource() instanceof MoonRocks) {
+                        g2ds.drawImage(moonRockImage, i*67, j*67, null);
+                    }
+                    else if ( grid[xx][yy].getResource() instanceof MoneyBag) {
+                        g2ds.drawImage(moneyBagImage, i*67, j*67, null);
+                    }
+                    else if ( grid[xx][yy].getResource() instanceof HieroglyphicBooks) {
+                        g2ds.drawImage(hieroglyphicBookImage, i*67, j*67, null);
+                    }
+
+
+
+
+
                 }
             }
 
@@ -175,6 +206,17 @@ public class MainViewImage extends JPanel implements MouseListener {
                     }
                     else if ( grid[xx][yy].getTerrain() instanceof FlatLand) {
                         g2ds.drawImage(tileImage_4, i*67 + x_offsett, j*67 + y_offsett, null);
+                    }
+
+
+                    if( grid[xx][yy].getResource() instanceof MoonRocks) {
+                        g2ds.drawImage(moonRockImage, i*67, j*67, null);
+                    }
+                    if ( grid[xx][yy].getResource() instanceof MoneyBag) {
+                        g2ds.drawImage(moneyBagImage, i*67, j*67, null);
+                    }
+                    if ( grid[xx][yy].getResource() instanceof HieroglyphicBooks) {
+                        g2ds.drawImage(hieroglyphicBookImage, i*67, j*67, null);
                     }
 
                 }
@@ -281,31 +323,31 @@ public class MainViewImage extends JPanel implements MouseListener {
                             while (x_diff != 0 || y_diff != 0) {    // while view isnt focused on destination tile
 
 
-                                boolean[] types = new boolean[4];
-
-                                if(x_diff > 0) {
-                                    types[0] = true;
-                                }
-                                if(y_diff > 0) {
-                                    types[1] = true;
-                                }
-
-                                if(x_diff < 0) {
-                                    types[2] = true;
-                                }
-                                if(y_diff < 0) {
-                                        types[3] = true;
-                                }
-
-                                final BufferedImage mapSubsection1 = drawOffsetSubsectionOfMap(x_center, y_center, types);
-                                SwingUtilities.invokeLater( new Runnable()   // queue frame i on EDT for display
-                                {
-                                    public void run()
-                                    {
-                                        image = mapSubsection1;
-                                        repaint();
-                                    }
-                                });
+//                                boolean[] types = new boolean[4];
+//
+//                                if(x_diff > 0) {
+//                                    types[0] = true;
+//                                }
+//                                if(y_diff > 0) {
+//                                    types[1] = true;
+//                                }
+//
+//                                if(x_diff < 0) {
+//                                    types[2] = true;
+//                                }
+//                                if(y_diff < 0) {
+//                                        types[3] = true;
+//                                }
+//
+//                                final BufferedImage mapSubsection1 = drawOffsetSubsectionOfMap(x_center, y_center, types);
+//                                SwingUtilities.invokeLater( new Runnable()   // queue frame i on EDT for display
+//                                {
+//                                    public void run()
+//                                    {
+//                                        image = mapSubsection1;
+//                                        repaint();
+//                                    }
+//                                });
 
                                 if(x_diff != 0) {                   // move focus 1 unit towards destination
                                     x_center += delta_x;
@@ -315,11 +357,6 @@ public class MainViewImage extends JPanel implements MouseListener {
                                     y_center += delta_y;
                                     y_diff -= delta_y;
                                 }
-
-                                try{
-                                    Thread.sleep(75);
-                                }
-                                catch(Exception e) {}
 
                                 final BufferedImage mapSubsection = drawSubsectionOfMap(x_center, y_center);
                                 SwingUtilities.invokeLater( new Runnable()   // queue frame i on EDT for display
@@ -332,7 +369,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                                 });
 
                                 try{
-                                    Thread.sleep(75);
+                                    Thread.sleep(50);
                                 }
                                 catch(Exception e) {}
 

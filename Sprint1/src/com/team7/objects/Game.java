@@ -30,6 +30,7 @@ public class Game {
     public void startGame() {
 
         this.map = new Map();
+        map.setMapDetails();
 
         // Put initial 2 explorers and colonists into Player's array to start game
         // Player 1 starts in top right, player 2 starts in bottom left

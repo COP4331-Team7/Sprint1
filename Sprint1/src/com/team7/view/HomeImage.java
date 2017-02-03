@@ -1,4 +1,4 @@
-package com.team7.View;
+package com.team7.view;
 
 import com.team7.Main;
 
