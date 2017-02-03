@@ -23,13 +23,16 @@ public class Tile {
     private Resource resource;
     ArrayList<Unit> units;
     ArrayList<Army> armies;
+    private int xCoordinate;
+    private int yCoordinate;
 
 
-    public Tile(Terrain terrain) {
+    public Tile(int xCoordinate, int yCoordinate) {
 
         units = new ArrayList<Unit>();
         armies = new ArrayList<Army>();
-        this.terrain = terrain;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
 
     }
 
@@ -140,6 +143,13 @@ public class Tile {
         return army;
     }
 
+    public int getxCoordinate() {
+        return xCoordinate;
+    }
+
+    public int getyCoordinate() {
+        return yCoordinate;
+    }
 
 
 }
