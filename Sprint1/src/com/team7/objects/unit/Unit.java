@@ -82,6 +82,7 @@ public abstract class Unit {
                 updatedPlayerResourceLevel += owner.getConstruction();
                 this.owner.setConstruction(updatedPlayerResourceLevel);
             }
+            location.setResource(null);
         }
 
         //Item
