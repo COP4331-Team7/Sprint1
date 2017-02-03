@@ -6,7 +6,7 @@ public class View
 {
     private static final int WIDTH  = 800;
     private static final int HEIGHT = 800;
-    private MyFrame frame = null;
+    private Screen frame = null;
 
     public View()
     {
@@ -23,12 +23,12 @@ public class View
     // Create the GUI and show it.
     private void createAndShowGUI()
     {
-        frame = new MyFrame( WIDTH, HEIGHT);                       // setup new frame
+        frame = new Screen( WIDTH, HEIGHT);                       // setup new frame
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );    // exit when the user closes the frame
         frame.setVisible( true );                                  // make the frame visible
     }
 
-    public MyFrame getFrame() {
+    public Screen getScreen() {
         return frame;
     }
 }

@@ -21,19 +21,19 @@ public class HomeScreenController {
 
     private void addActionListeners() {
         // add ActionListeners to home screen buttons
-        view.getFrame().getHomeScreen().getHomeButtons().getQuitButton().addActionListener(new ActionListener() {
+        view.getScreen().getHomeScreen().getHomeButtons().getQuitButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(e.getSource() == view.getFrame().getHomeScreen().getHomeButtons().getQuitButton()) {
+                if(e.getSource() == view.getScreen().getHomeScreen().getHomeButtons().getQuitButton()) {
                     System.exit( 0 );
                 }
             }
         } );
-        view.getFrame().getHomeScreen().getHomeButtons().getPlayButton().addActionListener(new ActionListener() {
+        view.getScreen().getHomeScreen().getHomeButtons().getPlayButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(e.getSource() == view.getFrame().getHomeScreen().getHomeButtons().getPlayButton()) {
+                if(e.getSource() == view.getScreen().getHomeScreen().getHomeButtons().getPlayButton()) {
                     SwingUtilities.invokeLater(new Runnable(){
                         public void run(){
-                            view.getFrame().setCurrScreen( "MAIN" );
+                            view.getScreen().setCurrScreen( "MAIN" );
                         }
                     });
                 }
@@ -42,6 +42,6 @@ public class HomeScreenController {
     }
 
     public void createMap(){
-        view.getFrame().getMainScreen();
+        view.getScreen().getMainScreen();
     }
 }

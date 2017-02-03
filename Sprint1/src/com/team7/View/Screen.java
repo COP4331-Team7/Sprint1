@@ -8,16 +8,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class MyFrame extends JFrame
+public class Screen extends JFrame
 {
     private HomeScreen homeScreen = null;
     private MainScreen mainScreen = null;
     private UnitScreen unitScreen = null;
     private StructureScreen structureScreen = null;
 
-    public MyFrame( int width, int height)
+    public Screen( int width, int height)
     {
-        this.setTitle( "OOP GUI" );
+        this.setTitle( "OOP" );
         this.setSize( width, height );
         addMenu();
 

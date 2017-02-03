@@ -81,8 +81,5 @@ class MainViewSelection extends JPanel implements MouseListener {
         double x_offset = ( e.getX() );
         double y_offset = ( e.getY() );
 
-        System.out.println("mini: " + x_offset + " , " + y_offset);
-
-
     }
 }

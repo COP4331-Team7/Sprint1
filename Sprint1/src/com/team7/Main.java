@@ -13,7 +13,7 @@ public class Main {
         // Model
         Player player1 = new Player();
         Player player2 = new Player();
-        Game game      = new Game(player1,player2);
+        Game game      = new Game(player1, player2);
 
         // View
         View view = new View();
@@ -27,13 +27,20 @@ public class Main {
         StructureScreenController structureScreenController = new StructureScreenController(game, view);
         ScreenSelectController screenSelectController = new ScreenSelectController(view); // this controller doesn't need to know model
 
+        //      start the game
+        //      while the game is not over
+        //             let the current player issue commands
+        //             once the current player has finished their turn
+        //             give the other player control
+        //
+
     }
 
     private static void waitForGUI(View view) {
         long startTime = System.nanoTime();
         // waiting on view construction because:
         // in the main method new View() returns instantly because it schedules the GUI creation to be executed asynchronously on the EDT
-        while( view.getFrame() == null ) {
+        while( view.getScreen() == null ) {
             try {
                 Thread.sleep(50);
             }
