@@ -31,7 +31,7 @@ public class Main {
         //      while the game is not over
         //             let the current player issue commands
         //             once the current player has finished their turn
-        //             give other player control
+        //             give the other player control
         //
 
     }
