@@ -73,30 +73,27 @@ public class MainViewImage extends JPanel implements MouseListener {
 
             // load tile images
             try {
-               tileImage_1 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/mountain_img.png")).replace("file:","")));
-               tileImage_2 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/hills_img.png")).replace("file:","")));
-               tileImage_3 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/sand_img.jpg")).replace("file:","")));
-               tileImage_4 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/grass_img.jpg")).replace("file:","")));
+               tileImage_1 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/mountain_img.png")).replace("file:","")));
+               tileImage_2 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/hills_img.png")).replace("file:","")));
+               tileImage_3 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/sand_img.jpg")).replace("file:","")));
+               tileImage_4 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/grass_img.jpg")).replace("file:","")));
 
                moneyBagImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moneyBag.png")).replace("file:","")));
                moonRockImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moonRock.png")).replace("file:","")));
                hieroglyphicBookImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/hieroglyphicBook.png")).replace("file:","")));
 
-                elixerShowerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/elixirShowerImage.png")).replace("file:","")));
-                stormImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/stormImage.png")).replace("file:","")));
-                colonistImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/colonistImage.png")).replace("file:","")));
-                explorerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/explorerImage.png")).replace("file:","")));
+               elixerShowerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/elixirShowerImage.png")).replace("file:","")));
+               stormImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/stormImage.png")).replace("file:","")));
+               colonistImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/colonistImage.png")).replace("file:","")));
+               explorerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/explorerImage.png")).replace("file:","")));
 
+                // moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+                // hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 
-//                moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
-//                hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
-
-
-
-                mapImage = new BufferedImage(1340 , 1340, BufferedImage.TYPE_INT_ARGB);
-                Graphics2D g2 = (Graphics2D)mapImage.createGraphics();
+                // mapImage = new BufferedImage(1340 , 1340, BufferedImage.TYPE_INT_ARGB);
+                // Graphics2D g2 = (Graphics2D)mapImage.createGraphics();
                 int tileSize = 67;
-                }
+            }
             catch (IOException e) {}
 
             drawMapArea();
@@ -120,13 +117,13 @@ public class MainViewImage extends JPanel implements MouseListener {
             g2ds.setFont(g2ds.getFont().deriveFont(30f));
 
 
-            for(int i = 0; i < 11; i++) {                               // tile index on sub-screen
+            for(int i = 0; i < 11; i++) {          // tile index on sub-screen
                 for(int j = 0; j < 7; j++) {
 
-                    int xx = x + i;                                             // tile index on whole map
+                    int xx = x + i;                // tile index on whole map
                     int yy = y + j;
 
-                    if(xx < 0)              // adjust if out of bounds
+                    if(xx < 0)                     // adjust if out of bounds
                         xx = 0;
                     else if (xx > 19)
                         xx = 19;
@@ -155,18 +152,18 @@ public class MainViewImage extends JPanel implements MouseListener {
                         g2ds.drawImage(stormImage, i*67, j*67, null);
                     }
                     else if (grid[xx][yy].getAreaEffect() instanceof ElixirShower) {
-                        g2ds.drawImage(elixerShowerImage, i*67, j*67, null);
+                        g2ds.drawImage(elixerShowerImage, i*67 + 10, j*67 + 10, null);
                     }
 
                     // draw resources
                     if( grid[xx][yy].getResource() instanceof MoonRocks) {
-                        g2ds.drawImage(moonRockImage, i*67, j*67, null);
+                        g2ds.drawImage(moonRockImage, i*67, j*67 + 35, null);
                     }
                     else if ( grid[xx][yy].getResource() instanceof MoneyBag) {
-                        g2ds.drawImage(moneyBagImage, i*67, j*67, null);
+                        g2ds.drawImage(moneyBagImage, i*67 + 35, j*67, null);
                     }
                     else if ( grid[xx][yy].getResource() instanceof HieroglyphicBooks) {
-                        g2ds.drawImage(hieroglyphicBookImage, i*67, j*67, null);
+                        g2ds.drawImage(hieroglyphicBookImage, i*67 + 30, j*67 + 35, null);
                     }
 
                     // draw units
@@ -190,90 +187,86 @@ public class MainViewImage extends JPanel implements MouseListener {
                         }
                     }
 
-
-
-
-
                 }
             }
 
-             g2ds.setColor(Color.ORANGE);
-             g2ds.drawLine((11/2)*67 + 67/2 - 10, (7/2)*67 + 67/2, (11/2)*67 + 67/2 + 10, (7/2)*67 + 67/2 );
-             g2ds.drawLine((11/2)*67 + 67/2 , (7/2)*67 + 67/2 - 10, (11/2)*67 + 67/2, (7/2)*67 + 67/2 + 10 );
+             g2ds.setColor(Color.BLACK);
+             g2ds.drawLine((11/2)*67 + 67/2 - 5, (7/2)*67 + 67/2, (11/2)*67 + 67/2 + 5, (7/2)*67 + 67/2 );
+             g2ds.drawLine((11/2)*67 + 67/2 , (7/2)*67 + 67/2 - 5, (11/2)*67 + 67/2, (7/2)*67 + 67/2 + 5 );
 
             return tempImg;
         }
 
-        private BufferedImage drawOffsetSubsectionOfMap(int x, int y, boolean[] types) {
-
-
-            BufferedImage tempImg = new BufferedImage(733, 439, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2ds = (Graphics2D)tempImg.createGraphics();
-
-            for(int i = 0; i < 11; i++) {                               // tile index on sub-screen
-                for(int j = 0; j < 7; j++) {
-
-                    int xx = x + i;                                             // tile index on whole map
-                    int yy = y + j;
-
-                    if(xx < 0)              // adjust if out of bounds
-                        xx = 0;
-                    else if (xx > 19)
-                        xx = 19;
-
-                    if(yy < 0)
-                        yy = 0;
-                    else if(yy > 19)
-                        yy = 19;
-
-                    int x_offsett = 0;
-                    int y_offsett = 0;
-                    if(types[0] == true) {
-                        x_offsett = -67/2;
-                    }
-                    if(types[2] == true) {
-                        x_offsett = 67/2;
-                    }
-                    else if(types[1] == true) {
-                        y_offsett = -67/2;
-                    }
-                    else if(types[3] == true) {
-                        y_offsett = 67/2;
-                    }
-
-                    if( grid[xx][yy].getTerrain() instanceof Mountains) {
-                        g2ds.drawImage(tileImage_1, i*67 + x_offsett, j*67 + y_offsett, null);
-                    }
-                    else if ( grid[xx][yy].getTerrain() instanceof Crater) {
-                        g2ds.drawImage(tileImage_2, i*67 + x_offsett, j*67 + y_offsett, null);
-                    }
-                    else if ( grid[xx][yy].getTerrain() instanceof Desert) {
-                        g2ds.drawImage(tileImage_3, i*67 + x_offsett, j*67 + y_offsett, null);
-                    }
-                    else if ( grid[xx][yy].getTerrain() instanceof FlatLand) {
-                        g2ds.drawImage(tileImage_4, i*67 + x_offsett, j*67 + y_offsett, null);
-                    }
-
-
-                    if( grid[xx][yy].getResource() instanceof MoonRocks) {
-                        g2ds.drawImage(moonRockImage, i*67, j*67, null);
-                    }
-                    if ( grid[xx][yy].getResource() instanceof MoneyBag) {
-                        g2ds.drawImage(moneyBagImage, i*67, j*67, null);
-                    }
-                    if ( grid[xx][yy].getResource() instanceof HieroglyphicBooks) {
-                        g2ds.drawImage(hieroglyphicBookImage, i*67, j*67, null);
-                    }
-
-                }
-            }
-
-             g2ds.setColor(Color.ORANGE);
-             g2ds.drawLine((11/2)*67 + 67/2 - 10, (7/2)*67 + 67/2, (11/2)*67 + 67/2 + 10, (7/2)*67 + 67/2 );
-             g2ds.drawLine((11/2)*67 + 67/2 , (7/2)*67 + 67/2 - 10, (11/2)*67 + 67/2, (7/2)*67 + 67/2 + 10 );
-
-            return tempImg;
-        }
+//        private BufferedImage drawOffsetSubsectionOfMap(int x, int y, boolean[] types) {
+//
+//
+//            BufferedImage tempImg = new BufferedImage(733, 439, BufferedImage.TYPE_INT_ARGB);
+//            Graphics2D g2ds = (Graphics2D)tempImg.createGraphics();
+//
+//            for(int i = 0; i < 11; i++) {                               // tile index on sub-screen
+//                for(int j = 0; j < 7; j++) {
+//
+//                    int xx = x + i;                                             // tile index on whole map
+//                    int yy = y + j;
+//
+//                    if(xx < 0)              // adjust if out of bounds
+//                        xx = 0;
+//                    else if (xx > 19)
+//                        xx = 19;
+//
+//                    if(yy < 0)
+//                        yy = 0;
+//                    else if(yy > 19)
+//                        yy = 19;
+//
+//                    int x_offsett = 0;
+//                    int y_offsett = 0;
+//                    if(types[0] == true) {
+//                        x_offsett = -67/2;
+//                    }
+//                    if(types[2] == true) {
+//                        x_offsett = 67/2;
+//                    }
+//                    else if(types[1] == true) {
+//                        y_offsett = -67/2;
+//                    }
+//                    else if(types[3] == true) {
+//                        y_offsett = 67/2;
+//                    }
+//
+//                    if( grid[xx][yy].getTerrain() instanceof Mountains) {
+//                        g2ds.drawImage(tileImage_1, i*67 + x_offsett, j*67 + y_offsett, null);
+//                    }
+//                    else if ( grid[xx][yy].getTerrain() instanceof Crater) {
+//                        g2ds.drawImage(tileImage_2, i*67 + x_offsett, j*67 + y_offsett, null);
+//                    }
+//                    else if ( grid[xx][yy].getTerrain() instanceof Desert) {
+//                        g2ds.drawImage(tileImage_3, i*67 + x_offsett, j*67 + y_offsett, null);
+//                    }
+//                    else if ( grid[xx][yy].getTerrain() instanceof FlatLand) {
+//                        g2ds.drawImage(tileImage_4, i*67 + x_offsett, j*67 + y_offsett, null);
+//                    }
+//
+//
+//                    if( grid[xx][yy].getResource() instanceof MoonRocks) {
+//                        g2ds.drawImage(moonRockImage, i*67, j*67, null);
+//                    }
+//                    if ( grid[xx][yy].getResource() instanceof MoneyBag) {
+//                        g2ds.drawImage(moneyBagImage, i*67, j*67, null);
+//                    }
+//                    if ( grid[xx][yy].getResource() instanceof HieroglyphicBooks) {
+//                        g2ds.drawImage(hieroglyphicBookImage, i*67, j*67, null);
+//                    }
+//
+//                }
+//            }
+//
+//             g2ds.setColor(Color.ORANGE);
+//             g2ds.drawLine((11/2)*67 + 67/2 - 10, (7/2)*67 + 67/2, (11/2)*67 + 67/2 + 10, (7/2)*67 + 67/2 );
+//             g2ds.drawLine((11/2)*67 + 67/2 , (7/2)*67 + 67/2 - 10, (11/2)*67 + 67/2, (7/2)*67 + 67/2 + 10 );
+//
+//            return tempImg;
+//        }
 
 
         public void paintComponent( Graphics g )
@@ -426,4 +419,15 @@ public class MainViewImage extends JPanel implements MouseListener {
 
             }
         }
+
+    class AnimateMapThread extends Thread {
+        Map map;
+        AnimateMapThread(Map map) {
+            this.map = map;
+        }
+
+        public void run() {
+            System.out.println("wow");
+        }
+    }
 }
