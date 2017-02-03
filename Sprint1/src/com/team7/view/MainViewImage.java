@@ -184,7 +184,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                             if( units.get(n) instanceof Explorer)
                                 explorerCount++;
                         }
-                        System.out.println("tile[" + xx + "][" + yy + "] has " + colonistCount + " colonist and " + explorerCount + " explorer(s)");
+                        //System.out.println("tile[" + xx + "][" + yy + "] has " + colonistCount + " colonist and " + explorerCount + " explorer(s)");
                         if(colonistCount != 0) {
                             g2ds.drawImage(colonistImage, x_coord, y_coord, null);
                             g2ds.drawString( Integer.toString( colonistCount ), x_coord, y_coord + 45);
@@ -308,17 +308,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                                     y_diff -= delta_y;
                                 }
 
-//                                if(x_center < 0)              // adjust if out of bounds
-//                                    x_center = 0;
-//                                else if (x_center >= 20 - TILES_VISIBLE_X - 1)
-//                                    x_center = 20 - TILES_VISIBLE_X/2 - 1;
-//
-//                                if(y_center < 0)
-//                                    y_center = 0;
-//                                else if(y_center >= 20 - TILES_VISIBLE_Y/2 - 1)
-//                                    y_center = 20 - TILES_VISIBLE_Y/2 - 1;
-
-                                System.out.println("get frame focus at (" + (int)x_center + ", " + (int)y_center + ")" );
+                                // System.out.println("get frame focus at (" + (int)x_center + ", " + (int)y_center + ")" );
 
                                 final BufferedImage mapSubsection = drawSubsectionOfMap(x_center, y_center);
                                 SwingUtilities.invokeLater( new Runnable()   // queue frame i on EDT for display
@@ -350,7 +340,7 @@ public class MainViewImage extends JPanel implements MouseListener {
         }
 
         public void run() {
-            System.out.println("wow");
+            // System.out.println("wow");
         }
     }
 }

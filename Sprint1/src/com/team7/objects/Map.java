@@ -95,20 +95,20 @@ public class Map {
 
         if(tile.getTerrain() instanceof Desert){
 //            System.out.print("Checked instance of Desert");
-            populateAreaEffects(tile,0.1); // Populate Area Effects depending on terrain type
-            populateItem(tile,0.05); // Populate Item depending on terrain type
-            populateResource(tile,0.05);// Populate Item depending on terrain type
+            populateAreaEffects(tile,0.1/2); // Populate Area Effects depending on terrain type
+            populateItem(tile,0.05/2); // Populate Item depending on terrain type
+            populateResource(tile,0.05/2);// Populate Item depending on terrain type
 
         }
         else if(tile.getTerrain() instanceof FlatLand){
-            populateAreaEffects(tile,0.2);
-            populateItem(tile,0.15);
-            populateResource(tile,0.3);
+            populateAreaEffects(tile,0.2/2);
+            populateItem(tile,0.15/2);
+            populateResource(tile,0.3/2);
         }
         else if(tile.getTerrain() instanceof Crater){
-            populateAreaEffects(tile,0.2);
-            populateItem(tile,0.05);
-            populateResource(tile, 0.25);
+            populateAreaEffects(tile,0.2/2);
+            populateItem(tile,0.05/2);
+            populateResource(tile, 0.25/2);
         }
         else if(tile.getTerrain() instanceof Mountains){
             populateAreaEffects(tile,0);
