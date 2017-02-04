@@ -22,7 +22,7 @@ public class MoveUnitTest {
         Navigator navigator = new Navigator(game.getMap(),game.getCurrentPlayer().getUnits().get(0));
         assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getxCoordinate(), 17);
         assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getyCoordinate(), 3);
-        navigator.parseInputCommand("1");
+        navigator.parseInputCommand('1');
         navigator.updateModel();
         assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getxCoordinate(), 18);
         assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getyCoordinate(), 2);
@@ -35,12 +35,12 @@ public class MoveUnitTest {
         Navigator navigator = new Navigator(game.getMap(),game.getCurrentPlayer().getUnits().get(0));
         assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getxCoordinate(), 17);
         assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getyCoordinate(), 3);
-        navigator.parseInputCommand("1");
-        navigator.parseInputCommand("1");
-        navigator.parseInputCommand("1");
-        navigator.parseInputCommand("1");
-        navigator.parseInputCommand("1");
-        navigator.parseInputCommand("1");
+        navigator.parseInputCommand('1');
+        navigator.parseInputCommand('1');
+        navigator.parseInputCommand('1');
+        navigator.parseInputCommand('1');
+        navigator.parseInputCommand('1');
+        navigator.parseInputCommand('1');
     }
     @Test
     public void checkResourceEffect() throws Exception{
@@ -50,11 +50,11 @@ public class MoveUnitTest {
         game.getMap().getTile(18,2).setResource(new MoneyBag());
         Navigator navigator = new Navigator(game.getMap(),game.getCurrentPlayer().getUnits().get(0));
         int previous = game.getCurrentPlayer().getMoney();
-        navigator.parseInputCommand("1");
+        navigator.parseInputCommand('1');
         navigator.updateModel();
-        navigator.parseInputCommand("9");
+        navigator.parseInputCommand('9');
         navigator.updateModel();
-        navigator.parseInputCommand("9");
+        navigator.parseInputCommand('9');
         navigator.updateModel();
 
         assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getxCoordinate(),16);
@@ -70,9 +70,9 @@ public class MoveUnitTest {
         game.getMap().getTile(18,2).setAreaEffect(new Storm());
         int oldHealth = game.getCurrentPlayer().getUnits().get(0).getUnitStats().getHealth();
         Navigator navigator = new Navigator(game.getMap(),game.getCurrentPlayer().getUnits().get(0));
-        navigator.parseInputCommand("1");
+        navigator.parseInputCommand('1');
         navigator.updateModel();
-        navigator.parseInputCommand("9");
+        navigator.parseInputCommand('9');
         navigator.updateModel();
         assertTrue(game.getCurrentPlayer().getUnits().get(0).getUnitStats().getHealth() < oldHealth);
         assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getxCoordinate(),17);
@@ -80,12 +80,17 @@ public class MoveUnitTest {
 
     }
 
-    @Test
+    @Test //not working
     public void checkInstantDeath() throws Exception{
         Game game = new Game(new Player(),new Player());
         game.startGame();
         game.getMap().getTile(18, 2).clearTile();
         game.getMap().getTile(18,2).setAreaEffect(new VolcanicVent());
+        Navigator navigator = new Navigator(game.getMap(),game.getCurrentPlayer().getUnits().get(0));
+        navigator.parseInputCommand('1');
+        navigator.parseInputCommand('9');
+        navigator.updateModel();
+        System.out.println(game.getCurrentPlayer().getUnits().get(0).getUnitStats().getHealth());
 
     }
 
