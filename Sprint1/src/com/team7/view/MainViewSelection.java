@@ -11,6 +11,7 @@ class MainViewSelection extends JPanel implements MouseListener {
     private Graphics2D g2d;
     private final static int WIDTH = 200;
     private final static int HEIGHT = 200;
+    private MainViewImage mainViewImage;
     //
     public int x_center, y_center;    // where the window in focused on
 
@@ -73,8 +74,24 @@ class MainViewSelection extends JPanel implements MouseListener {
 
     public void mouseClicked(MouseEvent e) {
 
-//        double x_offset = ( e.getX() );
-//        double y_offset = ( e.getY() );
+        double x_offset = ( (double)e.getX() / WIDTH ) * 20;
+        double y_offset = ( (double)e.getY() / HEIGHT ) * 20;
 
+        if(x_offset < 0)              // adjust if out of bounds
+            x_offset = 0;
+        else if (x_offset >= 20 - 11)
+            x_offset = 20 - 11;
+
+        if(y_offset < 0)
+            y_offset = 0;
+        else if(y_offset >= 20 - 7)
+            y_offset = 20 - 7;
+
+        setFocus((int)x_offset, (int)y_offset);
+        mainViewImage.zoomToDestination( (int)x_offset, (int)y_offset );
+    }
+
+    public void setMainViewImage(MainViewImage mainViewImage) {
+        this.mainViewImage = mainViewImage;
     }
 }
