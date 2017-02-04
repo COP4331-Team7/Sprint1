@@ -62,37 +62,37 @@ public class Navigator {
 
 
     //when arrow key is pressed
-    public boolean parseInputCommand(String command){
+    public boolean parseInputCommand(char command){
         int tmpX = x;
         int tmpY = y;
         switch (command){
-            case "1":       //SW
+            case '1':       //SW
                 tmpX++;
                 tmpY--;
                 break;
-            case "2":       //S
+            case '2':       //S
                 tmpX++;
                 break;
-            case "3":       //SE
+            case '3':       //SE
                 tmpX++;
                 tmpY++;
                 break;
-            case "4":       //W
+            case '4':       //W
                 tmpY--;
                 break;
             //case "5": center
             //    break;
-            case "6":       //E
+            case '6':       //E
                 tmpY++;
                 break;
-            case "7":       //NW
+            case '7':       //NW
                 tmpX--;
                 tmpY--;
                 break;
-            case "8":       //N
+            case '8':       //N
                 tmpX--;
                 break;
-            case "9":       //NE
+            case '9':       //NE
                 tmpX--;
                 tmpY++;
                 break;
@@ -152,7 +152,7 @@ public class Navigator {
         return health > 0;
     }
     //calculate all tile effects
-    //TODO add instant death
+    //TODO test instant death
     private void calculateNetEffectByTile(Tile currentTile) {
 
         //AreaEffect
