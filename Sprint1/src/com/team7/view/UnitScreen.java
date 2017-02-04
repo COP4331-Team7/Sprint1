@@ -23,9 +23,15 @@ public class UnitScreen extends JPanel {
     private JScrollPane jScrollPane = null;
     private JScrollPane queueScrollPane;
     private Unit[] units;
-    private JList list1 = new JList();
+    private Army[] armies;
+    private JList unitList = new JList();
     private JList queue = new JList();
+    JList armyList = new JList();
     private JTextArea textArea = new JTextArea();
+    private int selectedArmy;
+
+    //Buttons to be accessed by UnitScreenController
+    JButton addArmy = new JButton("CREATE ARMY");
 
     public UnitScreen() {
 
@@ -46,7 +52,7 @@ public class UnitScreen extends JPanel {
         JPanel queuePane = new JPanel(new BorderLayout());
 
         //Populates the unit list with the current Player's units
-        list1.setModel(new AbstractListModel() {
+        unitList.setModel(new AbstractListModel() {
             //Testing artifacts
             Tile t = new Tile();
             Player p = new Player();
@@ -61,13 +67,14 @@ public class UnitScreen extends JPanel {
                     new Colonist(t,p), new Explorer(t, p),
                     new Colonist(t,p), new Explorer(t, p),
                     new Colonist(t,p)};
+
             @Override
             public int getSize() {
                 return units.length;
             }
 
             @Override
-            public Object getElementAt(int index) {
+            public String getElementAt(int index) {
                 return units[index].getType() + " " + units[index].getId();
             }
         });
@@ -78,12 +85,12 @@ public class UnitScreen extends JPanel {
             }
 
             @Override
-            public Object getElementAt(int index) {
+            public String getElementAt(int index) {
                 return null;
             }
         });
         //Listens for any changes in selected unit
-        list1.addListSelectionListener(new ListSelectionListener() {
+        unitList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 changeListVal(e);
@@ -95,7 +102,7 @@ public class UnitScreen extends JPanel {
         queueScrollPane.setMaximumSize(new Dimension(200,400));
         queueScrollPane.setPreferredSize(new Dimension(200, 200));
         queuePane.setMaximumSize(new Dimension(200,400));
-        JLabel queueLabel = new JLabel("Command Queue");
+        JLabel queueLabel = new JLabel("Command Queue", SwingConstants.CENTER);
         queuePane.add(queueLabel, BorderLayout.NORTH);
         queuePane.add(queueScrollPane);
         queue.setVisibleRowCount(10);
@@ -112,21 +119,39 @@ public class UnitScreen extends JPanel {
         textBox.add(textArea);
 
         //Format unit list
-        jScrollPane = new JScrollPane(list1);
+        jScrollPane = new JScrollPane(unitList);
         jScrollPane.setPreferredSize(new Dimension(200, 200));
         JPanel scrollBox = new JPanel(new BorderLayout());
         scrollBox.setMaximumSize(new Dimension(200,400));
         JLabel unitSelectLabel = new JLabel("Unit List", SwingConstants.CENTER);
         scrollBox.add(unitSelectLabel, BorderLayout.NORTH);
         scrollBox.add(jScrollPane);
-        list1.setVisibleRowCount(10);
+        unitList.setVisibleRowCount(10);
 
         //Format Army Select Box
-        JPanel ArmyFormatter = new JPanel(new GridLayout(1,3));
-        ArmyFormatter.add(new JLabel());
-        ArmySelectButtons buttons = new ArmySelectButtons();
-        ArmyFormatter.add(buttons);
-        ArmyFormatter.add(new JLabel());
+        armyList.setModel(new AbstractListModel() {
+            @Override
+            public int getSize() {
+                return armies.length;
+            }
+
+            @Override
+            public String getElementAt(int index) {
+                return armies[index].getName();
+            }
+        });
+        armyList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                changeArmyVal(e);
+            }
+        });
+        JPanel armyPanel = new JPanel(new BorderLayout());
+        JLabel armySelectLabel = new JLabel("Army Select", SwingConstants.CENTER);
+        armyPanel.add(armySelectLabel, BorderLayout.NORTH);
+        JScrollPane scrollArmyPane = new JScrollPane(armyList);
+        armyPanel.add(scrollArmyPane, BorderLayout.CENTER);
+        armyPanel.add(addArmy, BorderLayout.SOUTH);
 
 
 
@@ -134,11 +159,11 @@ public class UnitScreen extends JPanel {
         JPanel unitOverviewComponents = new JPanel();
         unitOverviewComponents.setLayout(new GridLayout(2,3));
         unitOverviewComponents.add(scrollBox);
-        unitOverviewComponents.add(queueScrollPane);
+        unitOverviewComponents.add(queuePane);
         unitOverviewComponents.add(textBox);
-        unitOverviewComponents.add(ArmyFormatter);
-        unitOverviewComponents.add(new JLabel());
-        unitOverviewComponents.add(new JLabel());
+        unitOverviewComponents.add(armyPanel);
+        unitOverviewComponents.add(new JLabel("Spacer"));
+        unitOverviewComponents.add(new JLabel("Spacer2"));
 
         scrollBox.setPreferredSize(new Dimension(400, 500));
         textBox.setMaximumSize(new Dimension(400, 400));
@@ -151,9 +176,14 @@ public class UnitScreen extends JPanel {
     }
 
     private void changeListVal(javax.swing.event.ListSelectionEvent e) {
-        String s = (String)list1.getSelectedValue();
+        String s = (String)unitList.getSelectedValue();
         String stats = getStats(s);
         textArea.setText(stats);
+    }
+
+    private void changeArmyVal(javax.swing.event.ListSelectionEvent e) {
+        String s = (String)armyList.getSelectedValue();
+        selectedArmy = Integer.valueOf(s.substring(5));
     }
 
     //--TODO-- Missing functionallity in unit to complete this function
@@ -165,6 +195,7 @@ public class UnitScreen extends JPanel {
             //Fetch command from this unit's army
         }
     }
+
 
     //Finds Unit stats and Unit queue, otherwise display error message
     private String getStats(String unitString) {
@@ -190,5 +221,18 @@ public class UnitScreen extends JPanel {
     public void setUnits(ArrayList<Unit> unitList) {
         this.units = unitList.toArray(new Unit[unitList.size()]);
         repaint();
+    }
+
+    public void setArmies(ArrayList<Army> armyList) {
+        this.armies = armyList.toArray(new Army[armyList.size()]);
+    }
+
+    //Getter methods for every button to be acccessed by the UnitScreenController
+    public JButton getAddArmyButton() {
+        return addArmy;
+    }
+
+    public JList getUnitList() {
+        return unitList;
     }
 }
