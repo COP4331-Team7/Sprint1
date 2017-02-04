@@ -20,6 +20,8 @@ public class Explorer extends NonCombatUnit {
         setLocation(startTile);
         setMovesFrozen(0);
         setType("Explorer");
+        setAttackDirection(0);
+        setDefenseDirection(0);
     }
 
     public int takeId() {

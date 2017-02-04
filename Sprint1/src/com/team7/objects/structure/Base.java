@@ -63,7 +63,6 @@ public class Base extends Structure {
             this.getLocation().getUnits().get(i).getUnitStats().setHealth(this.getLocation().getUnits().get(i).getUnitStats().getHealth() + 25);
         }
 
-
     }
 
 

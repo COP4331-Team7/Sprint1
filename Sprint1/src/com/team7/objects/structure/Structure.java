@@ -13,6 +13,8 @@ public abstract class Structure {
     private CommandQueue commandQueue;
     private boolean isPowered;
     int movesFrozen;
+    private int attackDirection;
+    private int defenseDirection;
 
 
     public Tile getLocation() {
@@ -90,5 +92,21 @@ public abstract class Structure {
 
     public void setMovesFrozen(int movesFrozen) {
         this.movesFrozen = movesFrozen;
+    }
+
+    public int getAttackDirection() {
+        return attackDirection;
+    }
+
+    public void setAttackDirection(int attackDirection) {
+        this.attackDirection = attackDirection;
+    }
+
+    public int getDefenseDirection() {
+        return defenseDirection;
+    }
+
+    public void setDefenseDirection(int defenseDirection) {
+        this.defenseDirection = defenseDirection;
     }
 }

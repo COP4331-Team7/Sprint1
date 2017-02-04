@@ -15,10 +15,11 @@ public class Army {
     private CommandQueue commands;
     private int slowestSpeed; // Moves with speed of slowest unit
     private Tile rallyPoint;
-    private int direction;
+    private int attackDirection;
+    private int defenseDirection;
     private boolean isPowered;
     private int turnsFrozen;
-    private String name; 
+    private String name;
 
 
 
@@ -29,7 +30,8 @@ public class Army {
         this.owner = player;
         this.slowestSpeed = 100;
         this.rallyPoint = startTile;
-        this.direction = 0;
+        this.attackDirection = 0;
+        this.defenseDirection = 0;
         this.isPowered = true;
         this.turnsFrozen = 0;
         this.name = "Army " + id; 
@@ -97,13 +99,6 @@ public class Army {
         this.rallyPoint = rallyPoint;
     }
 
-    public int getDirection() {
-        return direction;
-    }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
 
     public boolean isPowered() {
         return isPowered;
@@ -158,6 +153,30 @@ public class Army {
     }
     public String getName() {
         return name;
+    }
+
+    public int getAttackDirection() {
+        return attackDirection;
+    }
+
+    public void setAttackDirection(int attackDirection) {
+        this.attackDirection = attackDirection;
+    }
+
+    public int getDefenseDirection() {
+        return defenseDirection;
+    }
+
+    public void setDefenseDirection(int defenseDirection) {
+        this.defenseDirection = defenseDirection;
+    }
+
+    public void setPowered(boolean powered) {
+        isPowered = powered;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     // function processQueue will take in a string, and check for validity,

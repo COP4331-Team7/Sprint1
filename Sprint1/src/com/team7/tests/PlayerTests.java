@@ -6,6 +6,7 @@ import com.team7.objects.Map;
 import com.team7.objects.structure.Base;
 import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.combatUnit.CombatUnit;
 import com.team7.objects.unit.combatUnit.MeleeUnit;
 import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
@@ -183,6 +184,32 @@ public class PlayerTests {
 
     }
 
+
+
+    @Test
+    // This could be placed in unit tests but this tests unit attacks
+    public void testAttack() throws Exception {
+
+        // create map and player
+        Map map = new Map();
+        Player testPLayer = new Player();
+
+        // create units and give them to player
+        Unit melee = new MeleeUnit(map.getGrid()[17][2], testPLayer);
+        Unit ranged = new RangedUnit(map.getGrid()[18][2], testPLayer);
+        testPLayer.addUnit(melee);
+        testPLayer.addUnit(ranged);
+
+
+        if(testPLayer.getUnits().get(0) instanceof CombatUnit ){
+            ((CombatUnit) testPLayer.getUnits().get(0)).attack(0);
+        }
+
+        if(testPLayer.getUnits().get(0) instanceof CombatUnit ){
+            ((CombatUnit) testPLayer.getUnits().get(1)).attack(0);
+        }
+
+    }
 
 
 

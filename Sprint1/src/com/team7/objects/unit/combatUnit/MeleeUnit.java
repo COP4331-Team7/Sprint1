@@ -20,5 +20,13 @@ public class MeleeUnit extends CombatUnit{
         setLocation(startTile);
         setType("Melee");
         setMovesFrozen(0);
+        setAttackDirection(0);
+        setDefenseDirection(0);
     }
+
+    public void attack(int dir){
+        System.out.println("Melee attack:" + dir);
+    }
+
+
 }
