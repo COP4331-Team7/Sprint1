@@ -10,7 +10,7 @@ import com.team7.objects.Tile;
 public class Colonist extends NonCombatUnit {
 
 	public Colonist(Tile startTile, Player player){
-	    UnitStats stats = new UnitStats(0, 0, 0, 5, 100, 1);
+	    UnitStats stats = new UnitStats(0, 0, 5, 5, 100, 1);
         int id = ProbabilityGenerator.randomInteger(0, 99999);
 		setOwner(player);
 		setArmy(null);

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Command extends JPanel implements KeyListener {
 
     private Player currentPlayer = null;
+    private  MainViewInfo statusInfo;
 
     JLabel modeLabel;
     JLabel typeLabel;
@@ -73,7 +74,9 @@ public class Command extends JPanel implements KeyListener {
     private static final int RIGHT_KEY_CODE = 39;
     private static final int DOWN_KEY_CODE = 40;
 
-    public Command() {
+    public Command(MainViewInfo statusInfo) {
+
+        this.statusInfo = statusInfo;
 
         JPanel commandSelectPanel = new JPanel();
         commandSelectPanel.setLayout(new GridLayout(0,1));
@@ -124,6 +127,7 @@ public class Command extends JPanel implements KeyListener {
 
         if(currTypeInstance == -1) {
             typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): ");
+            statusInfo.clearStats();
 
         }
         else if(currMode == 2 && currType == 1) { // get list of player's Colonist instances
@@ -136,6 +140,7 @@ public class Command extends JPanel implements KeyListener {
                     }
                 }
                 typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?colonists.get(currTypeInstance).getId():""));
+                statusInfo.setUnit( colonists.get(currTypeInstance) );
             }
         }
         else if(currMode == 2 && currType == 0) { // get list of player's Colonist instances
@@ -148,6 +153,7 @@ public class Command extends JPanel implements KeyListener {
                     }
                 }
                 typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?explorers.get(currTypeInstance).getId():""));
+                statusInfo.setUnit( explorers.get(currTypeInstance) );
             }
         }
         else if(currMode == 2 && currType == 2) { // get list of player's Ranged Unit instances
@@ -161,7 +167,7 @@ public class Command extends JPanel implements KeyListener {
                 }
             }
             typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?rangeUnits.get(currTypeInstance).getId():""));
-
+            statusInfo.setUnit( rangeUnits.get(currTypeInstance) );
         }
         else if(currMode == 2 && currType == 3) { // get list of player's Melee Unit instances
             ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
@@ -174,6 +180,7 @@ public class Command extends JPanel implements KeyListener {
                 }
             }
             typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?meleeUnits.get(currTypeInstance).getId():""));
+            statusInfo.setUnit( meleeUnits.get(currTypeInstance) );
         }
 
     }
