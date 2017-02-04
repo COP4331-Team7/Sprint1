@@ -3,6 +3,9 @@ package com.team7.controller;
 import com.team7.view.*;
 import com.team7.objects.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class MainScreenController {
  private Game game;
  private View view;
@@ -12,6 +15,8 @@ public class MainScreenController {
         this.view = view;
         setMap( game.getMap() );
         setCurrentPlayer( game.getCurrentPlayer() );
+
+        addActionListeners();
     }
 
     public void setMap(  Map map ) {
@@ -21,6 +26,16 @@ public class MainScreenController {
     public void setCurrentPlayer( Player player ) {
         view.getScreen().getMainScreen().getMainViewImage().setCurrentPlayer( player );
         view.getScreen().getMainScreen().getCommand().setCurrentPlayer(  player );
+    }
+
+    private void addActionListeners() {
+        view.getScreen().getMainScreen().getCommand().getEndTurnButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == view.getScreen().getMainScreen().getCommand().getEndTurnButton()) {
+                    game.nextTurn();
+                }
+            }
+        } );
     }
 
 

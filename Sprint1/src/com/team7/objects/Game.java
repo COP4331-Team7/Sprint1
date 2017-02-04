@@ -22,7 +22,7 @@ public class Game {
     public Game(Player p1, Player p2) {
         players[0] = p1;
         players[1] = p2;
-        turn = 1;
+        turn = 0;
         currentPlayer = players[0];
     }
 
@@ -60,7 +60,8 @@ public class Game {
         else 
             currentPlayer = players[0];
         
-        turn += 1 % 2;
+        turn = ++turn % 2;
+        System.out.println("Player " + turn + " is in control.");
     }
 
     //Get the current player

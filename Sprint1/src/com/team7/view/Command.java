@@ -348,4 +348,8 @@ public class Command extends JPanel implements KeyListener {
         this.currentPlayer = player;
     }
 
+    public JButton getEndTurnButton() {
+        return endTurnButton;
+    }
+
 }
