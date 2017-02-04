@@ -1,11 +1,13 @@
 package com.team7.controller;
 
+import com.team7.objects.unit.Unit;
 import com.team7.view.*;
 import com.team7.objects.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainScreenController {
  private Game game;
@@ -39,6 +41,8 @@ public class MainScreenController {
                     view.getScreen().getMainScreen().getMainViewInfo().clearStats();
                     view.getScreen().getMainScreen().getCommand().clearCommand();
                     setCurrentPlayer( game.getCurrentPlayer() );
+                    view.getScreen().getUnitScreen().setArmies((ArrayList<Army>) game.getCurrentPlayer().getArmies());
+                    view.getScreen().getUnitScreen().setUnits((ArrayList<Unit>) game.getCurrentPlayer().getUnits());
                     view.getScreen().getMainScreen().giveCommandFocus();
                 }
             }

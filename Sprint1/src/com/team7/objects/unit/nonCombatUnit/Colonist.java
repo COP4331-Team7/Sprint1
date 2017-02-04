@@ -12,7 +12,7 @@ public class Colonist extends NonCombatUnit {
 	private static int ids = 1;
 
 	public Colonist(Tile startTile, Player player){
-	    UnitStats stats = new UnitStats(0, 0, 5, 5, 100, 1);
+	    UnitStats stats = new UnitStats(0, 0, 5, 5, 100, 3);
         //int id = ProbabilityGenerator.randomInteger(0, 99999);
 		setOwner(player);
 		setArmy(null);

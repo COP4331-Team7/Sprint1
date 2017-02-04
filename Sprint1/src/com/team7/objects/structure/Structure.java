@@ -46,6 +46,18 @@ public abstract class Structure {
         isPowered = powered;
     }
 
+    public void powerUp() {
+
+        // TODO: fill out what happens to structure when power up happens (frozen?)
+        isPowered = true;
+    }
+
+    public void powerDown() {
+        // TODO: fill out what happens to structure when power down happens (frozen?)
+        isPowered = false;
+    }
+
+
     public int getId() {
         return id;
     }

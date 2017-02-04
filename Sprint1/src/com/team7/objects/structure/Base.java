@@ -21,7 +21,7 @@ public class Base extends Structure {
         productionRateMap.put("Explorer", 1);
 
         setOwner(player);
-        setStats(new StructureStats(0, 0, 0, productionRateMap, 300, 2));
+        setStats(new StructureStats(0, 0, 0, productionRateMap, 300, 8));
         setLocation(startTile);
         setCommandQueue(new CommandQueue()); //create reference to a CommandQueue
         setPowered(true); //a Base is powered upon creation
@@ -54,5 +54,16 @@ public class Base extends Structure {
 
         return unit;
     }
+
+
+    public void healUnits() {
+
+        for(int i = 0; i < this.getLocation().getUnits().size(); i++){
+            this.getLocation().getUnits().get(i).getUnitStats().setHealth(this.getLocation().getUnits().get(i).getUnitStats().getHealth() + 25);
+        }
+
+
+    }
+
 
 }

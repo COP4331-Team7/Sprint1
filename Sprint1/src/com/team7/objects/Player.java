@@ -24,7 +24,7 @@ public class Player {
         armies = new ArrayList<Army>();                              // max size should be 10
         research = 0;
         construction = 0;
-        money = 100;
+        money = 500;
         noUnits = true;
         noStructures = true;
         noArmies = true;
