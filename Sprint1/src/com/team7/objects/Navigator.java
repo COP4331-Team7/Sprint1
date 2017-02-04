@@ -157,6 +157,10 @@ public class Navigator {
 
         //AreaEffect
         if (currentTile.getAreaEffect() != null){
+            if(currentTile.getAreaEffect().isInstantDeath()){
+                health = 0; //instant death will set health to 0
+                return;
+            }
            health += currentTile.getAreaEffect().getHealthEffect();
         }
 
