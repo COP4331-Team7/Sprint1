@@ -21,6 +21,9 @@ public class Colonist extends NonCombatUnit {
 	    setId( takeId() );
 	    setLocation(startTile);
 	    setType("Colonist");
+	    setMovesFrozen(0);
+	    setAttackDirection(0);
+	    setDefenseDirection(0);
     }
 
     // Build a base on the tile, give it to the player and sacrifice colonist

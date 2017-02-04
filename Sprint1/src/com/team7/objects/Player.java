@@ -39,6 +39,8 @@ public class Player {
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
         subtractUpkeep();           // subtracts upkeep from all units/structures, ends game if money = 0
+        subtractMovesFrozen();      // subtracts moves frozen from anything that is frozen
+
     }
 
 
@@ -276,6 +278,25 @@ public class Player {
             noStructures = true;
             noUnits = true;
             noArmies = true;
+        }
+
+    }
+
+
+    public void subtractMovesFrozen() {
+
+        // subtract one from moves frozen for all frozen units
+        for(int i = 0; i < this.units.size(); i++){
+            if(this.units.get(i).getMovesFrozen() > 0) {
+                this.units.get(i).setMovesFrozen(this.units.get(i).getMovesFrozen() - 1);
+            }
+        }
+
+        // subtract one from moves frozen for all frozen structures
+        for(int i = 0; i < this.structures.size(); i++){
+            if(this.structures.get(i).getMovesFrozen() > 0) {
+                this.structures.get(i).setMovesFrozen(this.structures.get(i).getMovesFrozen() - 1);
+            }
         }
 
     }

@@ -25,6 +25,7 @@ public class Base extends Structure {
         setLocation(startTile);
         setCommandQueue(new CommandQueue()); //create reference to a CommandQueue
         setPowered(true); //a Base is powered upon creation
+        setMovesFrozen(0);
     }
 
 
@@ -61,7 +62,6 @@ public class Base extends Structure {
         for(int i = 0; i < this.getLocation().getUnits().size(); i++){
             this.getLocation().getUnits().get(i).getUnitStats().setHealth(this.getLocation().getUnits().get(i).getUnitStats().getHealth() + 25);
         }
-
 
     }
 

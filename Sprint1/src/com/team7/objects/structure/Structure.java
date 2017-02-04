@@ -12,6 +12,9 @@ public abstract class Structure {
     private StructureStats stats;
     private CommandQueue commandQueue;
     private boolean isPowered;
+    int movesFrozen;
+    private int attackDirection;
+    private int defenseDirection;
 
 
     public Tile getLocation() {
@@ -46,14 +49,22 @@ public abstract class Structure {
         isPowered = powered;
     }
 
+    public void decommission() {
+        this.getStats().setHealth(0);
+    }
+
     public void powerUp() {
 
-        // TODO: fill out what happens to structure when power up happens (frozen?)
+        this.getStats().setUpkeep(8);
+        this.setMovesFrozen(2);
+
         isPowered = true;
     }
 
     public void powerDown() {
-        // TODO: fill out what happens to structure when power down happens (frozen?)
+
+        this.getStats().setUpkeep(2);
+
         isPowered = false;
     }
 
@@ -72,5 +83,30 @@ public abstract class Structure {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+
+    public int getMovesFrozen() {
+        return movesFrozen;
+    }
+
+    public void setMovesFrozen(int movesFrozen) {
+        this.movesFrozen = movesFrozen;
+    }
+
+    public int getAttackDirection() {
+        return attackDirection;
+    }
+
+    public void setAttackDirection(int attackDirection) {
+        this.attackDirection = attackDirection;
+    }
+
+    public int getDefenseDirection() {
+        return defenseDirection;
+    }
+
+    public void setDefenseDirection(int defenseDirection) {
+        this.defenseDirection = defenseDirection;
     }
 }
