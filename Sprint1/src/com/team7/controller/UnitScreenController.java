@@ -27,12 +27,20 @@ public class UnitScreenController {
     }
 
     private void addActionListeners() {
+
         //Add Action Listener for "Create Army" button
         view.getScreen().getUnitScreen().getAddArmyButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getScreen().getUnitScreen().getAddArmyButton()) {
                     String unitString = (String) view.getScreen().getUnitScreen().getUnitList().getSelectedValue();
-                    System.out.println("Create Army hit with fetched unit string " + unitString);
+                    if (unitString == null) {
+                        view.getScreen().getUnitScreen().displayMessage("Select a unit to create an army with");
+                        return;
+                    } else if (game.getCurrentPlayer().getArmies().size() >= 10) {
+                        view.getScreen().getUnitScreen().displayMessage("You already have 10 armies");
+                        return;
+                    }
+                    //System.out.println("Create Army hit with fetched unit string " + unitString);
                     Unit selected = null;
                     List<Unit> units = game.getCurrentPlayer().getUnits();
                     for (Unit u : units) {
@@ -46,20 +54,38 @@ public class UnitScreenController {
                                     newArmy.addUnitToArmy(u);
                                     game.getCurrentPlayer().addArmy(newArmy);
                                     view.getScreen().getUnitScreen().getArmyModel().addElement(newArmy.getName());
+                                    view.getScreen().getUnitScreen().changeListVal();
                                     view.getScreen().getUnitScreen().repaint();
                                     System.out.println("Created " + newArmy.getName());
                                     System.out.println("There are now " + game.getCurrentPlayer().getArmies().size() + " armies.");
                                 } else {
-                                    System.out.println("That unit is already in an army"); 
+                                    view.getScreen().getUnitScreen().displayMessage("That unit is already in an army");
                                 }
                             } else {
-                                System.out.println("You can't construct an army with that type of unit");
+                                view.getScreen().getUnitScreen().displayMessage("You can't construct an army with that type of unit");
                             }
                             break;
                         }
                     }
                 } else {
                     System.out.println("ERROR");
+                }
+            }
+        });
+
+        //Add ActionListener for disband armies button
+        view.getScreen().getUnitScreen().getDisbandArmyButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getScreen().getUnitScreen().getDisbandArmyButton()) {
+                    String selectedArmy = (String) view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                    List<Army> armies = game.getCurrentPlayer().getArmies();
+
+                    for (Army a: armies) {
+                        String cur = a.getName();
+                        if (cur == selectedArmy) {
+
+                        }
+                    }
                 }
             }
         });
