@@ -23,8 +23,5 @@ public class RangedUnit extends CombatUnit {
         setDefenseDirection(0);
     }
 
-    public void attack(int dir){
-        System.out.println("Ranged attack:" + dir);
-    }
 
 }

@@ -24,9 +24,6 @@ public class MeleeUnit extends CombatUnit{
         setDefenseDirection(0);
     }
 
-    public void attack(int dir){
-        System.out.println("Melee attack:" + dir);
-    }
 
 
 }
