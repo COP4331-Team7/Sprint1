@@ -82,6 +82,13 @@ public class Map {
                 populateTile(tile);
             }
         }
+
+        Tile[] startingTiles = {grid[17][3], grid[17][4], grid[16][4],
+                grid[3][18], grid[3][17], grid[4][18]}; //the 6 starting tiles of the units
+
+        for(Tile t : startingTiles){
+            t.clearTile();      //clear all starting Tiles of resources/items
+        }
     }
 
     private void populateTile(Tile tile) {
