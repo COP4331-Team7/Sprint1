@@ -41,7 +41,6 @@ public class MainScreenController {
                     view.getScreen().getMainScreen().getMainViewInfo().clearStats();
                     view.getScreen().getMainScreen().getCommand().clearCommand();
                     setCurrentPlayer( game.getCurrentPlayer() );
-                    view.getScreen().getUnitScreen().setArmies((ArrayList<Army>) game.getCurrentPlayer().getArmies());
                     view.getScreen().getUnitScreen().setUnits((ArrayList<Unit>) game.getCurrentPlayer().getUnits());
                     view.getScreen().getMainScreen().giveCommandFocus();
                 }

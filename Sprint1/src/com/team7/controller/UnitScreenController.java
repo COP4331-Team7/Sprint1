@@ -19,36 +19,47 @@ public class UnitScreenController {
         this.game = game;
         this.view = view;
         setUnits((ArrayList<Unit>) game.getCurrentPlayer().getUnits());
-        setArmies((ArrayList<Army>)game.getCurrentPlayer().getArmies());
+        addActionListeners();
     }
 
     void setUnits(ArrayList<Unit> units) {
         view.getScreen().getUnitScreen().setUnits(units);
     }
 
-    void setArmies(ArrayList<Army> armies) {
-        view.getScreen().getUnitScreen().setArmies(armies);
-    }
-
-    void addActionListeners() {
+    private void addActionListeners() {
         //Add Action Listener for "Create Army" button
         view.getScreen().getUnitScreen().getAddArmyButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getScreen().getUnitScreen().getAddArmyButton()) {
-                    System.out.println("Create Army hit");
                     String unitString = (String) view.getScreen().getUnitScreen().getUnitList().getSelectedValue();
+                    System.out.println("Create Army hit with fetched unit string " + unitString);
                     Unit selected = null;
                     List<Unit> units = game.getCurrentPlayer().getUnits();
                     for (Unit u : units) {
                         String cur = u.getType() + " " + u.getId();
-                        if (cur == unitString) {
+                        if (cur.equals(unitString)) {
+                            System.out.println("Found unit " + u.getType());
                             selected = u;
-                            Army newArmy = new Army(selected.getLocation(), game.getCurrentPlayer());
-                            game.getCurrentPlayer().addArmy(newArmy);
-                            System.out.println("Created Army" + newArmy.getName());
+                            if (!u.getType().equals("Colonist") && !u.getType().equals("Explorer")) {
+                                if (u.getArmy() == null) {
+                                    Army newArmy = new Army(selected.getLocation(), game.getCurrentPlayer());
+                                    newArmy.addUnitToArmy(u);
+                                    game.getCurrentPlayer().addArmy(newArmy);
+                                    view.getScreen().getUnitScreen().getArmyModel().addElement(newArmy.getName());
+                                    view.getScreen().getUnitScreen().repaint();
+                                    System.out.println("Created " + newArmy.getName());
+                                    System.out.println("There are now " + game.getCurrentPlayer().getArmies().size() + " armies.");
+                                } else {
+                                    System.out.println("That unit is already in an army"); 
+                                }
+                            } else {
+                                System.out.println("You can't construct an army with that type of unit");
+                            }
                             break;
                         }
                     }
+                } else {
+                    System.out.println("ERROR");
                 }
             }
         });

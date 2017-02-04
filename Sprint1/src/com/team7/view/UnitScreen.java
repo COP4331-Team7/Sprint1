@@ -23,12 +23,14 @@ public class UnitScreen extends JPanel {
     private JScrollPane jScrollPane = null;
     private JScrollPane queueScrollPane;
     private Unit[] units;
-    private Army[] armies;
     private JList unitList = new JList();
     private JList queue = new JList();
     JList armyList = new JList();
     private JTextArea textArea = new JTextArea();
     private int selectedArmy;
+
+    //List Models
+    DefaultListModel armyModel = new DefaultListModel();
 
     //Buttons to be accessed by UnitScreenController
     JButton addArmy = new JButton("CREATE ARMY");
@@ -129,17 +131,7 @@ public class UnitScreen extends JPanel {
         unitList.setVisibleRowCount(10);
 
         //Format Army Select Box
-        armyList.setModel(new AbstractListModel() {
-            @Override
-            public int getSize() {
-                return armies.length;
-            }
-
-            @Override
-            public String getElementAt(int index) {
-                return armies[index].getName();
-            }
-        });
+        armyList.setModel(armyModel);
         armyList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -205,6 +197,11 @@ public class UnitScreen extends JPanel {
                         + "\nMovement: " + stats.getMovement()
                         + "\nHealth: " + stats.getHealth()
                         + "\nUpkeep: " + stats.getUpkeep();
+                if (u.getArmy() != null) {
+                    out += "\nArmy: " + u.getArmy().getName();
+                } else {
+                    out += "\nArmy: none";
+                }
                 return out;
             }
         }
@@ -217,8 +214,8 @@ public class UnitScreen extends JPanel {
         repaint();
     }
 
-    public void setArmies(ArrayList<Army> armyList) {
-        this.armies = armyList.toArray(new Army[armyList.size()]);
+    public DefaultListModel getArmyModel() {
+        return this.armyModel;
     }
 
     //Getter methods for every button to be acccessed by the UnitScreenController
