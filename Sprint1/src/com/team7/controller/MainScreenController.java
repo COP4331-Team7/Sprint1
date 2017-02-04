@@ -33,6 +33,18 @@ public class MainScreenController {
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == view.getScreen().getMainScreen().getCommand().getEndTurnButton()) {
                     game.nextTurn();
+                    view.getScreen().getMainScreen().getMainViewInfo().clearStats();
+                    view.getScreen().getMainScreen().getCommand().clearCommand();
+                    view.getScreen().getMainScreen().giveCommandFocus();
+                }
+            }
+        } );
+        view.getScreen().getMainScreen().getCommand().getExecuteCommandButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == view.getScreen().getMainScreen().getCommand().getExecuteCommandButton()) {
+                    System.out.println("Player " + game.getTurn() + "'s command: ");
+                    view.getScreen().getMainScreen().getCommand().extractCommand();
+                    view.getScreen().getMainScreen().giveCommandFocus();
                 }
             }
         } );

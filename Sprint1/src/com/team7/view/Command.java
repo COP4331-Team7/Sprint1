@@ -45,17 +45,17 @@ public class Command extends JPanel implements KeyListener {
                                                             "power up",
                                                             "cancel queued orders [immediate effect]"};
 
-    private final static String[] unitCommands = {"reinforce [army#]",
-                                                    "decommission [destroy—immediate, power up not required]",
-                                                     "power down",
-                                                     "power up" };
+    private final static String[] unitCommands = {    "REINFORCE",
+                                                    "DECOMMISSION",
+                                                     "POWER DOWN",
+                                                     "POWER UP" };
 
 
-    private final static String[] types = { "structure", "unit", "army" };
+    private final static String[] types = { "STRUCTURE", "UNIT", "ARMY" };
 
-    private final static String[] structureTypes = { "Base" };
+    private final static String[] structureTypes = { "BASE" };
 
-    private final static String[] unitTypes = { "Explorer", "Colonist", "Ranged Unit", "Melee Unit" };
+    private final static String[] unitTypes = { "EXPLORER", "COLONIST", "RANGED UNIT", "MELEE UNIT" };
 
 
     private final static String[] modes = {  "RALLY POINT",
@@ -109,16 +109,20 @@ public class Command extends JPanel implements KeyListener {
         addKeyListener(this);
     }
 
-    private String extractCommand() {
+
+
+
+    public void extractCommand() {
         StringBuilder sb = new StringBuilder();
-        sb.append( modeLabel.getText() );
-        sb.append( typeLabel.getText() );
-        sb.append( typeInstanceLabel.getText() );
-        sb.append( commandLabel.getText() );
+
+        //sb.append( modeLabel.getText().substring(modeLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( typeLabel.getText().substring(typeLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( typeInstanceLabel.getText().substring(typeInstanceLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( commandLabel.getText().substring(commandLabel.getText().lastIndexOf(":") + 1) );
 
         String command_string = sb.toString( );
         System.out.println(command_string);
-        return  command_string;
+       // return  command_string;
     }
 
 
@@ -149,19 +153,6 @@ public class Command extends JPanel implements KeyListener {
             statusInfo.clearStats();
 
         }
-        else if(currMode == 2 && currType == 1) { // get list of player's Colonist instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
-            ArrayList<Colonist> colonists = new ArrayList<Colonist>();
-            if( !units.isEmpty() ) {    // if there are units on this tile
-                for(int n = 0; n < units.size(); n++) {
-                    if( units.get(n) instanceof Colonist) {
-                        colonists.add((Colonist) units.get(n));
-                    }
-                }
-                typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?colonists.get(currTypeInstance).getId():""));
-                statusInfo.setUnit( colonists.get(currTypeInstance) );
-            }
-        }
         else if(currMode == 2 && currType == 0) { // get list of player's Colonist instances
             ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
             ArrayList<Explorer> explorers = new ArrayList<Explorer>();
@@ -173,6 +164,19 @@ public class Command extends JPanel implements KeyListener {
                 }
                 typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?explorers.get(currTypeInstance).getId():""));
                 statusInfo.setUnit( explorers.get(currTypeInstance) );
+            }
+        }
+        else if(currMode == 2 && currType == 1) { // get list of player's Colonist instances
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Colonist> colonists = new ArrayList<Colonist>();
+            if( !units.isEmpty() ) {    // if there are units on this tile
+                for(int n = 0; n < units.size(); n++) {
+                    if( units.get(n) instanceof Colonist) {
+                        colonists.add((Colonist) units.get(n));
+                    }
+                }
+                typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?colonists.get(currTypeInstance).getId():""));
+                statusInfo.setUnit( colonists.get(currTypeInstance) );
             }
         }
         else if(currMode == 2 && currType == 2) { // get list of player's Ranged Unit instances
@@ -344,12 +348,24 @@ public class Command extends JPanel implements KeyListener {
             return 0;
     }
 
+    public void clearCommand() {
+        currMode = -1;
+        currType = -1;
+        currTypeInstance = -1;
+        currCommand = -1;
+
+        updateCommand();
+    }
+
     public void setCurrentPlayer( Player player ) {
         this.currentPlayer = player;
     }
 
     public JButton getEndTurnButton() {
         return endTurnButton;
+    }
+    public JButton getExecuteCommandButton() {
+        return executeCommandButton;
     }
 
 }

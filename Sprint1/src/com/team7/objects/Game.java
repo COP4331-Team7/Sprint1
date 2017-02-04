@@ -61,7 +61,6 @@ public class Game {
             currentPlayer = players[0];
         
         turn = ++turn % 2;
-        System.out.println("Player " + turn + " is in control.");
     }
 
     //Get the current player

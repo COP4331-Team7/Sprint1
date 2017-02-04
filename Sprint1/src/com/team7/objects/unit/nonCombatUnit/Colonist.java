@@ -9,14 +9,16 @@ import com.team7.objects.Tile;
 
 public class Colonist extends NonCombatUnit {
 
+	private static int ids = 1;
+
 	public Colonist(Tile startTile, Player player){
 	    UnitStats stats = new UnitStats(0, 0, 5, 5, 100, 1);
-        int id = ProbabilityGenerator.randomInteger(0, 99999);
+        //int id = ProbabilityGenerator.randomInteger(0, 99999);
 		setOwner(player);
 		setArmy(null);
         setUnitStats(stats);
         setPowered(true);
-	    setId(id);
+	    setId( takeId() );
 	    setLocation(startTile);
 	    setType("Colonist");
     }
@@ -33,6 +35,19 @@ public class Colonist extends NonCombatUnit {
 		// sacrifice colonist from tile and player
 		this.getLocation().removeUnitFromTile(this);
 		this.getOwner().removeUnit(this);
+	}
+
+	public int takeId() {
+		for(int i = 0; i < 10; i++) {
+			if( ((ids >> i) & 1) == 0 ) {
+				returnId(i);
+				return  i;
+			}
+		}
+		return  -1;
+	}
+	public void returnId(int id) {
+		ids = (ids ^ (1 << id) );
 	}
 
 }
