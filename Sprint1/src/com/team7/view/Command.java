@@ -537,6 +537,35 @@ public class Command extends JPanel implements KeyListener {
 
     public void moveMouse(int x, int y) {
 
+        final Point pTemp = new Point( (int)MouseInfo.getPointerInfo().getLocation().getX(), (int)MouseInfo.getPointerInfo().getLocation().getY());
+
+        convertPointFromScreen(pTemp, screen);
+
+        System.out.println("x = " + pTemp.getX() + " y = " + pTemp.getY() );
+        if(pTemp.getX() - 67 <= 0) {
+            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() + 67, (int)MouseInfo.getPointerInfo().getLocation().getY());
+            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() - 1), msc.getMainView().getYdest() );
+            return;
+        }
+        if(pTemp.getX() + 67 >= 737 - 67) {
+            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() - 67, (int)MouseInfo.getPointerInfo().getLocation().getY());
+            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() + 1), msc.getMainView().getYdest() );
+            return;
+        }
+        if(pTemp.getY() + 67 >= 536 ) {
+            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() - 67);
+            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest()), (msc.getMainView().getYdest() + 1) );
+            return;
+        }
+        if(pTemp.getY() - 67 <= 67 ) {
+            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() + 67);
+            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() ), (msc.getMainView().getYdest() - 1) );
+            return;
+        }
+
+
+
+
         final Point p = new Point( (int)MouseInfo.getPointerInfo().getLocation().getX(), (int)MouseInfo.getPointerInfo().getLocation().getY());
 
         int x_loc2 = (int)p.getX(); // where it is
