@@ -5,6 +5,7 @@ import com.team7.objects.unit.Unit;
 import com.team7.objects.CommandQueue;
 
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 
 public class Army {
@@ -17,6 +18,7 @@ public class Army {
     private int direction;
     private boolean isPowered;
     private int turnsFrozen;
+    private String name; 
 
 
 
@@ -30,31 +32,28 @@ public class Army {
         this.direction = 0;
         this.isPowered = true;
         this.turnsFrozen = 0;
+        this.name = "Army " + id; 
     }
 
     // Adds unit to Army's ArrayList of Units
-    public Unit addUnitToArmy(Unit unit) {
+    public void addUnitToArmy(Unit unit) {
+        if(unit.getType() != "Colonist" && unit.getType() != "Explorer") {
+            // Physically add the unit
+            this.units.add(unit);
+            unit.setArmy(this);
 
-        // Physically add the unit
-        this.units.add(unit);
-        unit.setArmy(this);
-
-        // Check for new slowest speed
-        if(unit.getUnitStats().getMovement() < this.slowestSpeed){
-            this.slowestSpeed = unit.getUnitStats().getMovement();
+            // Check for new slowest speed
+            if(unit.getUnitStats().getMovement() < this.slowestSpeed){
+                this.slowestSpeed = unit.getUnitStats().getMovement();
+            }
         }
-
-
-        return unit;
     }
 
     // Removes unit from Army's ArrayList of Units
-    public Unit removeUnitFromArmy(Unit unit) {
+    public void removeUnitFromArmy(Unit unit) {
 
         this.units.remove(unit);
         unit.setArmy(null);
-
-        return unit;
     }
 
 
@@ -135,6 +134,9 @@ public class Army {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+    public String getName() {
+        return name;
     }
 
     // function processQueue will take in a string, and check for validity,

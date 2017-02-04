@@ -15,13 +15,13 @@ public class Base extends Structure {
     public Base(Tile startTile, Player player) {
 
         HashMap<String, Integer> productionRateMap = new HashMap<>(); //holds the number of turns it takes for a Base to create a Unit
-        productionRateMap.put("Melee", 1);
-        productionRateMap.put("Ranged", 1);
-        productionRateMap.put("Colonist", 1);
+        productionRateMap.put("Melee", 2);
+        productionRateMap.put("Ranged", 2);
+        productionRateMap.put("Colonist", 5);
         productionRateMap.put("Explorer", 1);
 
         setOwner(player);
-        setStats(new StructureStats(0, 0, 0, productionRateMap, 300, 2));
+        setStats(new StructureStats(0, 0, 0, productionRateMap, 300, 8));
         setLocation(startTile);
         setCommandQueue(new CommandQueue()); //create reference to a CommandQueue
         setPowered(true); //a Base is powered upon creation
@@ -47,11 +47,23 @@ public class Base extends Structure {
             System.out.println("Not a valid type");
         }
 
-        // add unit to tile and to player's array
+        // add unit to tile and to player's array and take away money
         this.getLocation().addUnitToTile(unit);
         this.getOwner().addUnit(unit);
+        this.getOwner().setMoney(this.getOwner().getMoney() - unit.getUnitStats().getUpkeep());
 
         return unit;
     }
+
+
+    public void healUnits() {
+
+        for(int i = 0; i < this.getLocation().getUnits().size(); i++){
+            this.getLocation().getUnits().get(i).getUnitStats().setHealth(this.getLocation().getUnits().get(i).getUnitStats().getHealth() + 25);
+        }
+
+
+    }
+
 
 }
