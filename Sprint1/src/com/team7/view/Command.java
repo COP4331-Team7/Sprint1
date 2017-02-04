@@ -18,6 +18,9 @@ public class Command extends JPanel implements KeyListener {
     private Player currentPlayer = null;
     private  MainViewInfo statusInfo;
 
+    private JButton executeCommandButton = null;
+    private JButton endTurnButton = null;
+
     JLabel modeLabel;
     JLabel typeLabel;
     JLabel typeInstanceLabel;
@@ -95,11 +98,27 @@ public class Command extends JPanel implements KeyListener {
         commandSelectPanel.add(typeLabel);
         commandSelectPanel.add(typeInstanceLabel);
         commandSelectPanel.add(commandLabel);
-        commandSelectPanel.add(new JLabel());
-        commandSelectPanel.add(new JLabel());
+
+        executeCommandButton = new JButton("EXECUTE COMMAND");
+        endTurnButton = new JButton("END TURN");
+        commandSelectPanel.add( executeCommandButton );
+        commandSelectPanel.add( endTurnButton );
+
         this.add( commandSelectPanel, BorderLayout.SOUTH );
 
         addKeyListener(this);
+    }
+
+    private String extractCommand() {
+        StringBuilder sb = new StringBuilder();
+        sb.append( modeLabel.getText() );
+        sb.append( typeLabel.getText() );
+        sb.append( typeInstanceLabel.getText() );
+        sb.append( commandLabel.getText() );
+
+        String command_string = sb.toString( );
+        System.out.println(command_string);
+        return  command_string;
     }
 
 
