@@ -65,6 +65,8 @@ public class MainViewImage extends JPanel implements MouseListener {
         private Map map;
         private Tile[][] grid;
 
+        private Player currentPlayer = null;
+
         public MainViewImage( MainViewSelection ms )
         {
             MAP_IMAGE_WIDTH_IN_PIXELS = 733;
@@ -76,9 +78,8 @@ public class MainViewImage extends JPanel implements MouseListener {
 
             this.mainViewSelection = ms;
 
-            // load tile images
             try {
-               tileImage_1 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/mountain_img.png")).replace("file:","")));
+               tileImage_1 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/mountainImage.png")).replace("file:","")));
                tileImage_2 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/hills_img.png")).replace("file:","")));
                tileImage_3 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/sand_img.jpg")).replace("file:","")));
                tileImage_4 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/grass_img.jpg")).replace("file:","")));
@@ -100,6 +101,8 @@ public class MainViewImage extends JPanel implements MouseListener {
             }
             catch (IOException e) {}
 
+            mainViewSelection.setMainViewImage( this );
+
             drawMapArea();
 
             x_center = 0;   // initially focus on top left corner of the map
@@ -112,6 +115,17 @@ public class MainViewImage extends JPanel implements MouseListener {
             this.map = map;
             this.grid = map.getGrid();
         }
+
+        public void setCurrentPlayer( Player player ) {
+            this.currentPlayer = player;
+
+            // focus on one of the current players units.
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            if( !units.isEmpty() ) {
+                zoomToDestination( units.get(0).getLocation().getxCoordinate() - 11/2, units.get(0).getLocation().getyCoordinate() - 7/2);
+            }
+
+         }
 
         private BufferedImage drawSubsectionOfMap(int x, int y) {
 
@@ -190,7 +204,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                             g2ds.drawString( Integer.toString( colonistCount ), x_coord, y_coord + 45);
                         }
                         if(explorerCount != 0) {
-                            g2ds.drawImage(explorerImage, x_coord, j*67, null);
+                            g2ds.drawImage(explorerImage, x_coord, y_coord, null);
                             g2ds.drawString( Integer.toString( explorerCount ), x_coord, y_coord + 45);
                         }
                     }
@@ -230,7 +244,6 @@ public class MainViewImage extends JPanel implements MouseListener {
         return center;
     }
 
-
         public BufferedImage getCurrImage() {
             return image;
         }
@@ -263,10 +276,13 @@ public class MainViewImage extends JPanel implements MouseListener {
             y_offset += -1;
            }
 
-           // System.out.println("go towards (" + (int)x_offset + ", " + (int)y_offset + ")" );
-
            x_dest = x_center + (int)x_offset;
            y_dest = y_center + (int)y_offset;
+
+            zoomToDestination( x_dest, y_dest );
+        }
+
+        public void zoomToDestination(int x_dest, int y_dest) {
 
             if(x_dest < 0)              // adjust if out of bounds
                 x_dest = 0;
@@ -278,69 +294,63 @@ public class MainViewImage extends JPanel implements MouseListener {
             else if(y_dest >= 20 - TILES_VISIBLE_Y)
                 y_dest = 20 - TILES_VISIBLE_Y;
 
-            mainViewSelection.setFocus( x_dest , y_dest );
-            if( x_center != x_dest || y_center != y_dest) {
+            final int x_destination  = x_dest;
+            final int y_destination  = y_dest;
 
-                    new Thread( new Runnable()
+            if( x_center != x_destination || y_center != y_destination) {
+
+                mainViewSelection.setFocus( x_destination , y_destination );
+
+                new Thread( new Runnable()
+                {
+                    public void run()
                     {
-                        public void run()
-                        {
-                            int x_diff = (x_dest - x_center);
-                            int y_diff = (y_dest - y_center);
+                        int x_diff = (x_destination - x_center);
+                        int y_diff = (y_destination - y_center);
 
-                            int delta_x = 0, delta_y = 0;
+                        int delta_x = 0, delta_y = 0;
 
-                            if(x_diff != 0) {
-                                delta_x = ((x_dest - x_center) > 0) ? 1 : -1;
+                        if(x_diff != 0) {
+                            delta_x = ((x_destination - x_center) > 0) ? 1 : -1;
+                        }
+                        if(y_diff != 0) {
+                            delta_y = ((y_destination - y_center) > 0) ? 1 : -1;
+                        }
+
+                        while (x_diff != 0 || y_diff != 0) {    // while view isnt focused on destination tile
+
+                            if(x_diff != 0) {                   // move focus 1 unit towards destination
+                                x_center += delta_x;
+                                x_diff -= delta_x;
                             }
                             if(y_diff != 0) {
-                                delta_y = ((y_dest - y_center) > 0) ? 1 : -1;
+                                y_center += delta_y;
+                                y_diff -= delta_y;
                             }
 
-                            while (x_diff != 0 || y_diff != 0) {    // while view isnt focused on destination tile
+                            // System.out.println("get frame focus at (" + (int)x_center + ", " + (int)y_center + ")" );
 
-                                if(x_diff != 0) {                   // move focus 1 unit towards destination
-                                    x_center += delta_x;
-                                    x_diff -= delta_x;
-                                }
-                                if(y_diff != 0) {
-                                    y_center += delta_y;
-                                    y_diff -= delta_y;
-                                }
-
-                                // System.out.println("get frame focus at (" + (int)x_center + ", " + (int)y_center + ")" );
-
-                                final BufferedImage mapSubsection = drawSubsectionOfMap(x_center, y_center);
-                                SwingUtilities.invokeLater( new Runnable()   // queue frame i on EDT for display
+                            final BufferedImage mapSubsection = drawSubsectionOfMap(x_center, y_center);
+                            SwingUtilities.invokeLater( new Runnable()   // queue frame i on EDT for display
+                            {
+                                public void run()
                                 {
-                                    public void run()
-                                    {
-                                        image = mapSubsection;
-                                        repaint();
-                                    }
-                                });
-
-                                try{
-                                    Thread.sleep(50);
+                                    image = mapSubsection;
+                                    repaint();
                                 }
-                                catch(Exception e) {}
+                            });
 
-                            }   // end of while loop
+                            try{
+                                Thread.sleep(50);
+                            }
+                            catch(Exception e) {}
 
-                        }
-                    } ).start();
+                        }   // end of while loop
+
+                    }
+                } ).start();
 
             }
-        }
 
-    class AnimateMapThread extends Thread {
-        Map map;
-        AnimateMapThread(Map map) {
-            this.map = map;
         }
-
-        public void run() {
-            // System.out.println("wow");
-        }
-    }
 }

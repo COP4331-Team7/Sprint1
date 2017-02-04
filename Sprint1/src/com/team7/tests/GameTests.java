@@ -1,14 +1,18 @@
 package com.team7.tests;
 
 import com.team7.objects.Game;
+import com.team7.objects.Map;
 import com.team7.objects.Player;
+import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.nonCombatUnit.Colonist;
 import org.testng.annotations.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 
-class GameTest {
+public class GameTests {
 
     @Test
     void nextTurn() throws Exception {
@@ -29,5 +33,8 @@ class GameTest {
         Player t = g.getCurrentPlayer();
         assertEquals(t, p1);
     }
+
+
+
 
 }

@@ -1,11 +1,14 @@
 package com.team7.objects;
 
+import com.team7.objects.areaEffects.ElixirShower;
 import com.team7.objects.items.Obstacle;
 import com.team7.objects.resource.HieroglyphicBooks;
 import com.team7.objects.resource.MoneyBag;
 import com.team7.objects.resource.MoonRocks;
 import com.team7.objects.unit.Unit;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -20,6 +23,9 @@ public class Navigator {
     int x;
     int y;
 
+    ArrayList<Unit> selectedUnits;
+    int unitsLeft;
+
     int health;
     int movement;
     int collectedResearch = 0;
@@ -27,15 +33,30 @@ public class Navigator {
     int collectedConstruction = 0;
 
     //when MOVE mode is executed
-    public Navigator(Map m, Unit selectedUnit){
+    public Navigator(Map map, Unit selectedUnit){
         this.map = map;
         this.selectedUnit = selectedUnit;
+        selectedUnits = new ArrayList<>();
+        selectedUnits.add(selectedUnit);
         x = selectedUnit.getLocation().getxCoordinate();
         y = selectedUnit.getLocation().getyCoordinate();
         tilePath = new LinkedList<>();
         tilePath.add(selectedUnit.getLocation());
-        health = selectedUnit.getUnitStats().getHealth();
         movement = selectedUnit.getUnitStats().getMovement();
+
+        unitsLeft = selectedUnits.size();
+    }
+
+    public Navigator(Map map, Army army){
+        this.map = map;
+        selectedUnits = army.getUnits();
+        x = army.getRallyPoint().getxCoordinate();
+        y = army.getRallyPoint().getyCoordinate();
+        tilePath = new LinkedList<>();
+        tilePath.add(army.getRallyPoint());
+        movement = army.getSlowestSpeed();
+
+        unitsLeft = selectedUnits.size();
     }
 
 
@@ -77,34 +98,41 @@ public class Navigator {
                 break;
         }
 
-        if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
-            if (isTilePassable(map.getTile(tmpX, tmpY))){ //second ensure Tile is passable by current Unit
-                if (hasMovementLeft()){ //third ensure that a unit can still move
-                    if (isUnitAlive()) { //ensure unit is alive to affect stats
-                        calculateNetEffectByTile(map.getTile(tmpX, tmpY));
-                        tilePath.add(map.getTile(tmpX, tmpY)); //only add to tilePath if Unit survived the way
+        for(Unit u : selectedUnits){
+            health = u.getUnitStats().getHealth();
+
+            if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
+                if (isTilePassable(map.getTile(tmpX, tmpY))){ //second ensure Tile is passable by current Unit
+                    if (hasMovementLeft()){ //third ensure that a unit can still move
+                        if (isUnitAlive() && hasUnitRemaining()) { //ensure unit is alive to affect stats and navigator has unit
+                            calculateNetEffectByTile(map.getTile(tmpX, tmpY));
+                            tilePath.add(map.getTile(tmpX, tmpY)); //only add to tilePath if Unit survived the way
+                        }
+                        x = tmpX;
+                        y = tmpY;
+                        return true;
                     }
-                    x = tmpX;
-                    y = tmpY;
-                    return true;
                 }
             }
         }
+
         return false;
     }
 
     //when ENTER is pressed
     public void updateModel(){
-        tilePath.peek().removeUnitFromTile(selectedUnit); //remove unit from starting point
+        if (tilePath.peek() != null){
+            tilePath.peek().removeUnitFromTile(selectedUnit); //remove unit from starting point
 
 
-        for(int i = 0; i < tilePath.size() - 1; i++){
-            tilePath.remove().clearTile();    //remove all tiles in path EXCEPT the last one
-                                  //last element in tilePath is the unit destination
+            for(int i = 0; i < tilePath.size() - 1; i++){
+                tilePath.remove().clearTile();    //remove all tiles in path EXCEPT the last one
+                //last element in tilePath is the unit destination
+            }
+            tilePath.peek().addUnitToTile(selectedUnit);        //add Unit to final tile
+            selectedUnit.setLocation(tilePath.peek());          //add tile location to unit
+            tilePath.remove().clearTile();                      //clear tile of resources
         }
-        tilePath.peek().addUnitToTile(selectedUnit);        //add Unit to final tile
-        selectedUnit.setLocation(tilePath.peek());          //add tile location to unit
-        tilePath.remove().clearTile();                      //clear tile of resources
 
         //update stats
         selectedUnit.getUnitStats().setHealth(this.health);
@@ -114,15 +142,25 @@ public class Navigator {
     }
 
 
-
+    private boolean hasUnitRemaining(){
+        if (!isUnitAlive()){    //if unit is dead, decrement units left
+            unitsLeft--;
+        }
+        return unitsLeft > 0;
+    }
     private boolean isUnitAlive(){
         return health > 0;
     }
     //calculate all tile effects
+    //TODO add instant death
     private void calculateNetEffectByTile(Tile currentTile) {
 
         //AreaEffect
         if (currentTile.getAreaEffect() != null){
+            if(currentTile.getAreaEffect().isInstantDeath()){
+                health = 0; //instant death will set health to 0
+                return;
+            }
            health += currentTile.getAreaEffect().getHealthEffect();
         }
 
@@ -152,7 +190,7 @@ public class Navigator {
 
 
     private boolean isInBounds(int x, int y) {
-        if (x <= 19 || x >= 0 || y <= 19 || y >= 0) {
+        if (x <= 19 && x >= 0 && y <= 19 && y >= 0) {
             return true;
         }
         return false;
@@ -173,6 +211,7 @@ public class Navigator {
     }
 
     private boolean hasMovementLeft() {
+
         return true;
     }
 }
