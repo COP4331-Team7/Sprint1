@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by anip on 04/02/17.
+ * Test Navigation class for one Unit
  */
 public class MoveUnitTest {
     @Test
@@ -68,14 +68,24 @@ public class MoveUnitTest {
         game.startGame();
         game.getMap().getTile(18, 2).clearTile();
         game.getMap().getTile(18,2).setAreaEffect(new Storm());
+        int oldHealth = game.getCurrentPlayer().getUnits().get(0).getUnitStats().getHealth();
         Navigator navigator = new Navigator(game.getMap(),game.getCurrentPlayer().getUnits().get(0));
         navigator.parseInputCommand("1");
         navigator.updateModel();
         navigator.parseInputCommand("9");
         navigator.updateModel();
-        assertEquals(game.getCurrentPlayer().getUnits().get(0).getUnitStats().getHealth(),0);
-        assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getxCoordinate(),18);
-        assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getyCoordinate(),2);
+        assertTrue(game.getCurrentPlayer().getUnits().get(0).getUnitStats().getHealth() < oldHealth);
+        assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getxCoordinate(),17);
+        assertEquals(game.getCurrentPlayer().getUnits().get(0).getLocation().getyCoordinate(),3);
+
+    }
+
+    @Test
+    public void checkInstantDeath() throws Exception{
+        Game game = new Game(new Player(),new Player());
+        game.startGame();
+        game.getMap().getTile(18, 2).clearTile();
+        game.getMap().getTile(18,2).setAreaEffect(new VolcanicVent());
 
     }
 
