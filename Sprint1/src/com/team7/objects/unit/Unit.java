@@ -106,6 +106,18 @@ public abstract class Unit {
         isPowered = powered;
     }
 
+    public void powerUp() {
+
+        // TODO: fill out what happens to unit when power up happens (frozen?)
+        isPowered = true;
+    }
+
+    public void powerDown() {
+        // TODO: fill out what happens to unit when power down happens (frozen?)
+        isPowered = false;
+    }
+
+
     public String getType() { return type; }
 
     public void setType(String type) { this.type = type; }
