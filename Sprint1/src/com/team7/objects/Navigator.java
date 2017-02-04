@@ -152,7 +152,7 @@ public class Navigator {
 
 
     private boolean isInBounds(int x, int y) {
-        if (x <= 19 || x >= 0 || y <= 19 || y >= 0) {
+        if (x <= 19 && x >= 0 && y <= 19 && y >= 0) {
             return true;
         }
         return false;
