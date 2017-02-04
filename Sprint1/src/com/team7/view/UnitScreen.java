@@ -165,12 +165,6 @@ public class UnitScreen extends JPanel {
         unitOverviewComponents.add(new JLabel("Spacer"));
         unitOverviewComponents.add(new JLabel("Spacer2"));
 
-        scrollBox.setPreferredSize(new Dimension(400, 500));
-        textBox.setMaximumSize(new Dimension(400, 400));
-        queueScrollPane.setPreferredSize(new Dimension(200,200));
-        queueScrollPane.revalidate();
-        scrollBox.revalidate();
-        textBox.revalidate();
         pane.add(unitOverviewComponents);
         repaint();
     }
