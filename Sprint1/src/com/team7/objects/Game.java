@@ -22,7 +22,7 @@ public class Game {
     public Game(Player p1, Player p2) {
         players[0] = p1;
         players[1] = p2;
-        turn = 1;
+        turn = 0;
         currentPlayer = players[0];
     }
 
@@ -35,13 +35,13 @@ public class Game {
 
         // Put initial 2 explorers and colonists into Player's array to start game
         // Player 1 starts in top right, player 2 starts in bottom left
-        players[0].addUnit(new Explorer(this.map.getGrid()[0][1], players[0]));
-        players[0].addUnit(new Explorer(this.map.getGrid()[1][0], players[0]));
-        players[0].addUnit(new Colonist(this.map.getGrid()[2][2], players[0]));
+        players[0].addUnit(new Explorer(this.map.getGrid()[17][3], players[0]));
+        players[0].addUnit(new Explorer(this.map.getGrid()[17][4], players[0]));
+        players[0].addUnit(new Colonist(this.map.getGrid()[18][2], players[0]));
 
-        players[1].addUnit(new Explorer(this.map.getGrid()[19][18], players[1]));
-        players[1].addUnit(new Explorer(this.map.getGrid()[18][19], players[1]));
-        players[1].addUnit(new Colonist(this.map.getGrid()[18][18], players[1]));
+        players[1].addUnit(new Explorer(this.map.getGrid()[3][18], players[1]));
+        players[1].addUnit(new Explorer(this.map.getGrid()[3][17], players[1]));
+        players[1].addUnit(new Colonist(this.map.getGrid()[4][18], players[1]));
 
 //
 //        while (!players[0].isDefeated() && !players[1].isDefeated()) {
@@ -60,7 +60,7 @@ public class Game {
         else 
             currentPlayer = players[0];
         
-        turn += 1 % 2;
+        turn = ++turn % 2;
     }
 
     //Get the current player

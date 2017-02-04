@@ -24,7 +24,7 @@ public class Player {
         armies = new ArrayList<Army>();                              // max size should be 10
         research = 0;
         construction = 0;
-        money = 50;
+        money = 500;
         noUnits = true;
         noStructures = true;
         noArmies = true;
@@ -38,8 +38,8 @@ public class Player {
 
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
+        subtractUpkeep();           // subtracts upkeep from all units/structures, ends game if money = 0
     }
-
 
 
 
@@ -55,6 +55,7 @@ public class Player {
 
     // Adds unit to Player's ArrayList of Units
     public Unit addUnit(Unit unit) {
+
 
         // Ensures we are able to have a unit
         if(checkMaxUnitsFull() || checkMaxUnitsIndividual()){
@@ -250,6 +251,32 @@ public class Player {
             }
         }
 
+
+    }
+
+    public void subtractUpkeep() {
+
+        int sum = 0;
+
+        // add all unit stats
+        for(int i = 0; i < this.units.size(); i++){
+            sum = this.units.get(i).getUnitStats().getUpkeep();
+        }
+
+        // add all structure stats
+        for(int i = 0; i < this.structures.size(); i++){
+            sum = this.structures.get(i).getStats().getUpkeep();
+        }
+
+        this.setMoney(this.getMoney() - sum);
+
+
+        // if they run out of money the game is over
+        if(this.getMoney() == 0){
+            noStructures = true;
+            noUnits = true;
+            noArmies = true;
+        }
 
     }
 

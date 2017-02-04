@@ -10,7 +10,7 @@ import com.team7.objects.Army;
 public class MeleeUnit extends CombatUnit{
 
     public MeleeUnit(Tile startTile, Player player){
-        UnitStats stats = new UnitStats(15, 7, 10, 8, 100, 1);
+        UnitStats stats = new UnitStats(15, 7, 10, 8, 100, 4);
         int id = ProbabilityGenerator.randomInteger(0, 99999);
         setOwner(player);
         setArmy(null);

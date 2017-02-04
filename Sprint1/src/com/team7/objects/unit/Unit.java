@@ -3,6 +3,13 @@ package com.team7.objects.unit;
 import com.team7.objects.Army;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
+import com.team7.objects.areaEffects.AreaEffect;
+import com.team7.objects.items.Item;
+import com.team7.objects.items.Obstacle;
+import com.team7.objects.resource.HieroglyphicBooks;
+import com.team7.objects.resource.MoneyBag;
+import com.team7.objects.resource.MoonRocks;
+import com.team7.objects.resource.Resource;
 
 public abstract class Unit {
     private int id;
@@ -44,6 +51,18 @@ public abstract class Unit {
     public void setPowered(boolean powered) {
         isPowered = powered;
     }
+
+    public void powerUp() {
+
+        // TODO: fill out what happens to unit when power up happens (frozen?)
+        isPowered = true;
+    }
+
+    public void powerDown() {
+        // TODO: fill out what happens to unit when power down happens (frozen?)
+        isPowered = false;
+    }
+
 
     public String getType() { return type; }
 

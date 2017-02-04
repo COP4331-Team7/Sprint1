@@ -4,6 +4,7 @@ package com.team7.tests;
 import com.team7.objects.Map;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
+import com.team7.objects.areaEffects.Storm;
 import com.team7.objects.terrain.Mountains;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
@@ -38,6 +39,27 @@ public class MapTests {
 
         assertTrue(testUnit.getType() ==  "Colonist");
         assertTrue(testUnit == colonist);
+
+    }
+
+
+
+
+    // TODO: Adjust this test and run with Or's code
+    @Test
+    // Test area effects affecting unit
+    public void testAreaEffects() throws Exception {
+//        Map map = new Map();
+//        Player p1 = new Player();
+//
+//        // Create a storm on tile and place a colonist there
+//        map.getGrid()[0][0].setAreaEffect(new Storm());
+//        Unit unit = new Colonist(map.getGrid()[0][0], p1);
+//
+//        // helper function to add area effects
+////        unit.updateUnitOnTileChange();
+//
+//        assertTrue(unit.getUnitStats().getHealth() < 100);
 
     }
 

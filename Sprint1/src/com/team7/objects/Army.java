@@ -5,6 +5,7 @@ import com.team7.objects.unit.Unit;
 import com.team7.objects.CommandQueue;
 
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 
 public class Army {
@@ -134,7 +135,6 @@ public class Army {
     public void setOwner(Player owner) {
         this.owner = owner;
     }
-
     public String getName() {
         return name;
     }

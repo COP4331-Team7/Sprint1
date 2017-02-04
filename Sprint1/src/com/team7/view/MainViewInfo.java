@@ -1,34 +1,160 @@
 package com.team7.view;
 
+import com.team7.objects.Player;
+import com.team7.objects.structure.Structure;
+import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.UnitStats;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class MainViewInfo extends JPanel {
+
+    private Unit unit = null;
+    private Structure structure = null;
+
+    private JLabel offensiveDamageLabel;
+    private JLabel defensiveDamageLabel;
+    private JLabel armorLabel;
+    private JLabel healthLabel;
+    private JLabel upkeepLabel;
+    private JLabel productionLabel;
+    private JLabel itemLabel;
+    private JLabel typeLabel;
+    //
+    private JLabel lifeLabel;
+    private JLabel researchLabel;
+    private JLabel constructionLabel;
+
         public MainViewInfo()
         {
             JPanel t = new JPanel();
             t.setLayout(new GridLayout(0,1));
-            JLabel p = new JLabel("Statistics:");
-            p.setFont(new Font("Serif", Font.BOLD, 18));
+            //JLabel p = new JLabel("Statistics:");
+            // p.setFont(new Font("Serif", Font.BOLD, 18));
 
-            t.add(p);   // large first label so the panel takes up more space and is spaced out
-            JLabel tt7 = new JLabel("Unit/Structure:      ");
-            t.add(tt7);
-            JLabel tt = new JLabel("Offensive damage:");
-            t.add(tt);
-            JLabel tt1 = new JLabel("Defensive damage:");
-            t.add(tt1);
-            JLabel tt2 = new JLabel("Armor:");
-            t.add(tt2);
-            JLabel tt3 = new JLabel("Health:");
-            t.add(tt3);
-            JLabel tt4 = new JLabel("Upkeep:");
-            t.add(tt4);
-            JLabel tt5 = new JLabel("Production rates:");
-            t.add(tt5);
-            JLabel tt6 = new JLabel("Items:");
-            t.add(tt6);
+            //t.add(p);   // large first label so the panel takes up more space and is spaced out
+            typeLabel= new JLabel("Unit/Structure: ");
+            typeLabel.setFont(new Font("Serif", 0, 12));
+            t.add(typeLabel);
+            offensiveDamageLabel = new JLabel("Offensive damage:");
+            offensiveDamageLabel.setFont(new Font("Serif", 0, 12));
+            t.add(offensiveDamageLabel);
+            defensiveDamageLabel = new JLabel("Defensive damage:");
+            defensiveDamageLabel.setFont(new Font("Serif", 0, 12));
+            t.add(defensiveDamageLabel);
+            armorLabel = new JLabel("Armor:");
+            armorLabel.setFont(new Font("Serif", 0, 12));
+            t.add(armorLabel);
+            healthLabel = new JLabel("Health:");
+            healthLabel.setFont(new Font("Serif", 0, 12));
+            t.add(healthLabel);
+            upkeepLabel = new JLabel("Upkeep:");
+            upkeepLabel.setFont(new Font("Serif", 0, 12));
+            t.add(upkeepLabel);
+            productionLabel = new JLabel("Production rates:");
+            t.add(productionLabel);
+            itemLabel = new JLabel("Items:");
+            productionLabel.setFont(new Font("Serif", 0, 12));
+            itemLabel.setFont(new Font("Serif", 0, 12));
+            t.add(itemLabel);
+            lifeLabel = new JLabel("Life:");
+            lifeLabel.setForeground(Color.red);
+            t.add(lifeLabel);
+            researchLabel = new JLabel("Research:");
+            researchLabel.setForeground(Color.red);
+            t.add(researchLabel);
+            constructionLabel = new JLabel("Construction:");
+            t.add(constructionLabel);
+            constructionLabel.setForeground(Color.red);
             this.add( t, BorderLayout.SOUTH );
-
         }
+
+    public void setUnit(Unit unit) {
+        if(unit == null)
+            clearStats();
+        else
+            updateStats( unit );
+    }
+
+    public void setStructure(Structure structure) {
+        if(structure == null)
+            clearStats();
+        else
+            updateStats( structure );
+    }
+
+    public void clearStats() {
+        offensiveDamageLabel.setText("Offensive damage:");
+        defensiveDamageLabel.setText("Defensive damage:");
+        healthLabel.setText("Health");
+        armorLabel.setText("Armor");
+        upkeepLabel.setText("Upkeep");
+        productionLabel.setText("Production rates:");
+        itemLabel.setText("Items");
+        typeLabel.setText("Unit/Structure: ");
+    }
+
+    public void clearPlayerStats() {
+        lifeLabel.setText("Life:");
+        researchLabel.setText("Research:");
+        constructionLabel.setText("Construction:");
+    }
+
+    public  void updateStats( Structure structure ) {
+
+    }
+    public  void updateStats( Unit unit ) {
+        UnitStats stats = unit.getUnitStats();
+        setOffensiveDamageLabel( Integer.toString( stats.getOffensiveDamage() ) );
+        setDefensiveDamageLabel( Integer.toString( stats.getDefensiveDamage() ) );
+        setArmorLabel( Integer.toString( stats.getArmor() ) );
+        setHealthLabel( Integer.toString( stats.getHealth() ) );
+        // setUpkeepLabel( Integer.toString( stats.getUpkeep() ) );
+        setProductionLabel( "N/A" );
+        setUpkeepLabel(  Integer.toString( stats.getUpkeep() ) );
+        // setItemLabel( );
+    }
+    public void updateStats(Player player) {
+        setLifeLabel( Integer.toString( player.getMoney() ) );
+        setResearchLabel( Integer.toString( player.getResearch() ) );
+        setConstructionLabel( Integer.toString( player.getConstruction() ) );
+    }
+    public void setOffensiveDamageLabel(String s) {
+            offensiveDamageLabel.setText("Offensive damage: " + s);
+    }
+    public void setDefensiveDamageLabel(String s) {
+        defensiveDamageLabel.setText("Defensive damage: " + s);
+    }
+    public void setArmorLabel(String s) {
+        armorLabel.setText("Armor: " + s);
+    }
+    public void setHealthLabel(String s) {
+        healthLabel.setText("Health: " + s);
+    }
+    public void setUpkeepLabel(String s) {
+        upkeepLabel.setText("Upkeep: " + s);
+    }
+    public void setProductionLabel(String s) {
+        productionLabel.setText("Production rates: " + s);
+    }
+    public void setLifeLabel(String s) {
+        lifeLabel.setText("Life: " + s);
+    }
+    public void setResearchLabel(String s) {
+        researchLabel.setText("Research: " + s);
+    }
+    public void setConstructionLabel(String s) {
+        constructionLabel.setText("Construction:  " + s);
+    }
+
+    public void setItemLabel(String s) {
+        itemLabel.setText("Items: " + s);
+    }
+
+    public void setCurrentPlayer( Player player ) {
+        updateStats( player );
+    }
+
 }
