@@ -17,7 +17,6 @@ import java.util.Queue;
  */
 public class Navigator {
     Map map;
-    String inputCommand;
     Unit selectedUnit;
     Queue<Tile> tilePath;
     int x;
@@ -25,6 +24,8 @@ public class Navigator {
 
     ArrayList<Unit> selectedUnits;
     int unitsLeft;
+    int[] healthOfAllUnits = new int[25];
+    int healthIndex = 0;
 
     int health;
     int movement;
@@ -45,6 +46,7 @@ public class Navigator {
         movement = selectedUnit.getUnitStats().getMovement();
 
         unitsLeft = selectedUnits.size();
+        healthOfAllUnits[0] = selectedUnit.getUnitStats().getHealth();
     }
 
     public Navigator(Map map, Army army){
@@ -57,6 +59,10 @@ public class Navigator {
         movement = army.getSlowestSpeed();
 
         unitsLeft = selectedUnits.size();
+
+        for(int i = 0; i < selectedUnits.size() - 1; i++){
+            healthOfAllUnits[i] = selectedUnits.get(i).getUnitStats().getHealth();
+        }
     }
 
 
@@ -67,39 +73,40 @@ public class Navigator {
         int tmpY = y;
         switch (command){
             case '1':       //SW
-                tmpX++;
-                tmpY--;
+                tmpY++;
+                tmpX--;
                 break;
             case '2':       //S
-                tmpX++;
-                break;
-            case '3':       //SE
-                tmpX++;
                 tmpY++;
                 break;
+            case '3':       //SE
+                tmpY++;
+                tmpX++;
+                break;
             case '4':       //W
-                tmpY--;
+                tmpX--;
                 break;
             //case "5": center
             //    break;
             case '6':       //E
-                tmpY++;
+                tmpX++;
                 break;
             case '7':       //NW
-                tmpX--;
                 tmpY--;
+                tmpX--;
                 break;
             case '8':       //N
-                tmpX--;
+                tmpY--;
                 break;
             case '9':       //NE
-                tmpX--;
-                tmpY++;
+                tmpY--;
+                tmpX++;
                 break;
         }
 
         for(Unit u : selectedUnits){
-            health = u.getUnitStats().getHealth();
+            health = healthOfAllUnits[healthIndex];
+            healthIndex++;
 
             if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
                 if (isTilePassable(map.getTile(tmpX, tmpY))){ //second ensure Tile is passable by current Unit

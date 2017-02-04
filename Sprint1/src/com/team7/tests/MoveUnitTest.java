@@ -47,6 +47,8 @@ public class MoveUnitTest {
         Game game = new Game(new Player(),new Player());
         game.startGame();
         game.getMap().getTile(18, 2).clearTile();
+        game.getMap().getTile(17, 3).clearTile();
+        game.getMap().getTile(16,4).clearTile();
         game.getMap().getTile(18,2).setResource(new MoneyBag());
         Navigator navigator = new Navigator(game.getMap(),game.getCurrentPlayer().getUnits().get(0));
         int previous = game.getCurrentPlayer().getMoney();
