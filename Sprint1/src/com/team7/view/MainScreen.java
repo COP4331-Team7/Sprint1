@@ -19,7 +19,10 @@ public class MainScreen extends JPanel {
         mainViewSelection = new MainViewSelection(  );
         mainAreaView = new MainViewImage( mainViewSelection );
         mainStatusInfo = new MainViewInfo( );
-        commandSelecter = new Command( mainStatusInfo );
+        try {commandSelecter = new Command( mainStatusInfo ); }
+        catch (Exception e) {
+
+        }
 
 
         this.add( screenSelectBtns, BorderLayout.NORTH );
