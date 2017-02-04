@@ -35,6 +35,7 @@ public class MainScreenController {
                     game.nextTurn();
                     view.getScreen().getMainScreen().getMainViewInfo().clearStats();
                     view.getScreen().getMainScreen().getCommand().clearCommand();
+                    setCurrentPlayer( game.getCurrentPlayer() );
                     view.getScreen().getMainScreen().giveCommandFocus();
                 }
             }

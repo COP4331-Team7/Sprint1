@@ -269,6 +269,7 @@ public class Command extends JPanel implements KeyListener {
 
         }
 
+
         updateCommand();
     }
 

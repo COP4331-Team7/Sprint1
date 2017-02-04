@@ -118,6 +118,13 @@ public class MainViewImage extends JPanel implements MouseListener {
 
         public void setCurrentPlayer( Player player ) {
             this.currentPlayer = player;
+
+            // focus on one of the current players units.
+            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            if( !units.isEmpty() ) {
+                zoomToDestination( units.get(0).getLocation().getxCoordinate() - 11/2, units.get(0).getLocation().getyCoordinate() - 7/2);
+            }
+
          }
 
         private BufferedImage drawSubsectionOfMap(int x, int y) {
@@ -237,7 +244,6 @@ public class MainViewImage extends JPanel implements MouseListener {
         return center;
     }
 
-
         public BufferedImage getCurrImage() {
             return image;
         }
@@ -270,10 +276,13 @@ public class MainViewImage extends JPanel implements MouseListener {
             y_offset += -1;
            }
 
-           // System.out.println("go towards (" + (int)x_offset + ", " + (int)y_offset + ")" );
-
            x_dest = x_center + (int)x_offset;
            y_dest = y_center + (int)y_offset;
+
+            zoomToDestination( x_dest, y_dest );
+        }
+
+        public void zoomToDestination(int x_dest, int y_dest) {
 
             if(x_dest < 0)              // adjust if out of bounds
                 x_dest = 0;
@@ -285,28 +294,27 @@ public class MainViewImage extends JPanel implements MouseListener {
             else if(y_dest >= 20 - TILES_VISIBLE_Y)
                 y_dest = 20 - TILES_VISIBLE_Y;
 
-            mainViewSelection.setFocus( x_dest , y_dest );
-            zoomToDestination( x_dest, y_dest );
-        }
+            final int x_destination  = x_dest;
+            final int y_destination  = y_dest;
 
-        public void zoomToDestination(int x_dest, int y_dest) {
+            if( x_center != x_destination || y_center != y_destination) {
 
-            if( x_center != x_dest || y_center != y_dest) {
+                mainViewSelection.setFocus( x_destination , y_destination );
 
                 new Thread( new Runnable()
                 {
                     public void run()
                     {
-                        int x_diff = (x_dest - x_center);
-                        int y_diff = (y_dest - y_center);
+                        int x_diff = (x_destination - x_center);
+                        int y_diff = (y_destination - y_center);
 
                         int delta_x = 0, delta_y = 0;
 
                         if(x_diff != 0) {
-                            delta_x = ((x_dest - x_center) > 0) ? 1 : -1;
+                            delta_x = ((x_destination - x_center) > 0) ? 1 : -1;
                         }
                         if(y_diff != 0) {
-                            delta_y = ((y_dest - y_center) > 0) ? 1 : -1;
+                            delta_y = ((y_destination - y_center) > 0) ? 1 : -1;
                         }
 
                         while (x_diff != 0 || y_diff != 0) {    // while view isnt focused on destination tile
@@ -345,15 +353,4 @@ public class MainViewImage extends JPanel implements MouseListener {
             }
 
         }
-
-    class AnimateMapThread extends Thread {
-        Map map;
-        AnimateMapThread(Map map) {
-            this.map = map;
-        }
-
-        public void run() {
-            // System.out.println("wow");
-        }
-    }
 }
