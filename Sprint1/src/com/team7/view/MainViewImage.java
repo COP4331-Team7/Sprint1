@@ -204,7 +204,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                             g2ds.drawString( Integer.toString( colonistCount ), x_coord, y_coord + 45);
                         }
                         if(explorerCount != 0) {
-                            g2ds.drawImage(explorerImage, x_coord, j*67, null);
+                            g2ds.drawImage(explorerImage, x_coord, y_coord, null);
                             g2ds.drawString( Integer.toString( explorerCount ), x_coord, y_coord + 45);
                         }
                     }
