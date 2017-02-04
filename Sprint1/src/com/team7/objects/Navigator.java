@@ -14,69 +14,119 @@ import java.util.Queue;
  */
 public class Navigator {
     Map map;
-    Queue<String> inputCommands;
+    String inputCommand;
+    Unit selectedUnit;
+    Queue<Tile> tilePath;
+    int x;
+    int y;
 
-    public Navigator(Map m){
+    int health;
+    int movement;
+    int collectedResearch = 0;
+    int collectedMoney = 0;
+    int collectedConstruction = 0;
+
+    //when MOVE mode is executed
+    public Navigator(Map m, Unit selectedUnit){
         this.map = map;
+        this.selectedUnit = selectedUnit;
+        x = selectedUnit.getLocation().getxCoordinate();
+        y = selectedUnit.getLocation().getyCoordinate();
+        tilePath = new LinkedList<>();
+        tilePath.add(selectedUnit.getLocation());
+        health = selectedUnit.getUnitStats().getHealth();
+        movement = selectedUnit.getUnitStats().getMovement();
     }
 
-    //when a unit is selected and cursor in MOVE mode
-    public void beginMovementCommands(){
-        inputCommands = new LinkedList<>();
-    }
+
+
     //when arrow key is pressed
-    public void inputCommands(String command){
-        inputCommands.add(command);
-    }
-
-    //when ENTER key is pressed
-    public void operateUnitMovementCommand(Unit unit, Player commander){
-        Queue<Tile> tilePath = new LinkedList<>();
-        String direction;
-        int x = unit.getLocation().getxCoordinate();
-        int y = unit.getLocation().getyCoordinate();
-        while (!inputCommands.isEmpty()){
-            direction = inputCommands.remove();
-            switch (direction){
-                case "E":
-                    if (verifyBound(x, y++)){
-                        Tile tmp = map.getTile(x, y++);
-                        if(verifyTile(tmp)){
-                            tilePath.add(tmp);
-                        }
-                    }
-                    break;
-            }
+    public boolean parseInputCommand(String command){
+        int tmpX = x;
+        int tmpY = y;
+        switch (command){
+            case "1":       //SW
+                tmpX++;
+                tmpY--;
+                break;
+            case "2":       //S
+                tmpX++;
+                break;
+            case "3":       //SE
+                tmpX++;
+                tmpY++;
+                break;
+            case "4":       //W
+                tmpY--;
+                break;
+            //case "5": center
+            //    break;
+            case "6":       //E
+                tmpY++;
+                break;
+            case "7":       //NW
+                tmpX--;
+                tmpY--;
+                break;
+            case "8":       //N
+                tmpX--;
+                break;
+            case "9":       //NE
+                tmpX--;
+                tmpY++;
+                break;
         }
 
-        calculateNetEffectByTile(tilePath, unit);
-
-
-
+        if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
+            if (isTilePassable(map.getTile(tmpX, tmpY))){ //second ensure Tile is passable by current Unit
+                if (hasMovementLeft()){ //third ensure that a unit can still move
+                    if (isUnitAlive()) { //ensure unit is alive to affect stats
+                        calculateNetEffectByTile(map.getTile(tmpX, tmpY));
+                        tilePath.add(map.getTile(tmpX, tmpY)); //only add to tilePath if Unit survived the way
+                    }
+                    x = tmpX;
+                    y = tmpY;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
+    //when ENTER is pressed
+    public void updateModel(){
+        tilePath.peek().removeUnitFromTile(selectedUnit); //remove unit from starting point
+
+
+        for(int i = 0; i < tilePath.size() - 1; i++){
+            tilePath.remove().clearTile();    //remove all tiles in path EXCEPT the last one
+                                  //last element in tilePath is the unit destination
+        }
+        tilePath.peek().addUnitToTile(selectedUnit);        //add Unit to final tile
+        selectedUnit.setLocation(tilePath.peek());          //add tile location to unit
+        tilePath.remove().clearTile();                      //clear tile of resources
+
+        //update stats
+        selectedUnit.getUnitStats().setHealth(this.health);
+        selectedUnit.getOwner().setMoney(selectedUnit.getOwner().getMoney() + this.collectedMoney);
+        selectedUnit.getOwner().setConstruction(selectedUnit.getOwner().getConstruction() + this.collectedConstruction);
+        selectedUnit.getOwner().setResearch(selectedUnit.getOwner().getResearch() + this.collectedResearch);
+    }
+
+
+
+    private boolean isUnitAlive(){
+        return health > 0;
+    }
     //calculate all tile effects
-    private void calculateNetEffectByTile(Queue<Tile> tilePath, Unit unit) {
-        int collectedElixir = 0;
-        int collectedMoney = 0;
-        int collectedResearch = 0;
-        int collectedConstruction = 0;
+    private void calculateNetEffectByTile(Tile currentTile) {
 
-        int unitElixir = unit.getUnitStats().getHealth();
+        //AreaEffect
+        if (currentTile.getAreaEffect() != null){
+           health += currentTile.getAreaEffect().getHealthEffect();
+        }
 
-        collectedElixir += unitElixir;  //collectedElixir is buffered by current Health
-                                        //need collectedElixir to be above 0 at all times, or Unit is dead and movement ends
-
-
-        Tile currentTile;
-        while (!tilePath.isEmpty()) {
-            currentTile = tilePath.remove();
-
-            //AreaEffect
-            if (currentTile.getAreaEffect() != null){
-               collectedElixir += currentTile.getAreaEffect().getHealthEffect();
-            }
-
+        if (isUnitAlive()) { //stat collection only occurs if unit is alive
             //Resource
             if (currentTile.getResource() != null){
                 if (currentTile.getResource() instanceof MoneyBag){
@@ -97,20 +147,18 @@ public class Navigator {
             if (currentTile.getItem() != null){
                 collectedMoney += currentTile.getItem().getStatInfluence();
             }
-
-
         }
     }
 
 
-    private boolean verifyBound(int x, int y) {
+    private boolean isInBounds(int x, int y) {
         if (x <= 19 || x >= 0 || y <= 19 || y >= 0) {
             return true;
         }
         return false;
     }
 
-    private boolean verifyTile(Tile tmp) {
+    private boolean isTilePassable(Tile tmp) {
         //check if impassible
         if (!tmp.getTerrain().isPassable()){
             return false;
@@ -122,6 +170,9 @@ public class Navigator {
             }
         }
         return true;
+    }
 
+    private boolean hasMovementLeft() {
+        return true;
     }
 }
