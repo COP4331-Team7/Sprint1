@@ -12,14 +12,20 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.awt.Robot;
+
+import static javax.swing.SwingUtilities.convertPointFromScreen;
 
 public class Command extends JPanel implements KeyListener {
 
     private Player currentPlayer = null;
     private  MainViewInfo statusInfo;
+    private  Screen screen = null;
+
 
     private JButton executeCommandButton = null;
     private JButton endTurnButton = null;
+    Robot robot;
 
     JLabel modeLabel;
     JLabel typeLabel;
@@ -77,7 +83,9 @@ public class Command extends JPanel implements KeyListener {
     private static final int RIGHT_KEY_CODE = 39;
     private static final int DOWN_KEY_CODE = 40;
 
-    public Command(MainViewInfo statusInfo) {
+    public Command(MainViewInfo statusInfo) throws AWTException {
+
+        robot = new Robot();
 
         this.statusInfo = statusInfo;
 
@@ -93,7 +101,6 @@ public class Command extends JPanel implements KeyListener {
         my_static_label.setFont(new Font("Serif", Font.BOLD, 22));
 
         commandSelectPanel.add(my_static_label);
-
         commandSelectPanel.add(modeLabel);
         commandSelectPanel.add(typeLabel);
         commandSelectPanel.add(typeInstanceLabel);
@@ -109,9 +116,6 @@ public class Command extends JPanel implements KeyListener {
         addKeyListener(this);
     }
 
-
-
-
     public String extractCommand() {
         StringBuilder sb = new StringBuilder();
 
@@ -122,7 +126,7 @@ public class Command extends JPanel implements KeyListener {
         sb.append( commandLabel.getText().substring(commandLabel.getText().lastIndexOf(":") + 1) );
 
         String command_string = sb.toString( );
-        System.out.println(command_string);
+        System.out.println("commyString = " + command_string);
         return command_string;
     }
 
@@ -268,6 +272,18 @@ public class Command extends JPanel implements KeyListener {
             else currTypeInstance = getNumInstances( currMode, currType ) - 1;
 
         }
+        else if (e.getKeyChar() == '8') {
+            moveMouse(0, -67);
+        }
+        else if (e.getKeyChar() == '4') {
+            moveMouse(-67, 0);
+        }
+        else if (e.getKeyChar() == '6') {
+            moveMouse(67, 0);
+        }
+        else if (e.getKeyChar() == '2') {
+            moveMouse(0, 67);
+        }
 
 
         updateCommand();
@@ -359,6 +375,10 @@ public class Command extends JPanel implements KeyListener {
         updateCommand();
     }
 
+    public void setScreen(Screen screen) {
+        this.screen = screen;
+    }
+
     public void setCurrentPlayer( Player player ) {
         this.currentPlayer = player;
     }
@@ -370,10 +390,37 @@ public class Command extends JPanel implements KeyListener {
         return executeCommandButton;
     }
     public void queueCommand() {
-        String command = extractCommand();
-        String[] parts = command.split(" ");
+        String commands = extractCommand();
+        System.out.println("commands  = "  + commands );
+
+//        String[] parts = command.split(" ");
 //        System.out.println("type = "  + parts[0] );
 //        System.out.println("instance = "  + parts[1] );
+    }
+
+    public void moveMouse(int x, int y) {
+
+        final Point p = new Point( (int)MouseInfo.getPointerInfo().getLocation().getX(), (int)MouseInfo.getPointerInfo().getLocation().getY());
+
+        convertPointFromScreen(p, screen);
+
+        int x_loc = (int)p.getX();
+        int y_loc = (int)p.getY();
+
+
+        double dx = ( x ) / ((double) 30);
+        double dy = ( y ) / ((double) 30);
+
+        robot.mouseMove( 400, 340);
+
+        try{ Thread.sleep(1000); }
+        catch(Exception e) {}
+        for(int i = 0; i <= 30; i++) {
+            robot.mouseMove( (int)(x_loc + dx * i), (int)(y_loc + dy * i));
+            try{ Thread.sleep(10); }
+            catch(Exception e) {}
+        }
+
     }
 
 }

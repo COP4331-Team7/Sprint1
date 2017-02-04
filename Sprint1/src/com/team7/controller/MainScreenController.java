@@ -4,6 +4,7 @@ import com.team7.objects.unit.Unit;
 import com.team7.view.*;
 import com.team7.objects.*;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class MainScreenController {
         this.view = view;
         setMap( game.getMap() );
         setCurrentPlayer( game.getCurrentPlayer() );
+        view.getScreen().getMainScreen().getCommand().setScreen( view.getScreen() );
 
         addActionListeners();
     }
