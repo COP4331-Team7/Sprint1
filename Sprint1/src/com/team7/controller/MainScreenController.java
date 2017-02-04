@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class MainScreenController {
  private Game game;
  private View view;
+ private ArrayList<String> path = new ArrayList<String >();
+ Navigator navigator;
 
     public MainScreenController(Game game, View view) {
         this.game = game;
@@ -19,6 +21,7 @@ public class MainScreenController {
         setMap( game.getMap() );
         setCurrentPlayer( game.getCurrentPlayer() );
         view.getScreen().getMainScreen().getCommand().setScreen( view.getScreen() );
+        view.getScreen().getMainScreen().getCommand().setController( this );    // give controller
 
         addActionListeners();
     }
@@ -26,6 +29,22 @@ public class MainScreenController {
     public void setMap(  Map map ) {
         view.getScreen().getMainScreen().getMainViewImage().setMap( map );
     }
+
+    public void addCommandToPath(int index, String s) {
+        path.add(index, s );
+    }
+    public void moveMode(Unit selected){ //called 1nce
+        navigator = new Navigator(game.getMap(), selected);
+    }
+    public boolean sendCommand(char command){ //called per number keystroke
+
+        return navigator.parseInputCommand(command);
+    }
+
+    public void clearCommandPath() {
+        path.clear();
+    }
+
 
     public void setCurrentPlayer( Player player ) {
         view.getScreen().getMainScreen().getMainViewImage().setCurrentPlayer( player );
@@ -52,11 +71,23 @@ public class MainScreenController {
                 if(e.getSource() == view.getScreen().getMainScreen().getCommand().getExecuteCommandButton()) {
                     System.out.println("Player " + game.getTurn() + "'s command: ");
                     view.getScreen().getMainScreen().getCommand().queueCommand();
+                    view.getScreen().getMainScreen().getCommand().clearCommand();
                     view.getScreen().getMainScreen().giveCommandFocus();
                 }
             }
         } );
     }
 
+    public MainViewInfo getStatusInfo() {
+        return view.getScreen().getMainScreen().getMainViewInfo();
+    }
 
+    public MainViewImage getMainView() {
+        return view.getScreen().getMainScreen().getMainViewImage();
+    }
+
+
+    public void updateModel() {
+        navigator.updateModel();
+    }
 }

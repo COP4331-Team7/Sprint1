@@ -353,4 +353,11 @@ public class MainViewImage extends JPanel implements MouseListener {
             }
 
         }
+
+        public int getXdest() {
+            return x_center;
+        }
+        public int getYdest() {
+         return y_center;
+        }
 }
