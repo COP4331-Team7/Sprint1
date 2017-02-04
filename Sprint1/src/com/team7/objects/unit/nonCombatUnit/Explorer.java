@@ -18,6 +18,7 @@ public class Explorer extends NonCombatUnit {
         setPowered(true);
         setId( takeId() );
         setLocation(startTile);
+        setMovesFrozen(0);
         setType("Explorer");
     }
 

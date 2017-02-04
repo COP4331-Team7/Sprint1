@@ -19,5 +19,6 @@ public class MeleeUnit extends CombatUnit{
         setId(id);
         setLocation(startTile);
         setType("Melee");
+        setMovesFrozen(0);
     }
 }

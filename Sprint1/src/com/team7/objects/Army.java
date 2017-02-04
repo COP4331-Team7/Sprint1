@@ -111,13 +111,34 @@ public class Army {
 
     public void powerUp() {
 
-        // TODO: fill out what happens to units when power up happens (frozen?)
+
+        for(int i = 0; i < units.size(); i++) {
+            this.units.get(i).getUnitStats().setUpkeep(4);
+            this.units.get(i).setMovesFrozen(2);
+        }
+
         isPowered = true;
     }
 
     public void powerDown() {
-        // TODO: fill out what happens to units when power down happens (frozen?)
+
+        for(int i = 0; i < units.size(); i++) {
+            this.units.get(i).getUnitStats().setUpkeep(1);
+        }
+
         isPowered = false;
+    }
+
+    public void decommission() {
+        for(int i = 0; i < this.units.size(); i++){
+            this.units.get(i).decommission();
+        }
+    }
+
+    public void disband() {
+        for(int i = 0; i < this.units.size(); i++){
+            removeUnitFromArmy(this.units.get(i));
+        }
     }
 
     public int getTurnsFrozen() {

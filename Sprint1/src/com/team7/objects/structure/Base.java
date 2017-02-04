@@ -25,6 +25,7 @@ public class Base extends Structure {
         setLocation(startTile);
         setCommandQueue(new CommandQueue()); //create reference to a CommandQueue
         setPowered(true); //a Base is powered upon creation
+        setMovesFrozen(0);
     }
 
 
