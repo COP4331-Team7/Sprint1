@@ -151,5 +151,10 @@ public class Tile {
         return yCoordinate;
     }
 
+    //clears Tile of all resources and items
+    public void clearTile() {
+        setItem(null);
+        setResource(null);
+    }
 
 }
