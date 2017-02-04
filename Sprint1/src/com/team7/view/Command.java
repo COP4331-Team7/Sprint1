@@ -112,9 +112,10 @@ public class Command extends JPanel implements KeyListener {
 
 
 
-    public void extractCommand() {
+    public String extractCommand() {
         StringBuilder sb = new StringBuilder();
 
+        sb.append(" ");
         //sb.append( modeLabel.getText().substring(modeLabel.getText().lastIndexOf(":") + 1) );
         sb.append( typeLabel.getText().substring(typeLabel.getText().lastIndexOf(":") + 1) );
         sb.append( typeInstanceLabel.getText().substring(typeInstanceLabel.getText().lastIndexOf(":") + 1) );
@@ -122,7 +123,7 @@ public class Command extends JPanel implements KeyListener {
 
         String command_string = sb.toString( );
         System.out.println(command_string);
-       // return  command_string;
+        return command_string;
     }
 
 
@@ -366,6 +367,12 @@ public class Command extends JPanel implements KeyListener {
     }
     public JButton getExecuteCommandButton() {
         return executeCommandButton;
+    }
+    public void queueCommand() {
+        String command = extractCommand();
+        String[] parts = command.split(" ");
+//        System.out.println("type = "  + parts[0] );
+//        System.out.println("instance = "  + parts[1] );
     }
 
 }

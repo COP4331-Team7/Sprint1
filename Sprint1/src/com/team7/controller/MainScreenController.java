@@ -43,7 +43,7 @@ public class MainScreenController {
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == view.getScreen().getMainScreen().getCommand().getExecuteCommandButton()) {
                     System.out.println("Player " + game.getTurn() + "'s command: ");
-                    view.getScreen().getMainScreen().getCommand().extractCommand();
+                    view.getScreen().getMainScreen().getCommand().queueCommand();
                     view.getScreen().getMainScreen().giveCommandFocus();
                 }
             }
