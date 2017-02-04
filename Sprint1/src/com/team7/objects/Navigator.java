@@ -45,6 +45,7 @@ public class Navigator {
         tilePath.add(selectedUnit.getLocation());
         movement = selectedUnit.getUnitStats().getMovement();
 
+        Arrays.fill(healthOfAllUnits, 25);
         unitsLeft = selectedUnits.size();
         healthOfAllUnits[0] = selectedUnit.getUnitStats().getHealth();
     }
@@ -60,6 +61,7 @@ public class Navigator {
 
         unitsLeft = selectedUnits.size();
 
+        Arrays.fill(healthOfAllUnits, 25);
         for(int i = 0; i < selectedUnits.size() - 1; i++){
             healthOfAllUnits[i] = selectedUnits.get(i).getUnitStats().getHealth();
         }
@@ -108,6 +110,7 @@ public class Navigator {
             health = healthOfAllUnits[healthIndex];
             healthIndex++;
 
+            //TODO check if unit is frozen
             if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
                 if (isTilePassable(map.getTile(tmpX, tmpY))){ //second ensure Tile is passable by current Unit
                     if (hasMovementLeft()){ //third ensure that a unit can still move
@@ -128,21 +131,38 @@ public class Navigator {
 
     //when ENTER is pressed
     public void updateModel(){
-        if (tilePath.peek() != null){
-            tilePath.peek().removeUnitFromTile(selectedUnit); //remove unit from starting point
 
+        for(Unit u : selectedUnits){
+            System.out.println("current unit: " + u);
+            selectedUnit = u;
 
-            for(int i = 0; i < tilePath.size() - 1; i++){
-                tilePath.remove().clearTile();    //remove all tiles in path EXCEPT the last one
-                //last element in tilePath is the unit destination
+            if (tilePath.peek() != null){
+                tilePath.peek().removeUnitFromTile(selectedUnit); //remove unit from starting point
+
+                for(int i = 0; i < tilePath.size() - 1; i++){
+                    System.out.println("current tile in path: " + tilePath.peek().getyCoordinate());
+                    tilePath.remove().clearTile();    //remove all tiles in path EXCEPT the last one
+                    //last element in tilePath is the unit destination
+                }
+
+                //now only one Tile left in tilePath, the last one (destination)
+                tilePath.peek().addUnitToTile(selectedUnit);        //add Unit to final tile
+                selectedUnit.setLocation(tilePath.peek());          //add tile location to unit
+
+                if (selectedUnit.getArmy() != null){
+                    selectedUnit.getArmy().setRallyPoint(tilePath.peek());
+                }
+
+                tilePath.remove().clearTile();                      //clear tile of resources
             }
-            tilePath.peek().addUnitToTile(selectedUnit);        //add Unit to final tile
-            selectedUnit.setLocation(tilePath.peek());          //add tile location to unit
-            tilePath.remove().clearTile();                      //clear tile of resources
+
+            //update stats
+            selectedUnit.getUnitStats().setHealth(this.health);
+
         }
 
-        //update stats
-        selectedUnit.getUnitStats().setHealth(this.health);
+
+
         selectedUnit.getOwner().setMoney(selectedUnit.getOwner().getMoney() + this.collectedMoney);
         selectedUnit.getOwner().setConstruction(selectedUnit.getOwner().getConstruction() + this.collectedConstruction);
         selectedUnit.getOwner().setResearch(selectedUnit.getOwner().getResearch() + this.collectedResearch);
