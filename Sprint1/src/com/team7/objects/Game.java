@@ -37,6 +37,7 @@ public class Game {
         // Player 1 starts in top right, player 2 starts in bottom left
         players[0].addUnit(new Explorer(this.map.getGrid()[17][3], players[0]));
         players[0].addUnit(new Explorer(this.map.getGrid()[17][4], players[0]));
+        players[0].addUnit(new Explorer(this.map.getGrid()[16][4], players[0]));
         players[0].addUnit(new Colonist(this.map.getGrid()[18][2], players[0]));
 
         players[1].addUnit(new Explorer(this.map.getGrid()[3][18], players[1]));
