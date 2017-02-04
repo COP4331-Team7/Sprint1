@@ -26,8 +26,9 @@ public class Colonist extends NonCombatUnit {
     // Build a base on the tile, give it to the player and sacrifice colonist
 	public void buildBase(){
 
-		// build base on tile and give it to player
+		// build base on tile and give it to player, take away money
 		Structure base = new Base(this.getLocation(), this.getOwner());
+		this.getOwner().setMoney(this.getOwner().getMoney() - 3);
 		this.getOwner().addStructure(base);
 		this.getLocation().setStructure(base);
 
