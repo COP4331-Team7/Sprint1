@@ -27,7 +27,7 @@ public class Navigator {
     int collectedConstruction = 0;
 
     //when MOVE mode is executed
-    public Navigator(Map m, Unit selectedUnit){
+    public Navigator(Map map, Unit selectedUnit){
         this.map = map;
         this.selectedUnit = selectedUnit;
         x = selectedUnit.getLocation().getxCoordinate();
