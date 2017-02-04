@@ -138,6 +138,7 @@ public class Army {
         this.owner = owner;
     }
 
+
     // function processQueue will take in a string, and check for validity,
     // decode to call helper function for attack, defend etc..
 
