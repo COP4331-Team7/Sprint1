@@ -1,5 +1,6 @@
 package com.team7.objects;
 
+import com.team7.ProbabilityGenerator;
 import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.combatUnit.CombatUnit;
@@ -108,6 +109,12 @@ public class Attacker {
                             totalDamage = 0;
                         }
 
+                        // if defender is alive,
+                        if(tile.getArmies().get(j).getUnits().get(k).getUnitStats().getHealth() > 0){
+                            defend(getRandomAttackingUnit(), tile.getArmies().get(j).getUnits().get(k));
+                        }
+
+
                     }
                 }
 
@@ -151,7 +158,10 @@ public class Attacker {
                         totalDamage = 0;
                     }
 
-
+                    // if defender is alive,
+                    if(tile.getUnits().get(j).getUnitStats().getHealth() > 0){
+                        defend(getRandomAttackingUnit(), tile.getUnits().get(j));
+                    }
 
                 }
 
@@ -179,7 +189,7 @@ public class Attacker {
                         totalDamage -= health;
                     }
                     else if(totalDamage < armor) {
-                        tile.getStructure().getStats().setArmor(0);
+                        tile.getStructure().getStats().setArmor(armor - totalDamage);
                         totalDamage = 0;
                     }
                     else {
@@ -188,6 +198,12 @@ public class Attacker {
                         tile.getStructure().getStats().setHealth(health - totalDamage);
                         totalDamage = 0;
                     }
+
+                    // if defender is alive,
+                    if(tile.getStructure().getStats().getHealth() > 0){
+                        defend(getRandomAttackingUnit(), tile.getStructure());
+                    }
+
                 }
 
                 // if some ranged damage is used, account for it
@@ -239,6 +255,11 @@ public class Attacker {
                             totalRangedDamage = 0;
                         }
 
+                        // if defender is alive,
+                        if(tile.getArmies().get(j).getUnits().get(k).getUnitStats().getHealth() > 0){
+                            defend(getRandomAttackingUnit(), tile.getArmies().get(j).getUnits().get(k));
+                        }
+
                     }
                 }
 
@@ -282,6 +303,11 @@ public class Attacker {
                         totalRangedDamage = 0;
                     }
 
+                    // if defender is alive,
+                    if(tile.getUnits().get(j).getUnitStats().getHealth() > 0){
+                        defend(tile.getUnits().get(j), getRandomAttackingUnit());
+                    }
+
                 }
 
 
@@ -305,7 +331,7 @@ public class Attacker {
                         totalDamage -= health;
                     }
                     else if(totalDamage < armor) {
-                        tile.getStructure().getStats().setArmor(0);
+                        tile.getStructure().getStats().setArmor(armor - totalDamage);
                         totalDamage = 0;
                     }
                     else {
@@ -313,6 +339,11 @@ public class Attacker {
                         tile.getStructure().getStats().setArmor(0);
                         tile.getStructure().getStats().setHealth(health - totalDamage);
                         totalDamage = 0;
+                    }
+
+                    // if defender is alive,
+                    if(tile.getStructure().getStats().getHealth() > 0){
+                        defend(getRandomAttackingUnit(), tile.getStructure());
                     }
 
 
@@ -327,19 +358,68 @@ public class Attacker {
 
 
 
+    // This is called during the attack function, for each attacked unit
+    // if their defensive direction is facing their attacker defensive damage is dealt
+    // NOTE: when defend is selected from command menu, all that happens is unit.setDefendDirection()
+    public void defend(Unit attacker, Unit defender) {
 
-    private void defend(Unit attacker, Unit defender) {
+
+        int defendDirection = defender.getDefenseDirection();
+        int defendDamage = defender.getUnitStats().getDefensiveDamage();
+
+        // conditional statement to check directions
+        if((attackDirection == 1 && defendDirection == 9) || (attackDirection == 2 && defendDirection == 8) || (attackDirection == 3 && defendDirection == 7) || (attackDirection == 4 && defendDirection == 6) || (attackDirection == 6 && defendDirection == 4) || (attackDirection == 7 && defendDirection == 3) || (attackDirection == 8 && defendDirection == 2) || (attackDirection == 9 && defendDirection == 1)){
+
+            int health = attacker.getUnitStats().getHealth();
+            int armor = attacker.getUnitStats().getArmor();
+
+            if (defendDamage >= health + armor) {
+                attacker.getUnitStats().setHealth(0);
+                attacker.getUnitStats().setArmor(0);
+            }
+            else if(defendDamage < armor) {
+                attacker.getUnitStats().setArmor(armor - defendDamage);
+            }
+            else {
+                defendDamage -= armor;
+                attacker.getUnitStats().setArmor(0);
+                attacker.getUnitStats().setHealth(health - defendDamage);
+            }
+
+        }
 
 
     }
 
 
-    private void defend(Unit attacker, Structure defender) {
+    public void defend(Unit attacker, Structure defender) {
 
+        int defendDirection = defender.getDefenseDirection();
+        int defendDamage = defender.getStats().getDefensiveDamage();
 
+        // conditional statement to check directions
+        if((attackDirection == 1 && defendDirection == 9) || (attackDirection == 2 && defendDirection == 8) || (attackDirection == 3 && defendDirection == 7) || (attackDirection == 4 && defendDirection == 6) || (attackDirection == 6 && defendDirection == 4) || (attackDirection == 7 && defendDirection == 3) || (attackDirection == 8 && defendDirection == 2) || (attackDirection == 9 && defendDirection == 1)) {
 
+            int health = attacker.getUnitStats().getHealth();
+            int armor = attacker.getUnitStats().getArmor();
+
+            if (defendDamage >= health + armor) {
+                attacker.getUnitStats().setHealth(0);
+                attacker.getUnitStats().setArmor(0);
+            } else if (defendDamage < armor) {
+                attacker.getUnitStats().setArmor(armor - defendDamage);
+            } else {
+                defendDamage -= armor;
+                attacker.getUnitStats().setArmor(0);
+                attacker.getUnitStats().setHealth(health - defendDamage);
+            }
+        }
     }
 
+    // returns a random arracking unit to be damaged from defensive damage
+    private Unit getRandomAttackingUnit() {
+        return this.selectedUnits.get(ProbabilityGenerator.randomInteger(0, this.selectedUnits.size() - 1));
+    }
 
 
 

@@ -1,5 +1,6 @@
 package com.team7.tests;
 
+import com.team7.ProbabilityGenerator;
 import com.team7.objects.*;
 import com.team7.objects.structure.Base;
 import com.team7.objects.structure.Structure;
@@ -384,6 +385,30 @@ public class PlayerTests {
 
     }
 
+
+    @Test
+    // Test defend direction
+    public void testDefend () throws Exception {
+
+        // create map and player
+        Map map = new Map();
+        Player player1 = new Player();
+        Player player2 = new Player();
+
+        // create army and units for each player
+        Unit melee1 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee2 = new MeleeUnit(map.getGrid()[17][3], player2);
+        melee2.setDefenseDirection(8);
+        player1.addUnit(melee1);
+        player2.addUnit(melee2);
+
+        Attacker attacker = new Attacker(map, melee1, 2);
+        attacker.attack();
+
+
+        assertEquals(player1.getUnits().get(0).getUnitStats().getArmor(), 3);
+
+    }
 
 
 

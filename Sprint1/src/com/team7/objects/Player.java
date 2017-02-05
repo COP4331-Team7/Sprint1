@@ -24,7 +24,7 @@ public class Player {
         armies = new ArrayList<Army>();                              // max size should be 10
         research = 0;
         construction = 0;
-        money = 50;
+        money = 500;
         noUnits = true;
         noStructures = true;
         noArmies = true;
@@ -49,7 +49,7 @@ public class Player {
 
              }
 
-    Navigation navigation =new Navigation(path,start, end);
+        Navigation navigation = new Navigation(path, start, end);
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
         subtractUpkeep();           // subtracts upkeep from all units/structures, ends game if money = 0
