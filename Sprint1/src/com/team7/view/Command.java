@@ -1,6 +1,7 @@
 package com.team7.view;
 
 import com.team7.controller.MainScreenController;
+import com.team7.objects.Army;
 import com.team7.objects.Player;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.combatUnit.MeleeUnit;
@@ -471,6 +472,18 @@ public class Command extends JPanel implements KeyListener {
             }
             return meleeUnits.size();
         }
+//        if(currMode == 2 && currType == -1) { // get list of player's army instances
+//            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+//            ArrayList<Explorer> explorers = new ArrayList<Explorer>();
+//            if( !units.isEmpty() ) {    // if there are units on this tile
+//                for(int n = 0; n < units.size(); n++) {
+//                    if( units.get(n) instanceof Explorer) {
+//                        explorers.add((Explorer) units.get(n));
+//                    }
+//                }
+//            }
+//            return explorers.size();
+//        }
         else
             return 0;
     }

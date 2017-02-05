@@ -4,6 +4,7 @@ import com.team7.Main;
 import com.team7.objects.*;
 import com.team7.objects.areaEffects.ElixirShower;
 import com.team7.objects.areaEffects.Storm;
+import com.team7.objects.areaEffects.VolcanicVent;
 import com.team7.objects.items.Item;
 import com.team7.objects.items.Obstacle;
 import com.team7.objects.items.OneShotItem;
@@ -29,6 +30,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainViewImage extends JPanel implements MouseListener {
 
@@ -63,6 +65,14 @@ public class MainViewImage extends JPanel implements MouseListener {
 
         private  BufferedImage obstacleImage;
         private  BufferedImage oneShotImage;
+
+        private  BufferedImage meleeImage;
+        private  BufferedImage rangeImage;
+        private  BufferedImage armyImage;
+        private  BufferedImage ventImage;
+
+        private  BufferedImage skullImage;
+
             //
         private BufferedImage mapImage;
         private MainViewSelection mainViewSelection;
@@ -101,6 +111,14 @@ public class MainViewImage extends JPanel implements MouseListener {
 
                oneShotImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/oneShot.png")).replace("file:","")));
                obstacleImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/stopIcon.png")).replace("file:","")));
+
+                meleeImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/meleeImage.png")).replace("file:","")));
+                rangeImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/rangeImage.png")).replace("file:","")));
+                armyImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/armyImagepng.png")).replace("file:","")));
+                ventImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/vent.png")).replace("file:","")));
+
+                skullImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/decals/skullImage.png")).replace("file:","")));
+
                 // moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
                 // hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 
@@ -184,13 +202,23 @@ public class MainViewImage extends JPanel implements MouseListener {
                     else if (grid[xx][yy].getAreaEffect() instanceof ElixirShower) {
                         g2ds.drawImage(elixerShowerImage, x_coord + 10, y_coord + 10, null);
                     }
+                    else if (grid[xx][yy].getAreaEffect() instanceof VolcanicVent) {
+                        g2ds.drawImage(ventImage, x_coord + 10, y_coord + 10, null);
+                    }
 
                     // draw obstacles
                     if(grid[xx][yy].getItem() instanceof Obstacle) {
                         g2ds.drawImage(obstacleImage, x_coord + 20, y_coord + 20, null);
                     }
-                    if(grid[xx][yy].getItem() instanceof OneShotItem) {
+                    else if(grid[xx][yy].getItem() instanceof OneShotItem) {
                         g2ds.drawImage(oneShotImage, x_coord + 20, y_coord + 20, null);
+                    }
+
+                    // draw decals
+                    if( grid[xx][yy].getDecal() != null) {
+                        if(Objects.equals(grid[xx][yy].getDecal().getType(), "Skull" )) {
+                          g2ds.drawImage(skullImage, x_coord, y_coord + 35, null);
+                      }
                     }
 
 
