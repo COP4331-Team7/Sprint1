@@ -23,10 +23,13 @@ public class UnitScreen extends JPanel {
     private JScrollPane jScrollPane = null;
     private JScrollPane queueScrollPane;
     private Unit[] units;
+    private ArrayList<Unit> unitsInSelectedArmy = new ArrayList<Unit>();
     private JList unitList = new JList();
     private JList queue = new JList();
-    JList armyList = new JList();
+    private JList armyList = new JList();
+    private JList unitsInArmyList = new JList();
     private JTextArea textArea = new JTextArea();
+    private JPanel unitOverviewComponents = new JPanel();
     private int selectedArmy;
 
     //List Models
@@ -34,6 +37,9 @@ public class UnitScreen extends JPanel {
 
     //Buttons to be accessed by UnitScreenController
     JButton addArmy = new JButton("CREATE ARMY");
+    JButton decomissionArmy = new JButton("DISBAND ARMY");
+    JButton addUnit = new JButton("ADD UNIT");
+    JButton removeUnit = new JButton("REMOVE UNIT");
 
     public UnitScreen() {
 
@@ -91,11 +97,24 @@ public class UnitScreen extends JPanel {
                 return null;
             }
         });
+
+        //Configure init model for unitsInArmyList
+        unitsInArmyList.setModel(new AbstractListModel() {
+            @Override
+            public int getSize() {
+                return unitsInSelectedArmy.size();
+            }
+
+            @Override
+            public Object getElementAt(int index) {
+                return unitsInSelectedArmy.get(index);
+            }
+        });
         //Listens for any changes in selected unit
         unitList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                changeListVal(e);
+                changeListVal();
             }
         });
 
@@ -104,7 +123,7 @@ public class UnitScreen extends JPanel {
         queueScrollPane.setMaximumSize(new Dimension(200,400));
         queueScrollPane.setPreferredSize(new Dimension(200, 200));
         queuePane.setMaximumSize(new Dimension(200,400));
-        JLabel queueLabel = new JLabel("Command Queue", SwingConstants.CENTER);
+        JLabel queueLabel = new JLabel("Command Queue (IF COMBAT UNIT)", SwingConstants.CENTER);
         queuePane.add(queueLabel, BorderLayout.NORTH);
         queuePane.add(queueScrollPane);
         queue.setVisibleRowCount(10);
@@ -130,46 +149,52 @@ public class UnitScreen extends JPanel {
         scrollBox.add(jScrollPane);
         unitList.setVisibleRowCount(10);
 
+        //Format Army Buttons
+        JPanel armyButtons = new JPanel(new GridLayout(1,2));
+        armyButtons.add(addArmy);
+        armyButtons.add(decomissionArmy);
+
         //Format Army Select Box
         armyList.setModel(armyModel);
-        armyList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                changeArmyVal(e);
-            }
-        });
         JPanel armyPanel = new JPanel(new BorderLayout());
         JLabel armySelectLabel = new JLabel("Army Select", SwingConstants.CENTER);
         armyPanel.add(armySelectLabel, BorderLayout.NORTH);
         JScrollPane scrollArmyPane = new JScrollPane(armyList);
         armyPanel.add(scrollArmyPane, BorderLayout.CENTER);
-        armyPanel.add(addArmy, BorderLayout.SOUTH);
+        armyPanel.add(armyButtons, BorderLayout.SOUTH);
+
+        //Format List of units for each Army
+        JPanel uAPanel = new JPanel(new BorderLayout());
+        JLabel uALabel = new JLabel("Units in army", SwingConstants.CENTER);
+        uAPanel.add(uALabel, BorderLayout.NORTH);
+        JScrollPane uAScrollPane = new JScrollPane(unitsInArmyList);
+        uAPanel.add(uAScrollPane, BorderLayout.CENTER);
+        JPanel unitButtons = new JPanel(new GridLayout(1, 2));
+        unitButtons.add(addUnit);
+        unitButtons.add(removeUnit);
+        uAPanel.add(unitButtons, BorderLayout.SOUTH);
 
 
+        JLabel titleLabel = new JLabel("Unit Overview", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 22));
 
         //Format and add all components to the data pane
-        JPanel unitOverviewComponents = new JPanel();
         unitOverviewComponents.setLayout(new GridLayout(2,3));
         unitOverviewComponents.add(scrollBox);
         unitOverviewComponents.add(queuePane);
         unitOverviewComponents.add(textBox);
         unitOverviewComponents.add(armyPanel);
-        unitOverviewComponents.add(new JLabel("Spacer"));
-        unitOverviewComponents.add(new JLabel("Spacer2"));
+        unitOverviewComponents.add(titleLabel);
+        unitOverviewComponents.add(uAPanel);
 
         pane.add(unitOverviewComponents);
         repaint();
     }
 
-    private void changeListVal(javax.swing.event.ListSelectionEvent e) {
+    public void changeListVal() {
         String s = (String)unitList.getSelectedValue();
         String stats = getStats(s);
         textArea.setText(stats);
-    }
-
-    private void changeArmyVal(javax.swing.event.ListSelectionEvent e) {
-        String s = (String)armyList.getSelectedValue();
-        selectedArmy = Integer.valueOf(s.substring(5));
     }
 
     //--TODO-- Missing functionallity in unit to complete this function
@@ -214,6 +239,10 @@ public class UnitScreen extends JPanel {
         repaint();
     }
 
+    public void displayMessage(String s) {
+        JOptionPane.showMessageDialog(unitOverviewComponents, s, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
     public DefaultListModel getArmyModel() {
         return this.armyModel;
     }
@@ -222,8 +251,16 @@ public class UnitScreen extends JPanel {
     public JButton getAddArmyButton() {
         return addArmy;
     }
+    public JButton getDisbandArmyButton() {
+        return decomissionArmy;
+    }
+    public JButton getAddUnitButton() { return addUnit;}
+    public JButton getRemoveUnitButton() { return removeUnit;}
 
+    //Getter Methods for every list to be accessed by UnitScreenController
     public JList getUnitList() {
         return unitList;
     }
+    public JList getArmyList() {return armyList;}
+    public JList getUnitsinArmyList() {return unitsInArmyList;}
 }
