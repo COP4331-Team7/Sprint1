@@ -1,0 +1,13 @@
+
+
+public interface Entity{
+    string getId();
+    int[] getAllCurrentStats();
+    Tile getLocation(); // this needs to return a specific location
+    void attack(Direction tile);
+    void defend();
+    void attack();
+    void powerUp();
+    void powerDown();
+    void cancelQueueOrder();
+}

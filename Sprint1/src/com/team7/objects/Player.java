@@ -65,7 +65,7 @@ public class Player {
         // Physically add the unit to player and put it on the map
         this.noUnits = false;
         this.units.add(unit);
-        unit.getLocation().addUnitToTile(unit);
+        unit.getLocation().addUnitToTile(unit); // this is weird
 
         return unit;
     }
@@ -141,13 +141,13 @@ public class Player {
     // Adds structure to Player's ArrayList of Structures
     public Structure addStructure(Structure structure) {
 
-        // Ensures we are able to have a unit
+        // Ensures we are able to have a structures
         if(this.structures.size() == 10){
             System.out.println("You have too many units.");
             return structure;
         }
 
-        // Physically add the unit and put it on the map
+        // Physically add the structure and put it on the map
         this.noStructures = false;
         this.structures.add(structure);
         structure.getLocation().setStructure(structure);
@@ -155,7 +155,7 @@ public class Player {
         return structure;
     }
 
-    // Removes unit from Player's ArrayList of Units
+    // Removes structure from Player's ArrayList of Units
     public Structure removeStructure(Structure structure) {
 
         // Physically remove unit form player and tile

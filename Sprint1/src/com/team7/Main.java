@@ -6,7 +6,7 @@ import com.team7.objects.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+     public static void main(String[] args) {
 
         // Model
         Player player1 = new Player();
