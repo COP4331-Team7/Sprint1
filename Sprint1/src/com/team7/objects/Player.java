@@ -308,12 +308,7 @@ public class Player {
     }
 
 
-<<<<<<< HEAD
     private void subtractMovesFrozen() {
-=======
-
-    public void subtractMovesFrozen() {
->>>>>>> 9d04a0246c4761ccf7688e5e3487ed57be27e270
 
         // subtract one from moves frozen for all frozen units
         for(int i = 0; i < this.units.size(); i++){
