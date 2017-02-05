@@ -15,10 +15,10 @@ public class Army {
     private CommandQueue commands;
     private int slowestSpeed; // Moves with speed of slowest unit
     private Tile rallyPoint;
-    private int direction;
+    private int defenseDirection;
     private boolean isPowered;
     private int turnsFrozen;
-    private String name; 
+    private String name;
 
 
 
@@ -29,7 +29,7 @@ public class Army {
         this.owner = player;
         this.slowestSpeed = 100;
         this.rallyPoint = startTile;
-        this.direction = 0;
+        this.defenseDirection = 0;
         this.isPowered = true;
         this.turnsFrozen = 0;
         this.name = "Army " + id; 
@@ -97,13 +97,6 @@ public class Army {
         this.rallyPoint = rallyPoint;
     }
 
-    public int getDirection() {
-        return direction;
-    }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
 
     public boolean isPowered() {
         return isPowered;
@@ -111,13 +104,35 @@ public class Army {
 
     public void powerUp() {
 
-        // TODO: fill out what happens to units when power up happens (frozen?)
+
+        for(int i = 0; i < units.size(); i++) {
+            this.units.get(i).getUnitStats().setUpkeep(4);
+            this.units.get(i).setMovesFrozen(2);
+        }
+
         isPowered = true;
     }
 
     public void powerDown() {
-        // TODO: fill out what happens to units when power down happens (frozen?)
+
+        for(int i = 0; i < units.size(); i++) {
+            this.units.get(i).getUnitStats().setUpkeep(1);
+        }
+
         isPowered = false;
+    }
+
+    public void decommission() {
+        for(int i = 0; i < this.units.size(); i++){
+            this.units.get(i).decommission();
+        }
+    }
+
+    public void disband() {
+        for(int i = 0; i < this.units.size(); i++){
+            removeUnitFromArmy(this.units.get(i));
+        }
+        this.owner.removeArmy(this);
     }
 
     public int getTurnsFrozen() {
@@ -137,6 +152,22 @@ public class Army {
     }
     public String getName() {
         return name;
+    }
+
+    public int getDefenseDirection() {
+        return defenseDirection;
+    }
+
+    public void setDefenseDirection(int defenseDirection) {
+        this.defenseDirection = defenseDirection;
+    }
+
+    public void setPowered(boolean powered) {
+        isPowered = powered;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     // function processQueue will take in a string, and check for validity,

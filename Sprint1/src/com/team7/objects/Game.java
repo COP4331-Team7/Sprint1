@@ -33,10 +33,9 @@ public class Game {
 
         // Put initial 2 explorers and colonists into Player's array to start game
         // Player 1 starts in top right, player 2 starts in bottom left
-        players[0].addUnit(new Explorer(this.map.getGrid()[17][3], players[0]));
+        players[0].addUnit(new Explorer(this.map.getGrid()[15][3], players[0]));
         players[0].addUnit(new Explorer(this.map.getGrid()[17][4], players[0]));
-        players[0].addUnit(new Explorer(this.map.getGrid()[16][4], players[0]));
-        players[0].addUnit(new Colonist(this.map.getGrid()[18][2], players[0]));
+        players[0].addUnit(new Colonist(this.map.getGrid()[16][4], players[0]));
 
         players[1].addUnit(new Explorer(this.map.getGrid()[3][18], players[1]));
         players[1].addUnit(new Explorer(this.map.getGrid()[3][17], players[1]));

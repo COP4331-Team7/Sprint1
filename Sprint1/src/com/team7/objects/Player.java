@@ -52,6 +52,9 @@ public class Player {
     Navigation navigation =new Navigation(path,start, end);
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
+        subtractUpkeep();           // subtracts upkeep from all units/structures, ends game if money = 0
+        subtractMovesFrozen();      // subtracts moves frozen from anything that is frozen
+
     }
 
 
@@ -98,6 +101,16 @@ public class Player {
         }
 
         return unit;
+    }
+
+    public Unit getUnit(Unit unit){
+        for(int i = 0; i < units.size(); i++){
+            if(units.get(i) == unit){
+                return unit;
+            }
+        }
+
+        return null;
     }
 
 
@@ -265,6 +278,56 @@ public class Player {
             }
         }
 
+
+    }
+
+    private void subtractUpkeep() {
+
+        int sum = 0;
+
+        // add all unit stats
+        for(int i = 0; i < this.units.size(); i++){
+            sum += this.units.get(i).getUnitStats().getUpkeep();
+        }
+
+        // add all structure stats
+        for(int i = 0; i < this.structures.size(); i++){
+            sum += this.structures.get(i).getStats().getUpkeep();
+        }
+
+        this.setMoney(this.getMoney() - sum);
+
+
+        // if they run out of money the game is over
+        if(this.getMoney() == 0){
+            noStructures = true;
+            noUnits = true;
+            noArmies = true;
+        }
+
+    }
+
+
+    private void subtractMovesFrozen() {
+
+        // subtract one from moves frozen for all frozen units
+        for(int i = 0; i < this.units.size(); i++){
+            if(this.units.get(i).getMovesFrozen() > 0) {
+                this.units.get(i).setMovesFrozen(this.units.get(i).getMovesFrozen() - 1);
+            }
+        }
+
+        // subtract one from moves frozen for all frozen structures
+        for(int i = 0; i < this.structures.size(); i++){
+            if(this.structures.get(i).getMovesFrozen() > 0) {
+                this.structures.get(i).setMovesFrozen(this.structures.get(i).getMovesFrozen() - 1);
+            }
+        }
+
+    }
+
+    // This function will loop through all armies and structures and execute next command in queue
+    private void updateQueues() {
 
     }
 

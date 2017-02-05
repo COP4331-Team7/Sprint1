@@ -52,7 +52,6 @@ public class MainScreenController {
                     view.getScreen().getMainScreen().getMainViewInfo().clearStats();
                     view.getScreen().getMainScreen().getCommand().clearCommand();
                     setCurrentPlayer( game.getCurrentPlayer() );
-                    view.getScreen().getUnitScreen().setArmies((ArrayList<Army>) game.getCurrentPlayer().getArmies());
                     view.getScreen().getUnitScreen().setUnits((ArrayList<Unit>) game.getCurrentPlayer().getUnits());
                     view.getScreen().getMainScreen().giveCommandFocus();
                 }
@@ -90,8 +89,9 @@ public class MainScreenController {
 
             for(int i = 0; i<navigator.updateModel().size(); i++){
 
-                navigator.reDrawMapViaModel( navigator.updateModel().get(i) );
-                view.getScreen().getMainScreen().getMainViewImage().zoomToDestination( navigator.updateModel().get(i).getxCoordinate() - 11/2, navigator.updateModel().get(i).getyCoordinate() - 7/2, 50);
+                    navigator.reDrawMapViaModel(navigator.updateModel().get(i));
+                    view.getScreen().getMainScreen().getMainViewImage().zoomToDestination( navigator.updateModel().get(i).getxCoordinate() - 11/2, navigator.updateModel().get(i).getyCoordinate() - 7/2, 50);
+                    view.getScreen().getMainScreen().getMainViewInfo().updateStats();
 
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
@@ -100,7 +100,7 @@ public class MainScreenController {
                     }
                 });
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
