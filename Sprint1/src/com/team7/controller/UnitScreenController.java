@@ -98,6 +98,74 @@ public class UnitScreenController {
             }
         });
 
+        //Add ActionListener for add unit button
+        view.getScreen().getUnitScreen().getAddUnitButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getScreen().getUnitScreen().getAddUnitButton()) {
+                    System.out.println("Hit add unit button");
+                    String selectedUnitString = (String) view.getScreen().getUnitScreen().getUnitList().getSelectedValue();
+                    String selectedArmyString = (String) view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+
+                    Unit selectedUnitObject = null;
+                    Army selectedArmyObject = null;
+
+                    if (selectedArmyString == null || selectedUnitString == null) {
+                        view.getScreen().getUnitScreen().displayMessage("Select a Unit and an Army");
+                        return;
+                    }
+
+                    List<Unit> units = game.getCurrentPlayer().getUnits();
+                    for (Unit u:units) {
+                        if (selectedUnitString.equals(u.getType() + " " + u.getId())) {
+                            selectedUnitObject = u;
+                        }
+                    }
+                    List<Army> armies = game.getCurrentPlayer().getArmies();
+                    for (Army a: armies) {
+                        if (selectedArmyString.equals(a.getName())) {
+                            selectedArmyObject = a;
+                        }
+                    }
+
+                    if (selectedUnitObject == null) {
+                        System.out.println("Could not find Unit" + selectedUnitString);
+                        return;
+                    }
+
+                    if (selectedArmyObject == null) {
+                        System.out.println("Could not find Army " + selectedArmyString);
+                        return;
+                    }
+
+                    if (selectedUnitObject.getType() == "Explorer" || selectedUnitObject.getType() == "Colonist") {
+                        view.getScreen().getUnitScreen().displayMessage("That unit can not join an army");
+                        return;
+                    }
+
+                    if (selectedUnitObject.getArmy() != null) {
+                        view.getScreen().getUnitScreen().displayMessage("That unit is already in an army");
+                        return;
+                    }
+
+                    selectedArmyObject.addUnitToArmy(selectedUnitObject);
+                    Army finalSelectedArmyObject = selectedArmyObject;
+                    view.getScreen().getUnitScreen().getUnitsinArmyList().setModel(new AbstractListModel() {
+                        @Override
+                        public int getSize() {
+                            return finalSelectedArmyObject.getUnits().size();
+                        }
+
+                        @Override
+                        public Object getElementAt(int index) {
+                            return finalSelectedArmyObject.getUnits().get(index).getType() + " " + finalSelectedArmyObject.getUnits().get(index).getId();
+                        }
+                    });
+                    view.getScreen().getUnitScreen().repaint();
+                }
+            }
+        });
+
         //Add ActionListener for army selection
         view.getScreen().getUnitScreen().getArmyList().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -119,6 +187,53 @@ public class UnitScreenController {
                             }
                         });
                     }
+                }
+            }
+        });
+
+        //Add Action Listener for remove unit
+        view.getScreen().getUnitScreen().getRemoveUnitButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getScreen().getUnitScreen().getRemoveUnitButton()) {
+                    String selectedUnitString = (String) view.getScreen().getUnitScreen().getUnitsinArmyList().getSelectedValue();
+                    String selectedArmyString = (String) view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+
+                    Unit selectedUnitObject = null;
+                    Army selectedArmyObject = null;
+
+                    if (selectedArmyString == null || selectedUnitString == null) {
+                        view.getScreen().getUnitScreen().displayMessage("Select a Unit and an Army");
+                        return;
+                    }
+
+                    List<Unit> units = game.getCurrentPlayer().getUnits();
+                    for (Unit u:units) {
+                        if (selectedUnitString.equals(u.getType() + " " + u.getId())) {
+                            selectedUnitObject = u;
+                        }
+                    }
+                    List<Army> armies = game.getCurrentPlayer().getArmies();
+                    for (Army a: armies) {
+                        if (selectedArmyString.equals(a.getName())) {
+                            selectedArmyObject = a;
+                        }
+                    }
+
+                    selectedArmyObject.removeUnitFromArmy(selectedUnitObject);
+                    Army finalSelectedArmyObject = selectedArmyObject;
+                    view.getScreen().getUnitScreen().getUnitsinArmyList().setModel(new AbstractListModel() {
+                        @Override
+                        public int getSize() {
+                            return finalSelectedArmyObject.getUnits().size();
+                        }
+
+                        @Override
+                        public Object getElementAt(int index) {
+                            return finalSelectedArmyObject.getUnits().get(index).getType() + " " + finalSelectedArmyObject.getUnits().get(index).getId();
+                        }
+                    });
+                    view.getScreen().getUnitScreen().repaint();
                 }
             }
         });

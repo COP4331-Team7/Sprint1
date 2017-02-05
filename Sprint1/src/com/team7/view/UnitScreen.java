@@ -38,6 +38,8 @@ public class UnitScreen extends JPanel {
     //Buttons to be accessed by UnitScreenController
     JButton addArmy = new JButton("CREATE ARMY");
     JButton decomissionArmy = new JButton("DISBAND ARMY");
+    JButton addUnit = new JButton("ADD UNIT");
+    JButton removeUnit = new JButton("REMOVE UNIT");
 
     public UnitScreen() {
 
@@ -121,7 +123,7 @@ public class UnitScreen extends JPanel {
         queueScrollPane.setMaximumSize(new Dimension(200,400));
         queueScrollPane.setPreferredSize(new Dimension(200, 200));
         queuePane.setMaximumSize(new Dimension(200,400));
-        JLabel queueLabel = new JLabel("Command Queue", SwingConstants.CENTER);
+        JLabel queueLabel = new JLabel("Command Queue (IF COMBAT UNIT)", SwingConstants.CENTER);
         queuePane.add(queueLabel, BorderLayout.NORTH);
         queuePane.add(queueScrollPane);
         queue.setVisibleRowCount(10);
@@ -167,7 +169,14 @@ public class UnitScreen extends JPanel {
         uAPanel.add(uALabel, BorderLayout.NORTH);
         JScrollPane uAScrollPane = new JScrollPane(unitsInArmyList);
         uAPanel.add(uAScrollPane, BorderLayout.CENTER);
+        JPanel unitButtons = new JPanel(new GridLayout(1, 2));
+        unitButtons.add(addUnit);
+        unitButtons.add(removeUnit);
+        uAPanel.add(unitButtons, BorderLayout.SOUTH);
 
+
+        JLabel titleLabel = new JLabel("Unit Overview", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 22));
 
         //Format and add all components to the data pane
         unitOverviewComponents.setLayout(new GridLayout(2,3));
@@ -175,8 +184,8 @@ public class UnitScreen extends JPanel {
         unitOverviewComponents.add(queuePane);
         unitOverviewComponents.add(textBox);
         unitOverviewComponents.add(armyPanel);
+        unitOverviewComponents.add(titleLabel);
         unitOverviewComponents.add(uAPanel);
-        //unitOverviewComponents.add(new JLabel("Spacer2"));
 
         pane.add(unitOverviewComponents);
         repaint();
@@ -245,15 +254,13 @@ public class UnitScreen extends JPanel {
     public JButton getDisbandArmyButton() {
         return decomissionArmy;
     }
+    public JButton getAddUnitButton() { return addUnit;}
+    public JButton getRemoveUnitButton() { return removeUnit;}
 
     //Getter Methods for every list to be accessed by UnitScreenController
     public JList getUnitList() {
         return unitList;
     }
-    public JList getArmyList() {
-        return armyList;
-    }
-    public JList getUnitsinArmyList() {
-        return unitsInArmyList;
-    }
+    public JList getArmyList() {return armyList;}
+    public JList getUnitsinArmyList() {return unitsInArmyList;}
 }
