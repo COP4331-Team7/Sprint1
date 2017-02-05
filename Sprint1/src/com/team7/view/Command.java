@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.Robot;
 
@@ -24,6 +25,9 @@ public class Command extends JPanel implements KeyListener {
     private  MainViewInfo statusInfo;
     private  Screen screen = null;
     private MainScreenController msc;
+    private final static int TILESIZE = 67;
+    private final static int TILES_VISIBLE_X = 11;
+    private final static int TILES_VISIBLE_Y = 7;
 
     private JButton executeCommandButton = null;
     private JButton endTurnButton = null;
@@ -292,99 +296,99 @@ public class Command extends JPanel implements KeyListener {
         // if RALLY POINT or UNIT mode, and command is MOVE
         if( (currMode == 0 || currMode == 2) && currCommand == 4) {
 
-            if(isTrackingPath == false) {
-                moveCursorToSelectedUnit();
-                msc.moveMode( getCurrSelectedUnit() );
-            }
-
-            isTrackingPath = true;
+            isTrackingPath = false;
 
             switch( e.getKeyChar() ) {
                 case '1':
                     if(msc.sendCommand( '1' )) { // SW
-                        moveMouse(-67, 67);
+                        moveMouse(-TILESIZE, TILESIZE);
                     }
                     break;
                 case '2':
                     if(msc.sendCommand( '2' )) { // S
-                        moveMouse(0, 67);
+                        moveMouse(0, TILESIZE);
                     }
                     break;
                 case '3':
                     if(msc.sendCommand( '3' )) { // SE
-                        moveMouse(67, 67);
+                        moveMouse(TILESIZE, TILESIZE);
                     }
                     break;
                 case '4':
                     if(msc.sendCommand( '4' )) { // W
-                        moveMouse(-67, 0);
+                        moveMouse(-TILESIZE, 0);
                     }
                     break;
                 case '5':
+                    if(isTrackingPath == false) {
+                        isTrackingPath = true;
+                        moveCursorToSelectedUnit();
+                        msc.moveMode( getCurrSelectedUnit() );
+                        break;
+                    }
                     commandOrder = 0;
                     msc.updateModel();
                     clearCommand();
+                    isTrackingPath = false;
                     break;
                 case '6':
                     if(msc.sendCommand( '6' )) { // E
-                        moveMouse(67, 0);
+                        moveMouse(TILESIZE, 0);
                     }
                     break;
                 case '7':
                     if(msc.sendCommand( '7' )) { // NW
-                        moveMouse(-67, -67);
+                        moveMouse(-TILESIZE, -TILESIZE);
                     }
                     break;
                 case '8':
                     if(msc.sendCommand( '8' )) { // N
-                        moveMouse(0, -67);
+                        moveMouse(0, -TILESIZE);
                     }
                     break;
                 case '9':
                     if(msc.sendCommand( '9' )){
-                        moveMouse(67, -67); // NE
+                        moveMouse(TILESIZE, -TILESIZE); // NE
                     }
-
                 case 'z':
-                    if(msc.sendCommand( '1' )) { // SW
-                        moveMouse(-67, 67);
-                    }
+                    //  if(msc.sendCommand( '1' )) { // SW
+                    moveMouse(-TILESIZE, TILESIZE);
+                    //    }
                     break;
                 case 'x':
-                    if(msc.sendCommand( '2' )) { // S
-                        moveMouse(0, 67);
-                    }
+                    //   if(msc.sendCommand( '2' )) { // S
+                    moveMouse(0, TILESIZE);
+                    // }
                     break;
                 case 'c':
-                    if(msc.sendCommand( '3' )) { // SE
-                        moveMouse(67, 67);
-                    }
+                    //  if(msc.sendCommand( '3' )) { // SE
+                    moveMouse(TILESIZE, TILESIZE);
+                    // }
                     break;
                 case 'a':
-                    if(msc.sendCommand( '4' )) { // W
-                        moveMouse(-67, 0);
-                    }
+                    // if(msc.sendCommand( '4' )) { // W
+                    moveMouse(-TILESIZE, 0);
+                    // }
                     break;
                 case 'd':
-                    if(msc.sendCommand( '6' )) { // E
-                        moveMouse(67, 0);
-                    }
+                    //  if(msc.sendCommand( '6' )) { // E
+                    moveMouse(TILESIZE, 0);
+                    //}
                     break;
                 case 'q':
-                    if(msc.sendCommand( '7' )) { // NW
-                        moveMouse(-67, -67);
-                    }
+                    // if(msc.sendCommand( '7' )) { // NW
+                    moveMouse(-TILESIZE, -TILESIZE);
+                    // }
                     break;
                 case 'w':
-                    if(msc.sendCommand( '8' )) { // N
-                        moveMouse(0, -67);
-                    }
+                    // if(msc.sendCommand( '8' )) { // N
+                    moveMouse(0, -TILESIZE);
+                    // }
                     break;
                 case 'e':
-                    if(msc.sendCommand( '9' )){
-                        moveMouse(67, -67); // NE
-                    }
-
+                    // if(msc.sendCommand( '9' )){
+                    moveMouse(TILESIZE, -TILESIZE); // NE
+                    // }
                     break;
                 default:
             }
@@ -542,22 +546,22 @@ public class Command extends JPanel implements KeyListener {
         convertPointFromScreen(pTemp, screen);
 
         System.out.println("x = " + pTemp.getX() + " y = " + pTemp.getY() );
-        if(pTemp.getX() - 67 <= 0) {
+        if(x < 0 && pTemp.getX() - 67 <= 0) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() + 67, (int)MouseInfo.getPointerInfo().getLocation().getY());
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() - 1), msc.getMainView().getYdest() );
             return;
         }
-        if(pTemp.getX() + 67 >= 737 - 67) {
+        if(x > 0 && pTemp.getX() >= 733 - 67) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() - 67, (int)MouseInfo.getPointerInfo().getLocation().getY());
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() + 1), msc.getMainView().getYdest() );
             return;
         }
-        if(pTemp.getY() + 67 >= 536 ) {
+        if(y > 0 && pTemp.getY() >= 536 - TILESIZE) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() - 67);
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest()), (msc.getMainView().getYdest() + 1) );
             return;
         }
-        if(pTemp.getY() - 67 <= 67 ) {
+        if(y < 0 && pTemp.getY() - TILESIZE <= 0 ) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() + 67);
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() ), (msc.getMainView().getYdest() - 1) );
             return;
@@ -573,6 +577,16 @@ public class Command extends JPanel implements KeyListener {
 
         double dx = ( x ) / ((double) 30);
         double dy = ( y ) / ((double) 30);
+
+        BufferedImage img = msc.getMainView().getImage();
+        Graphics2D g2d = (Graphics2D) img.createGraphics();
+        g2d.setColor(new Color(255, 153, 51));
+        g2d.setStroke( new BasicStroke(3.0f,
+                BasicStroke.CAP_SQUARE,
+                BasicStroke.JOIN_ROUND,
+                3.0f) );
+        g2d.drawLine(x_loc2 - TILESIZE/2, y_loc2 - TILESIZE - 40, x_loc2 + x - TILESIZE/2, y_loc2 + y - TILESIZE - 40 );
+        msc.getMainView().rePaintMap();
 
         for(int i = 0; i <= 30; i++) {
             robot.mouseMove( (int)(x_loc2 + dx * i), (int)(y_loc2 + dy * i));

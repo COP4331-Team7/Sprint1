@@ -86,7 +86,6 @@ public class MainScreenController {
         return view.getScreen().getMainScreen().getMainViewImage();
     }
 
-
     public void updateModel() {
         navigator.updateModel();
     }

@@ -377,4 +377,12 @@ public class MainViewImage extends JPanel implements MouseListener {
         public int getYdest() {
          return y_center;
         }
+
+    public void rePaintMap() {
+            repaint();
+    }
+
+    public BufferedImage getImage() {
+        return image;
+    }
 }
