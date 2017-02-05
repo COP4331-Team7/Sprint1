@@ -12,11 +12,11 @@ public class StructureScreen extends JPanel {
     private JScrollPane jScrollPane = null;
 
     //Lists
-    private JList structureList = new JList();
+    private JList<String> structureList = new JList<String>();
     private JList structureCommands = new JList();
 
     //Models
-    private DefaultListModel strucListModel = new DefaultListModel();
+    private DefaultListModel<String> strucListModel = new DefaultListModel<>();
     private DefaultListModel comListModel = new DefaultListModel();
 
     //Buttons
@@ -27,6 +27,9 @@ public class StructureScreen extends JPanel {
 
     //Data to display
     private ArrayList<Structure> structures;
+
+    //Text Areas
+    private JTextArea statsTextArea = new JTextArea();
 
     public StructureScreen() {
 
@@ -57,6 +60,7 @@ public class StructureScreen extends JPanel {
         //Format Structure List
         JScrollPane scrollStrucList = new JScrollPane(structureList);
         buildingListPanel.add(scrollStrucList, BorderLayout.CENTER);
+        structureList.setModel(strucListModel);
 
         //Format Command List
         JScrollPane commandScrollPane = new JScrollPane(structureCommands);
@@ -69,7 +73,6 @@ public class StructureScreen extends JPanel {
         commandPanel.add(commandButtonPanel, BorderLayout.SOUTH);
 
         //Format Stats box
-        JTextArea statsTextArea = new JTextArea();
         statsPanel.add(statsTextArea, BorderLayout.CENTER);
 
 
@@ -85,21 +88,29 @@ public class StructureScreen extends JPanel {
         infoPane.add(attributePanel);
 
         this.add(infoPane, BorderLayout.CENTER);
+
     }
+
+
 
     public ScreenSelectButtons getScreenSelectButtons() {
             return screenSelectBtns;
     }
 
-    private void addScrollPane(Container pane) {
-            JPanel temp = new JPanel();
-            temp.setLayout( new BorderLayout() );
-            jScrollPane = new JScrollPane(temp);
-            temp.setPreferredSize( new Dimension(800, 800*2) );
-            pane.add( jScrollPane  );
-    }
-
+    //Call to update list of structures
     public void setStructures(ArrayList<Structure> structures) {
         this.structures = structures;
+        strucListModel.clear();
+        for (Structure s: structures) {
+            strucListModel.addElement(s.getType() + " " +  s.getId());
+        }
+    }
+
+    public JList<String> getStructureList() {
+        return structureList;
+    }
+
+    public JTextArea getStatsTextArea() {
+        return statsTextArea;
     }
 }

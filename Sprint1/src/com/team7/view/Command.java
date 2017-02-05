@@ -77,7 +77,7 @@ public class Command extends JPanel implements KeyListener {
     private int currTypeInstance = -1;
     private int currCommand = -1;
 
-    private static final int CONTROL_KEY_CODE = 4;
+    private static final int CONTROL_KEY_CODE = 1;
     private static final int LEFT_KEY_CODE = 37;
     private static final int UP_KEY_CODE = 38;
     private static final int RIGHT_KEY_CODE = 39;

@@ -11,6 +11,7 @@ public abstract class Structure {
     private Tile location;
     private StructureStats stats;
     private CommandQueue commandQueue;
+    private String type;
     private boolean isPowered;
     int movesFrozen;
     private int attackDirection;
@@ -109,4 +110,8 @@ public abstract class Structure {
     public void setDefenseDirection(int defenseDirection) {
         this.defenseDirection = defenseDirection;
     }
+
+    public void setType(String s) {this.type = s;}
+
+    public String getType() {return this.type;}
 }
