@@ -19,8 +19,8 @@ public class Navigator {
     Map map;
     Unit selectedUnit;
     Queue<Tile> tilePath;
-    int x;
-    int y;
+    int x=0;
+    int y=0;
 
     ArrayList<Unit> selectedUnits;
     int unitsLeft;
@@ -112,7 +112,7 @@ public class Navigator {
 
             //TODO check if unit is frozen
             if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
-                if (isTilePassable(map.getTile(tmpX, tmpY))){ //second ensure Tile is passable by current Unit
+                if (isTilePassable(map.getTile(tmpX, tmpY))){//second ensure Tile is passable by current Unit
                     if (hasMovementLeft()){ //third ensure that a unit can still move
 //                         if(isUnitAlive() && hasUnitRemaining())
 //                        The above statement is not working properly
