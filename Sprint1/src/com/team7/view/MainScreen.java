@@ -52,7 +52,7 @@ public class MainScreen extends JPanel {
     }
 
     public void drawMap() {
-        mainAreaView.drawMap();
+        mainAreaView.reDrawMap();
     }
 
     public MainViewImage getMainViewImage() {

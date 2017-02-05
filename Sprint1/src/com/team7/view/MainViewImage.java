@@ -130,7 +130,7 @@ public class MainViewImage extends JPanel implements MouseListener {
             // focus on one of the current players units.
             ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
             if( !units.isEmpty() ) {
-                zoomToDestination( units.get(0).getLocation().getxCoordinate() - 11/2, units.get(0).getLocation().getyCoordinate() - 7/2);
+                zoomToDestination( units.get(0).getLocation().getxCoordinate() - TILES_VISIBLE_X/2, units.get(0).getLocation().getyCoordinate() - TILES_VISIBLE_Y/2, 50);
             }
 
          }
@@ -251,8 +251,8 @@ public class MainViewImage extends JPanel implements MouseListener {
         repaint();
     }
 
-    public void drawMap() {
-        image = drawSubsectionOfMap(TILES_VISIBLE_X/2 - TILES_VISIBLE_X/2, TILES_VISIBLE_Y/2 - TILES_VISIBLE_Y/2);
+    public void reDrawMap() {
+        image = drawSubsectionOfMap(x_center, y_center);
         repaint();
     }
 
@@ -296,10 +296,10 @@ public class MainViewImage extends JPanel implements MouseListener {
            x_dest = x_center + (int)x_offset;
            y_dest = y_center + (int)y_offset;
 
-            zoomToDestination( x_dest, y_dest );
+            zoomToDestination( x_dest, y_dest, 50 );
         }
 
-        public void zoomToDestination(int x_dest, int y_dest) {
+        public void zoomToDestination(int x_dest, int y_dest, int delayInMs) {
 
             if(x_dest < 0)              // adjust if out of bounds
                 x_dest = 0;
@@ -358,7 +358,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                             });
 
                             try{
-                                Thread.sleep(50);
+                                Thread.sleep(delayInMs);
                             }
                             catch(Exception e) {}
 
@@ -371,18 +371,17 @@ public class MainViewImage extends JPanel implements MouseListener {
 
         }
 
+
         public int getXdest() {
             return x_center;
         }
         public int getYdest() {
          return y_center;
         }
-
-    public void rePaintMap() {
+        public void rePaintMap() {
             repaint();
     }
-
-    public BufferedImage getImage() {
+        public BufferedImage getImage() {
         return image;
     }
 }
