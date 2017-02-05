@@ -23,6 +23,8 @@ public class Navigator {
     Queue<Tile> tilePath;
     ArrayList<Tile> tilePathList = new ArrayList<>();
 
+    int unitsAliveInList;
+
     int x=0;
     int y=0;
 
@@ -51,6 +53,7 @@ public class Navigator {
 
         unitsLeft = selectedUnits.size();
         healthOfAllUnits.add(0, selectedUnit.getUnitStats().getHealth());   //add to 0th index the health of the unit passed
+        unitsAliveInList  = selectedUnits.size();
     }
 
     public Navigator(Map map, Army army){
@@ -61,6 +64,8 @@ public class Navigator {
         tilePath = new LinkedList<>();
         tilePath.add(army.getRallyPoint());
         movement = army.getSlowestSpeed();
+
+        unitsAliveInList = selectedUnits.size();
 
 
         unitsLeft = selectedUnits.size();
@@ -129,57 +134,55 @@ public class Navigator {
         }
 
         return false;
-
-//        boolean valid = false;
-//        boolean tmpTileinQueue = false;
-//        for(int i = 0; i < selectedUnits.size(); i++){
-//            selectedUnit = selectedUnits.get(i);
-//            health = healthOfAllUnits.get(i);
-//
-//            System.out.print("Current Unit in Navigator checker index: " + i + "\t\t");
-//            System.out.print("name: " + selectedUnit + "\t\t");
-//            System.out.println("health: " + health + "\n");
-//
-//            //TODO check if unit is frozen
-//            if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
-//                if (isTilePassable(map.getTile(tmpX, tmpY))){//second ensure Tile is passable by current Unit
-//                    if (hasMovementLeft()){ //third ensure that a unit can still move
-//
-//                        //at this point, the move is VALID from a cursor perspective
-//                        valid = true;
-//
-//                        x = tmpX;
-//                        y = tmpY;
-//                        return true;
-//
-//                        //now affect unit
-//                        //  if (isUnitAlive()) { //ensure unit is alive to affect stats
-//                        //     calculateNetUnitEffectByTile(map.getTile(tmpX, tmpY));
-//                        //     healthOfAllUnits.add(i, health);
-//                        //     System.out.println("Health of unit has been changed to: " + healthOfAllUnits.get(i));
-//                        //    if(!tilePathList.contains(map.getTile(tmpX, tmpY))){    //only add to list once
-//                        //        calculateNetPlayerStatEffectByTile(map.getTile(tmpX, tmpY));
-//                        //        tmpTileinQueue = true;
-//                        //        tilePath.add(map.getTile(tmpX, tmpY)); //only add to tilePath if Unit survived the way, only do so once
-//                        //       tilePathList.add(map.getTile(tmpX, tmpY));
-//                        //       System.out.println("Added tile " + map.getTile(tmpX,tmpY) + " to queue \n");
-//                        //   }
-//
-//                        //}
-//                    }
-//                }
-//            }
-//
-//        }
-//        System.out.println("END OF PARSE \n\n");
-//        if(valid){
-//            x = tmpX;
-//            y = tmpY;
-//            return true;
-//        }
-//        return false;
+        //TODO check if unit is frozen
+    }
+    
+    public ArrayList<Tile> updateModelNew(){
+        if (tilePathList.isEmpty()){
+            System.out.println("Empty Tile Path");
+            return null;
+        } else {
+            return tilePathList;
+        }
     }
 
+    public void reDrawMapViaModel(Tile currentTileInPath) {
+        selectedUnit = selectedUnits.get(0);        //the first unit in an army, or an individual unit (ie explorer)
+        System.out.println("Iterating through tile path \t" + currentTileInPath);
+        calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnit);
+        for (int j = 0; j < selectedUnits.size(); j++) {//iterate through each unit commanded (1 for non-Army)
+            if (unitsAliveInList == 0) {      //if no units are alive, dont move them
+                //delete the army
+                if (selectedUnit.getArmy() != null) {
+                    selectedUnit.setArmy(null);
+                }
+
+                return;
+            }
+            selectedUnit = selectedUnits.get(j);
+            System.out.println("Iterating through each unit on tile \t" + selectedUnit);
+            calculateNetUnitEffectByTile(currentTileInPath, selectedUnit);      //updates the unit health and movement
+            boolean dead = tryToRemoveUnit(selectedUnit);
+            System.out.println("Final Helath \t" + selectedUnit.getUnitStats().getHealth());
+
+            if (!dead) { //update location
+                selectedUnit.getLocation().removeUnitFromTile(selectedUnit);    //remove unit from old TILE
+
+                selectedUnit.setLocation(currentTileInPath);                    //update UNIT with tile reference
+                currentTileInPath.addUnitToTile(selectedUnit);                  //update TILE with unit reference
+
+                System.out.println("selectedUnit Tile x: " + selectedUnit.getLocation().getxCoordinate());
+                System.out.println("selectedUnit Tile y: " + selectedUnit.getLocation().getyCoordinate());
+            } else {
+                unitsAliveInList--;
+                if (selectedUnit.getArmy() != null) {
+                    selectedUnit.getArmy().removeUnitFromArmy(selectedUnit);        //remove unit from army
+                }
+                selectedUnit.getOwner().removeUnit(selectedUnit);
+                selectedUnit.getLocation().removeUnitFromTile(selectedUnit);
+            }
+        }
+    }
     //when ENTER is pressed
     public void updateModel(){
         System.out.println("START OF UPDATE \n");
@@ -188,7 +191,7 @@ public class Navigator {
             return;
         }
 
-        int unitsAliveInList = selectedUnits.size();
+     //   int unitsAliveInList = selectedUnits.size();
 
         //there exists some path of the CURSOR
         Tile currentTileInPath;
