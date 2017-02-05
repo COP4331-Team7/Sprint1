@@ -154,12 +154,6 @@ public class UnitScreen extends JPanel {
 
         //Format Army Select Box
         armyList.setModel(armyModel);
-        armyList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                changeArmyVal(e);
-            }
-        });
         JPanel armyPanel = new JPanel(new BorderLayout());
         JLabel armySelectLabel = new JLabel("Army Select", SwingConstants.CENTER);
         armyPanel.add(armySelectLabel, BorderLayout.NORTH);
@@ -192,11 +186,6 @@ public class UnitScreen extends JPanel {
         String s = (String)unitList.getSelectedValue();
         String stats = getStats(s);
         textArea.setText(stats);
-    }
-
-    private void changeArmyVal(javax.swing.event.ListSelectionEvent e) {
-        String s = (String)armyList.getSelectedValue();
-        selectedArmy = Integer.valueOf(s.substring(5));
     }
 
     //--TODO-- Missing functionallity in unit to complete this function
@@ -263,5 +252,8 @@ public class UnitScreen extends JPanel {
     }
     public JList getArmyList() {
         return armyList;
+    }
+    public JList getUnitsinArmyList() {
+        return unitsInArmyList;
     }
 }

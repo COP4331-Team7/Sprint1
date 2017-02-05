@@ -6,6 +6,9 @@ import com.team7.objects.Game;
 import com.team7.objects.Player;
 import com.team7.objects.unit.Unit;
 
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -81,14 +84,45 @@ public class UnitScreenController {
                     List<Army> armies = game.getCurrentPlayer().getArmies();
 
                     for (Army a: armies) {
-                        String cur = a.getName();
-                        if (cur == selectedArmy) {
-
+                        System.out.println(a.getName());
+                        if (a.getName().equals(selectedArmy)) {
+                            view.getScreen().getUnitScreen().getArmyModel().removeElement(a.getName());
+                            view.getScreen().getUnitScreen().repaint();
+                            a.disband();
+                            return;
                         }
+                    }
+
+                    System.out.println("ERROR: Could not delete " + selectedArmy);
+                }
+            }
+        });
+
+        //Add ActionListener for army selection
+        view.getScreen().getUnitScreen().getArmyList().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                String selectedArmy = (String) view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                List<Army> armies = game.getCurrentPlayer().getArmies();
+
+                for (Army a: armies) {
+                    if (a.getName() == selectedArmy) {
+                        view.getScreen().getUnitScreen().getUnitsinArmyList().setModel(new AbstractListModel() {
+                            @Override
+                            public int getSize() {
+                                return a.getUnits().size();
+                            }
+
+                            @Override
+                            public Object getElementAt(int index) {
+                                return a.getUnits().get(index).getType() + " " + a.getUnits().get(index).getId();
+                            }
+                        });
                     }
                 }
             }
         });
+
     }
 
 
