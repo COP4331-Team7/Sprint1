@@ -91,6 +91,7 @@ public class MainScreenController {
 
                     navigator.reDrawMapViaModel(navigator.updateModel().get(i));
                     view.getScreen().getMainScreen().getMainViewImage().zoomToDestination( navigator.updateModel().get(i).getxCoordinate() - 11/2, navigator.updateModel().get(i).getyCoordinate() - 7/2, 50);
+                    view.getScreen().getMainScreen().getMainViewInfo().updateStats();
 
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override

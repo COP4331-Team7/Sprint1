@@ -13,6 +13,7 @@ public class MainViewInfo extends JPanel {
 
     private Unit unit = null;
     private Structure structure = null;
+    private Player currentPlayer = null;
 
     private JLabel offensiveDamageLabel;
     private JLabel defensiveDamageLabel;
@@ -117,10 +118,19 @@ public class MainViewInfo extends JPanel {
         // setItemLabel( );
     }
     public void updateStats(Player player) {
+        currentPlayer = player;
         setLifeLabel( Integer.toString( player.getMoney() ) );
         setResearchLabel( Integer.toString( player.getResearch() ) );
         setConstructionLabel( Integer.toString( player.getConstruction() ) );
     }
+
+    public void updateStats() {
+        currentPlayer = currentPlayer;
+        setLifeLabel( Integer.toString( currentPlayer.getMoney() ) );
+        setResearchLabel( Integer.toString( currentPlayer.getResearch() ) );
+        setConstructionLabel( Integer.toString( currentPlayer.getConstruction() ) );
+    }
+
     public void setOffensiveDamageLabel(String s) {
             offensiveDamageLabel.setText("Offensive damage: " + s);
     }
