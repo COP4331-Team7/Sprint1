@@ -92,15 +92,15 @@ public class MainViewImage extends JPanel implements MouseListener {
 
                moneyBagImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moneyBag.png")).replace("file:","")));
                moonRockImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moonRock.png")).replace("file:","")));
-               hieroglyphicBookImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/hieroglyphicBook.png")).replace("file:","")));
+               hieroglyphicBookImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/bookImage1.png")).replace("file:","")));
 
                elixerShowerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/elixirShowerImage.png")).replace("file:","")));
-               stormImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/stormImage.png")).replace("file:","")));
+               stormImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/stormImageBig.png")).replace("file:","")));
                colonistImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/colonistImage.png")).replace("file:","")));
                explorerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/explorerImage.png")).replace("file:","")));
 
                oneShotImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/oneShot.png")).replace("file:","")));
-               obstacleImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/obstacle.png")).replace("file:","")));
+               obstacleImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/stopIcon.png")).replace("file:","")));
                 // moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
                 // hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 
@@ -202,7 +202,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                         g2ds.drawImage(moneyBagImage, x_coord + 35, y_coord, null);
                     }
                     else if ( grid[xx][yy].getResource() instanceof HieroglyphicBooks) {
-                        g2ds.drawImage(hieroglyphicBookImage, x_coord + 30, y_coord + 35, null);
+                        g2ds.drawImage(hieroglyphicBookImage, x_coord + 25, y_coord + 30, null);
                     }
 
                     // draw units
