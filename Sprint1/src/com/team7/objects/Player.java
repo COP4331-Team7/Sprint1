@@ -24,7 +24,7 @@ public class Player {
         armies = new ArrayList<Army>();                              // max size should be 10
         research = 0;
         construction = 0;
-        money = 500;
+        money = 50;
         noUnits = true;
         noStructures = true;
         noArmies = true;
@@ -33,15 +33,31 @@ public class Player {
 
 
     // Big function that controls everything that could happen in a turn
-    public void takeTurn() {
+    public void Turn() {
+        //get cursor commands from controller
+        //parse command
+        //keep track of movement state
+        ArrayList<Tile> path = new ArrayList<Tile>();
+        Tile start = new Tile();
+        if("key-pressed"=="right"){}
+            //check is it possible
+            //then
+                //Create a cursor of TIle class
+                    //Added this to path ArrayList
+        Tile end = new Tile();
+        if ("key-pressed" == "Enter") {
 
+             }
 
+    Navigation navigation =new Navigation(path,start, end);
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
         subtractUpkeep();           // subtracts upkeep from all units/structures, ends game if money = 0
         subtractMovesFrozen();      // subtracts moves frozen from anything that is frozen
 
     }
+
+
 
 
 
@@ -57,7 +73,6 @@ public class Player {
 
     // Adds unit to Player's ArrayList of Units
     public Unit addUnit(Unit unit) {
-
 
         // Ensures we are able to have a unit
         if(checkMaxUnitsFull() || checkMaxUnitsIndividual()){
@@ -293,7 +308,12 @@ public class Player {
     }
 
 
+<<<<<<< HEAD
     private void subtractMovesFrozen() {
+=======
+
+    public void subtractMovesFrozen() {
+>>>>>>> 9d04a0246c4761ccf7688e5e3487ed57be27e270
 
         // subtract one from moves frozen for all frozen units
         for(int i = 0; i < this.units.size(); i++){

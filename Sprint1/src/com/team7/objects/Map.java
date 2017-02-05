@@ -30,7 +30,7 @@ public class Map {
         {
             for (int j = 0; j <20; j++)
             {
-                grid[i][j]=new Tile(i, j);
+                grid[i][j]=new Tile(i,j);
             }
         }
 
