@@ -244,7 +244,10 @@ public class Navigator {
             for(int j = 0; j < selectedUnits.size(); j++){  //iterate through each unit commanded (1 for non-Army)
                 if(unitsAliveInList == 0){      //if no units are alive, dont move them
                     //delete the army
-                    selectedUnit.setArmy(null);
+                    if (selectedUnit.getArmy() != null) {
+                        selectedUnit.setArmy(null);
+                    }
+
                     return;
                 }
                 selectedUnit = selectedUnits.get(j);
@@ -261,13 +264,21 @@ public class Navigator {
                     System.out.println("selectedUnit Tile y: " + selectedUnit.getLocation().getyCoordinate());
                 }else{
                     unitsAliveInList--;
+                    if (selectedUnit.getArmy() != null){
+                        selectedUnit.getArmy().removeUnitFromArmy(selectedUnit);        //remove unit from army
+                    }
+                    selectedUnit.getOwner().removeUnit(selectedUnit);
+                    selectedUnit.getLocation().removeUnitFromTile(selectedUnit);
                 }
             }
+
+            //update GUI via controller
 
         }
 
         if(selectedUnit.getArmy() != null){
             selectedUnit.getArmy().setRallyPoint(tilePathList.get(tilePathList.size() - 1));        //change RP of army to final Tile
+            tilePathList.get(tilePathList.size() - 1).addArmyToTile(selectedUnit.getArmy());     //change Tile to have army
         }
 
 
