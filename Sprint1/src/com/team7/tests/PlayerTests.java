@@ -1,8 +1,6 @@
 package com.team7.tests;
 
-import com.team7.objects.Army;
-import com.team7.objects.Player;
-import com.team7.objects.Map;
+import com.team7.objects.*;
 import com.team7.objects.structure.Base;
 import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
@@ -12,6 +10,8 @@ import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -187,8 +187,8 @@ public class PlayerTests {
 
 
     @Test
-    // This could be placed in unit tests but this tests unit attacks
-    public void testAttack() throws Exception {
+    // This tests the target tiles returned by calcTargetTiles is correct
+    public void testTargetTiles() throws Exception {
 
         // create map and player
         Map map = new Map();
@@ -200,18 +200,27 @@ public class PlayerTests {
         testPLayer.addUnit(melee);
         testPLayer.addUnit(ranged);
 
+        // check Melee units only get the tile next to it
+        Attacker attacker = new Attacker(map, melee, 2);
+        ArrayList<Tile> tiles =  attacker.calcTargetTiles();
 
-        if(testPLayer.getUnits().get(0) instanceof CombatUnit ){
-            ((CombatUnit) testPLayer.getUnits().get(0)).attack(0);
-        }
+        // Ensures we get the exact tile
+        assertEquals(tiles.get(0).getxCoordinate(), map.getTile(17, 3).getxCoordinate());
+        assertEquals(tiles.get(0).getyCoordinate(), map.getTile(17, 3).getyCoordinate());
+        assertEquals(tiles.get(0), map.getTile(17, 3));
 
-        if(testPLayer.getUnits().get(0) instanceof CombatUnit ){
-            ((CombatUnit) testPLayer.getUnits().get(1)).attack(0);
-        }
+        // Check we get 5 tiles
+        attacker = new Attacker(map, ranged, 4);
+        tiles = attacker.calcTargetTiles();
+
+        assertEquals(tiles.size(), 5);
+        assertEquals(tiles.get(0), map.getTile(17, 2));
+        assertEquals(tiles.get(1), map.getTile(16, 2));
+        assertEquals(tiles.get(4), map.getTile(13, 2));
+
+
 
     }
-
-
 
 
 

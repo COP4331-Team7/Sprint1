@@ -262,12 +262,12 @@ public class Player {
 
         // add all unit stats
         for(int i = 0; i < this.units.size(); i++){
-            sum = this.units.get(i).getUnitStats().getUpkeep();
+            sum += this.units.get(i).getUnitStats().getUpkeep();
         }
 
         // add all structure stats
         for(int i = 0; i < this.structures.size(); i++){
-            sum = this.structures.get(i).getStats().getUpkeep();
+            sum += this.structures.get(i).getStats().getUpkeep();
         }
 
         this.setMoney(this.getMoney() - sum);

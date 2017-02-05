@@ -5,7 +5,8 @@ import com.team7.objects.unit.Unit;
 
 public abstract class CombatUnit extends Unit {
 
-    public abstract void attack(int direction);
+    // For now this is handled in the attackController
+    //public abstract void attack(int direction);
 
 
 }
