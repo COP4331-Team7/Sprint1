@@ -4,6 +4,9 @@ import com.team7.Main;
 import com.team7.objects.*;
 import com.team7.objects.areaEffects.ElixirShower;
 import com.team7.objects.areaEffects.Storm;
+import com.team7.objects.items.Item;
+import com.team7.objects.items.Obstacle;
+import com.team7.objects.items.OneShotItem;
 import com.team7.objects.resource.HieroglyphicBooks;
 import com.team7.objects.resource.MoneyBag;
 import com.team7.objects.resource.MoonRocks;
@@ -57,6 +60,9 @@ public class MainViewImage extends JPanel implements MouseListener {
 
         private  BufferedImage colonistImage;
         private  BufferedImage explorerImage;
+
+        private  BufferedImage obstacleImage;
+        private  BufferedImage oneShotImage;
             //
         private BufferedImage mapImage;
         private MainViewSelection mainViewSelection;
@@ -86,13 +92,15 @@ public class MainViewImage extends JPanel implements MouseListener {
 
                moneyBagImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moneyBag.png")).replace("file:","")));
                moonRockImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moonRock.png")).replace("file:","")));
-               hieroglyphicBookImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/hieroglyphicBook.png")).replace("file:","")));
+               hieroglyphicBookImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/bookImage1.png")).replace("file:","")));
 
                elixerShowerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/elixirShowerImage.png")).replace("file:","")));
-               stormImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/stormImage.png")).replace("file:","")));
+               stormImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/stormImageBig.png")).replace("file:","")));
                colonistImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/colonistImage.png")).replace("file:","")));
                explorerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/explorerImage.png")).replace("file:","")));
 
+               oneShotImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/oneShot.png")).replace("file:","")));
+               obstacleImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/stopIcon.png")).replace("file:","")));
                 // moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
                 // hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 
@@ -122,7 +130,7 @@ public class MainViewImage extends JPanel implements MouseListener {
             // focus on one of the current players units.
             ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
             if( !units.isEmpty() ) {
-                zoomToDestination( units.get(0).getLocation().getxCoordinate() - 11/2, units.get(0).getLocation().getyCoordinate() - 7/2);
+                zoomToDestination( units.get(0).getLocation().getxCoordinate() - TILES_VISIBLE_X/2, units.get(0).getLocation().getyCoordinate() - TILES_VISIBLE_Y/2, 50);
             }
 
          }
@@ -177,6 +185,15 @@ public class MainViewImage extends JPanel implements MouseListener {
                         g2ds.drawImage(elixerShowerImage, x_coord + 10, y_coord + 10, null);
                     }
 
+                    // draw obstacles
+                    if(grid[xx][yy].getItem() instanceof Obstacle) {
+                        g2ds.drawImage(obstacleImage, x_coord + 20, y_coord + 20, null);
+                    }
+                    if(grid[xx][yy].getItem() instanceof OneShotItem) {
+                        g2ds.drawImage(oneShotImage, x_coord + 20, y_coord + 20, null);
+                    }
+
+
                     // draw resources
                     if( grid[xx][yy].getResource() instanceof MoonRocks) {
                         g2ds.drawImage(moonRockImage, x_coord, y_coord + 35, null);
@@ -185,7 +202,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                         g2ds.drawImage(moneyBagImage, x_coord + 35, y_coord, null);
                     }
                     else if ( grid[xx][yy].getResource() instanceof HieroglyphicBooks) {
-                        g2ds.drawImage(hieroglyphicBookImage, x_coord + 30, y_coord + 35, null);
+                        g2ds.drawImage(hieroglyphicBookImage, x_coord + 25, y_coord + 30, null);
                     }
 
                     // draw units
@@ -234,8 +251,8 @@ public class MainViewImage extends JPanel implements MouseListener {
         repaint();
     }
 
-    public void drawMap() {
-        image = drawSubsectionOfMap(TILES_VISIBLE_X/2 - TILES_VISIBLE_X/2, TILES_VISIBLE_Y/2 - TILES_VISIBLE_Y/2);
+    public void reDrawMap() {
+        image = drawSubsectionOfMap(x_center, y_center);
         repaint();
     }
 
@@ -279,10 +296,10 @@ public class MainViewImage extends JPanel implements MouseListener {
            x_dest = x_center + (int)x_offset;
            y_dest = y_center + (int)y_offset;
 
-            zoomToDestination( x_dest, y_dest );
+            zoomToDestination( x_dest, y_dest, 50 );
         }
 
-        public void zoomToDestination(int x_dest, int y_dest) {
+        public void zoomToDestination(int x_dest, int y_dest, int delayInMs) {
 
             if(x_dest < 0)              // adjust if out of bounds
                 x_dest = 0;
@@ -341,7 +358,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                             });
 
                             try{
-                                Thread.sleep(50);
+                                Thread.sleep(delayInMs);
                             }
                             catch(Exception e) {}
 
@@ -353,4 +370,18 @@ public class MainViewImage extends JPanel implements MouseListener {
             }
 
         }
+
+
+        public int getXdest() {
+            return x_center;
+        }
+        public int getYdest() {
+         return y_center;
+        }
+        public void rePaintMap() {
+            repaint();
+    }
+        public BufferedImage getImage() {
+        return image;
+    }
 }
