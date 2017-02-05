@@ -541,34 +541,33 @@ public class Command extends JPanel implements KeyListener {
 
     public void moveMouse(int x, int y) {
 
+        int width = msc.getMainView().getWidth();
+        int height = msc.getMainView().getHeight();
+
         final Point pTemp = new Point( (int)MouseInfo.getPointerInfo().getLocation().getX(), (int)MouseInfo.getPointerInfo().getLocation().getY());
 
         convertPointFromScreen(pTemp, screen);
 
-        System.out.println("x = " + pTemp.getX() + " y = " + pTemp.getY() );
-        if(x < 0 && pTemp.getX() - 67 <= 0) {
-            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() + 67, (int)MouseInfo.getPointerInfo().getLocation().getY());
+        if(x < 0 && pTemp.getX() - TILESIZE <= 0) {
+            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() + TILESIZE, (int)MouseInfo.getPointerInfo().getLocation().getY());
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() - 1), msc.getMainView().getYdest() );
             return;
         }
-        if(x > 0 && pTemp.getX() >= 733 - 67) {
-            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() - 67, (int)MouseInfo.getPointerInfo().getLocation().getY());
+        if(x > 0 && pTemp.getX() >= width - TILESIZE) {
+            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() - TILESIZE, (int)MouseInfo.getPointerInfo().getLocation().getY());
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() + 1), msc.getMainView().getYdest() );
             return;
         }
-        if(y > 0 && pTemp.getY() >= 536 - TILESIZE) {
-            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() - 67);
+        if(y > 0 && pTemp.getY() >= height - TILESIZE) {
+            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() - TILESIZE);
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest()), (msc.getMainView().getYdest() + 1) );
             return;
         }
         if(y < 0 && pTemp.getY() - TILESIZE <= 0 ) {
-            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() + 67);
+            robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() + TILESIZE);
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() ), (msc.getMainView().getYdest() - 1) );
             return;
         }
-
-
-
 
         final Point p = new Point( (int)MouseInfo.getPointerInfo().getLocation().getX(), (int)MouseInfo.getPointerInfo().getLocation().getY());
 
@@ -590,57 +589,35 @@ public class Command extends JPanel implements KeyListener {
 
         for(int i = 0; i <= 30; i++) {
             robot.mouseMove( (int)(x_loc2 + dx * i), (int)(y_loc2 + dy * i));
-            try{ Thread.sleep(10); }
+            try{ Thread.sleep(7); }
             catch(Exception e) {}
         }
-
-
 
     }
 
     public void moveCursorToSelectedUnit() {
         Unit selection = getCurrSelectedUnit();
-        if(selection != null) {
 
-            msc.getMainView().getXdest();
-            msc.getMainView().getYdest();
-
-          //  System.out.println("focus: x = " + (msc.getMainView().getXdest()) + "y = " + msc.getMainView().getYdest());
-          //  System.out.println("before: x = " + (selection.getLocation().getxCoordinate()) + "y = " + (selection.getLocation().getyCoordinate()));
-
-            selection.getLocation().getxCoordinate();
-            selection.getLocation().getyCoordinate();
-        }
-
-        int currTileX = 11/2, currTileY = 7/2;
+        int currTileX = TILES_VISIBLE_X/2, currTileY = TILES_VISIBLE_Y/2;
         if(selection != null){
             currTileX = selection.getLocation().getxCoordinate() - msc.getMainView().getXdest() + 1;
             currTileY = selection.getLocation().getyCoordinate() - msc.getMainView().getYdest() + 2;
-          //  System.out.println("MOVE: x = " + currTileX + "y = " + currTileY);
         }
-
-
 
         final Point p = new Point( (int)MouseInfo.getPointerInfo().getLocation().getX(), (int)MouseInfo.getPointerInfo().getLocation().getY());
 
         int x_loc2 = (int)p.getX(); // where it is
         int y_loc2 = (int)p.getY();
 
-        // System.out.println("before: x = " + p.getX() + "y = " + p.getY());
         convertPointFromScreen(p, screen);
 
         int x_loc = (int)p.getX();   // where it should be
         int y_loc = (int)p.getY();
 
+        int YOffsetTile = -20;
+        double dx = ( (x_loc2 + (currTileX*TILESIZE - x_loc)) - x_loc2 ) / ((double) 30);
+        double dy = ( (YOffsetTile + y_loc2 + (currTileY*TILESIZE - y_loc)) - y_loc2 ) / ((double) 30);
 
-        double dx = ( (x_loc2 + (currTileX*67 - x_loc)) - x_loc2 ) / ((double) 30);
-        double dy = ( (y_loc2 + (currTileY*67 - y_loc)) - y_loc2 ) / ((double) 30);
-        // System.out.println("after: x = " + x_loc + "y = " + y_loc);
-
-        // robot.mouseMove( 400, 340);
-
-        try{ Thread.sleep(50); }
-        catch(Exception e) {}
         for(int i = 0; i <= 30; i++) {
             robot.mouseMove( (int)(x_loc2 + dx * i), (int)(y_loc2 + dy * i));
             try{ Thread.sleep(10); }
