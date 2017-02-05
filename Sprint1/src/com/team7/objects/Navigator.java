@@ -114,8 +114,11 @@ public class Navigator {
         }
 
         if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
+            System.out.println("Inbounds");
             if (isTilePassable(map.getTile(tmpX, tmpY))){//second ensure Tile is passable by current Unit
+                System.out.println("Is passable");
                 if (hasMovementLeft()){ //third ensure that a unit can still move
+                    System.out.println("has movement left");
                     //at this point, the move is VALID from a cursor perspective
                     tilePathList.add(map.getTile(tmpX,tmpY));
                     x = tmpX;
@@ -181,6 +184,7 @@ public class Navigator {
     public void updateModel(){
         System.out.println("START OF UPDATE \n");
         if (tilePathList.isEmpty()){
+            System.out.println("Empty Tile Path");
             return;
         }
 
@@ -191,8 +195,9 @@ public class Navigator {
         for(int i = 0; i < tilePathList.size(); i++){ //iterate through each tile in final path list
             selectedUnit = selectedUnits.get(0);        //the first unit in an army, or an individual unit (ie explorer)
             currentTileInPath = tilePathList.get(i);
+            System.out.println("Iterating through tile path \t"+currentTileInPath);
             calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnit);
-            for(int j = 0; j < selectedUnits.size(); j++){  //iterate through each unit commanded (1 for non-Army)
+            for(int j = 0; j < selectedUnits.size(); j++){//iterate through each unit commanded (1 for non-Army)
                 if(unitsAliveInList == 0){      //if no units are alive, dont move them
                     //delete the army
                     if (selectedUnit.getArmy() != null) {
@@ -202,8 +207,10 @@ public class Navigator {
                     return;
                 }
                 selectedUnit = selectedUnits.get(j);
+                System.out.println("Iterating through each unit on tile \t"+selectedUnit);
                 calculateNetUnitEffectByTile(currentTileInPath, selectedUnit);      //updates the unit health and movement
                 boolean dead = tryToRemoveUnit(selectedUnit);
+                System.out.println("Final Helath \t"+selectedUnit.getUnitStats().getHealth());
 
                 if (!dead){ //update location
                     selectedUnit.getLocation().removeUnitFromTile(selectedUnit);    //remove unit from old TILE
