@@ -106,15 +106,18 @@ public class Navigator {
                 break;
         }
 
-        for(Unit u : selectedUnits){
-            health = healthOfAllUnits[healthIndex];
-            healthIndex++;
+//        for(Unit u : selectedUnits){
+//            health = healthOfAllUnits[healthIndex];
+//            healthIndex++;
 
             //TODO check if unit is frozen
             if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
                 if (isTilePassable(map.getTile(tmpX, tmpY))){ //second ensure Tile is passable by current Unit
                     if (hasMovementLeft()){ //third ensure that a unit can still move
-                        if (isUnitAlive() && hasUnitRemaining()) { //ensure unit is alive to affect stats and navigator has unit
+//                         if(isUnitAlive() && hasUnitRemaining())
+//                        The above statement is not working properly
+                        if (!isUnitAlive()) { //ensure unit is alive to affect stats and navigator has unit
+                            System.out.println("Added to queue");
                             calculateNetEffectByTile(map.getTile(tmpX, tmpY));
                             tilePath.add(map.getTile(tmpX, tmpY)); //only add to tilePath if Unit survived the way
                         }
@@ -124,23 +127,28 @@ public class Navigator {
                     }
                 }
             }
-        }
+//        }
 
         return false;
     }
 
     //when ENTER is pressed
     public void updateModel(){
+        System.out.println("src coordinate X: "+selectedUnit.getLocation().getxCoordinate());
+        System.out.println("src coordinate Y: "+selectedUnit.getLocation().getyCoordinate());
 
         for(Unit u : selectedUnits){
             System.out.println("current unit: " + u);
+            System.out.println("command size: " + tilePath.size());
             selectedUnit = u;
 
             if (tilePath.peek() != null){
                 tilePath.peek().removeUnitFromTile(selectedUnit); //remove unit from starting point
-
-                for(int i = 0; i < tilePath.size() - 1; i++){
-                    System.out.println("current tile in path: " + tilePath.peek().getyCoordinate());
+                //Previously the loop was running for less no. of times because it was checking the tilePath.size()
+                // which is changing on every iteration because of deletion
+                int t=tilePath.size();
+                for(int i = 0; i < t - 1; i++){
+//                    System.out.println("current tile in path: " + tilePath.size());
                     tilePath.remove().clearTile();    //remove all tiles in path EXCEPT the last one
                     //last element in tilePath is the unit destination
                 }
@@ -161,11 +169,13 @@ public class Navigator {
 
         }
 
-
+        System.out.println("target coordinate X: "+selectedUnit.getLocation().getxCoordinate());
+        System.out.println("target coordinate Y: "+selectedUnit.getLocation().getyCoordinate());
 
         selectedUnit.getOwner().setMoney(selectedUnit.getOwner().getMoney() + this.collectedMoney);
         selectedUnit.getOwner().setConstruction(selectedUnit.getOwner().getConstruction() + this.collectedConstruction);
         selectedUnit.getOwner().setResearch(selectedUnit.getOwner().getResearch() + this.collectedResearch);
+
     }
 
 
