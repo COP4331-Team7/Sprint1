@@ -180,55 +180,6 @@ public class Navigator {
     //when ENTER is pressed
     public void updateModel(){
         System.out.println("START OF UPDATE \n");
-        Queue<Tile> tmpTilePath = tilePath;
-        for(int i = 0; i < selectedUnits.size(); i++){
-            selectedUnit = selectedUnits.get(i);
-
-            System.out.println("current unit: " + selectedUnit);
-
-            System.out.println("src coordinate X: "+ selectedUnit.getLocation().getxCoordinate());
-            System.out.println("src coordinate Y: "+ selectedUnit.getLocation().getyCoordinate());
-            System.out.println("tilePathQ size: " + tmpTilePath.size());
-
-            if (tmpTilePath.peek() != null){
-                tmpTilePath.peek().removeUnitFromTile(selectedUnit); //remove unit from starting point
-                //Previously the loop was running for less no. of times because it was checking the tilePath.size()
-                // which is changing on every iteration because of deletion
-                for(int j = 0; j < tmpTilePath.size() - 1; j++){
-                    tmpTilePath.remove().clearTile();    //remove all tiles in path EXCEPT the last one
-                    //last element in tilePath is the unit destination
-                }
-
-                //now only one Tile left in tilePath, the last one (destination)
-                tmpTilePath.peek().addUnitToTile(selectedUnit);        //add Unit to final tile
-                selectedUnit.setLocation(tmpTilePath.peek());          //add tile location to unit
-
-                if (selectedUnit.getArmy() != null){
-                    selectedUnit.getArmy().setRallyPoint(tmpTilePath.peek());
-                }
-
-                tmpTilePath.remove().clearTile();                      //clear tile of resources
-                tmpTilePath = tilePath;
-                System.out.println("tmpTilePath updated to: " + tmpTilePath.toString());
-            }
-
-            //update stats
-            selectedUnit.getUnitStats().setHealth(healthOfAllUnits.get(i));
-            System.out.println("updated unit health to: " + healthOfAllUnits.get(i) + "\n\n");
-
-        }
-
-        System.out.println("target coordinate X: "+selectedUnit.getLocation().getxCoordinate());
-        System.out.println("target coordinate Y: "+selectedUnit.getLocation().getyCoordinate() + "\n\n\n");
-
-        selectedUnit.getOwner().setMoney(selectedUnit.getOwner().getMoney() + this.collectedMoney);
-        selectedUnit.getOwner().setConstruction(selectedUnit.getOwner().getConstruction() + this.collectedConstruction);
-        selectedUnit.getOwner().setResearch(selectedUnit.getOwner().getResearch() + this.collectedResearch);
-
-    }
-
-    public void updateModelViaPath(){
-        System.out.println("START OF UPDATE \n");
         if (tilePathList.isEmpty()){
             return;
         }
