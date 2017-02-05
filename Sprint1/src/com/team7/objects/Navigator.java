@@ -107,7 +107,7 @@ public class Navigator {
         }
 
         for(Unit u : selectedUnits){
-            health = healthOfAllUnits[healthIndex];
+         //   health = healthOfAllUnits[healthIndex];
             healthIndex++;
 
             //TODO check if unit is frozen

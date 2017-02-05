@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.Robot;
 
@@ -346,44 +347,44 @@ public class Command extends JPanel implements KeyListener {
                     }
 
                 case 'z':
-                    if(msc.sendCommand( '1' )) { // SW
+                  //  if(msc.sendCommand( '1' )) { // SW
                         moveMouse(-67, 67);
-                    }
+                //    }
                     break;
                 case 'x':
-                    if(msc.sendCommand( '2' )) { // S
+                 //   if(msc.sendCommand( '2' )) { // S
                         moveMouse(0, 67);
-                    }
+                   // }
                     break;
                 case 'c':
-                    if(msc.sendCommand( '3' )) { // SE
+                  //  if(msc.sendCommand( '3' )) { // SE
                         moveMouse(67, 67);
-                    }
+                   // }
                     break;
                 case 'a':
-                    if(msc.sendCommand( '4' )) { // W
+                   // if(msc.sendCommand( '4' )) { // W
                         moveMouse(-67, 0);
-                    }
+                   // }
                     break;
                 case 'd':
-                    if(msc.sendCommand( '6' )) { // E
+                  //  if(msc.sendCommand( '6' )) { // E
                         moveMouse(67, 0);
-                    }
+                    //}
                     break;
                 case 'q':
-                    if(msc.sendCommand( '7' )) { // NW
+                   // if(msc.sendCommand( '7' )) { // NW
                         moveMouse(-67, -67);
-                    }
+                   // }
                     break;
                 case 'w':
-                    if(msc.sendCommand( '8' )) { // N
+                   // if(msc.sendCommand( '8' )) { // N
                         moveMouse(0, -67);
-                    }
+                   // }
                     break;
                 case 'e':
-                    if(msc.sendCommand( '9' )){
+                   // if(msc.sendCommand( '9' )){
                         moveMouse(67, -67); // NE
-                    }
+                   // }
 
                     break;
                 default:
@@ -542,22 +543,23 @@ public class Command extends JPanel implements KeyListener {
         convertPointFromScreen(pTemp, screen);
 
         System.out.println("x = " + pTemp.getX() + " y = " + pTemp.getY() );
-        if(pTemp.getX() - 67 <= 0) {
+
+        if(x < 0 && pTemp.getX() - 67 <= 0) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() + 67, (int)MouseInfo.getPointerInfo().getLocation().getY());
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() - 1), msc.getMainView().getYdest() );
             return;
         }
-        if(pTemp.getX() + 67 >= 737 - 67) {
+        else if(x > 0 && pTemp.getX() >= 733 - 67) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() - 67, (int)MouseInfo.getPointerInfo().getLocation().getY());
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() + 1), msc.getMainView().getYdest() );
-            return;
+           return;
         }
-        if(pTemp.getY() + 67 >= 536 ) {
+        else if(y > 0 && pTemp.getY() >= 536 - 67 ) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() - 67);
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest()), (msc.getMainView().getYdest() + 1) );
             return;
         }
-        if(pTemp.getY() - 67 <= 67 ) {
+        else if(y < 0 && pTemp.getY() - 67 <= 0 ) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() + 67);
             msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() ), (msc.getMainView().getYdest() - 1) );
             return;
@@ -576,11 +578,16 @@ public class Command extends JPanel implements KeyListener {
 
         for(int i = 0; i <= 30; i++) {
             robot.mouseMove( (int)(x_loc2 + dx * i), (int)(y_loc2 + dy * i));
-            try{ Thread.sleep(10); }
+
+            try{ Thread.sleep(5); }
             catch(Exception e) {}
         }
 
-
+        BufferedImage img = msc.getMainView().getG2D();
+        Graphics2D g2d = (Graphics2D) img.createGraphics();
+        g2d.setColor(Color.RED);
+        g2d.drawLine(x_loc2 - 67/2, y_loc2 - 67 - 67/2, x_loc2 + x - 67/2, y_loc2 + y - 67 - 67/2 );
+        msc.getMainView().rePaintMap();
 
     }
 

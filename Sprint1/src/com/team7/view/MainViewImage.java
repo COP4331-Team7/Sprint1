@@ -72,6 +72,7 @@ public class MainViewImage extends JPanel implements MouseListener {
         private Tile[][] grid;
 
         private Player currentPlayer = null;
+        private Graphics2D g2ds;
 
         public MainViewImage( MainViewSelection ms )
         {
@@ -139,7 +140,7 @@ public class MainViewImage extends JPanel implements MouseListener {
 
 
             BufferedImage tempImg = new BufferedImage(733, 439, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2ds = (Graphics2D)tempImg.createGraphics();
+            g2ds = (Graphics2D)tempImg.createGraphics();
             g2ds.setFont(g2ds.getFont().deriveFont(30f));
 
             int x_coord, y_coord;   // pixel coordinates of top left corner of image drawn
@@ -370,6 +371,13 @@ public class MainViewImage extends JPanel implements MouseListener {
             }
 
         }
+
+        public BufferedImage getG2D() {
+            return image;
+        }
+    public void rePaintMap() {
+        repaint();
+    }
 
         public int getXdest() {
             return x_center;
