@@ -589,7 +589,6 @@ public class Command extends JPanel implements KeyListener {
                 BasicStroke.CAP_SQUARE,
                 BasicStroke.JOIN_ROUND,
                 3.0f) );
-        System.out.println("DRAWING");
         g2d.drawLine(x_loc2 - TILESIZE/2, y_loc2 - TILESIZE - 40, x_loc2 + x - TILESIZE/2, y_loc2 + y - TILESIZE - 40 );
         msc.getMainView().rePaintMap();
 
@@ -651,17 +650,8 @@ public class Command extends JPanel implements KeyListener {
             }
 
             moveMouse( (int)(delta_x), (int)((int)delta_y), false);
-            try{ Thread.sleep(5); }
-            catch(Exception e) {}
-            repaint();
-            msc.getMainView().rePaintMap();
         }
 
-//        for(int i = 0; i <= 30; i++) {
-//            robot.mouseMove( (int)(x_loc2 + dx * i), (int)(y_loc2 + dy * i));
-//            try{ Thread.sleep(10); }
-//            catch(Exception e) {}
-//        }
     }
 
 }
