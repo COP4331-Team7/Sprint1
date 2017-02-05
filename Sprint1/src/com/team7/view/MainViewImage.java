@@ -256,8 +256,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                             if(grid[xx][yy].getArmies().size() != 0) {
                                 Army army = armies.get(0);
                                  int sizeOfArmy = army.getUnits().size();
-
-                                  g2ds.drawImage(armyImage, x_coord, y_coord, null);
+                                 g2ds.drawImage(armyImage, x_coord, y_coord, null);
                                  g2ds.drawString( Integer.toString( sizeOfArmy ), x_coord, y_coord + 45);
                             }
                         }
