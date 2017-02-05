@@ -88,6 +88,16 @@ public class Player {
         return unit;
     }
 
+    public Unit getUnit(Unit unit){
+        for(int i = 0; i < units.size(); i++){
+            if(units.get(i) == unit){
+                return unit;
+            }
+        }
+
+        return null;
+    }
+
 
     // Checks if we have 25 Units
     public boolean checkMaxUnitsFull(){

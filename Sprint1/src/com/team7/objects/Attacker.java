@@ -76,6 +76,11 @@ public class Attacker {
                         if (totalDamage == 0)
                             return;
 
+                        // ensure the unit is not on your team
+                        if(this.selectedUnits.get(0).getOwner() == tile.getArmies().get(j).getUnits().get(k).getOwner()){
+                            break;
+                        }
+
                         // get health and armor, check if unit should die or just lose health
                         int health = tile.getArmies().get(j).getUnits().get(k).getUnitStats().getHealth();
                         int armor = tile.getArmies().get(j).getUnits().get(k).getUnitStats().getArmor();
@@ -98,7 +103,7 @@ public class Attacker {
                         else {
                             totalDamage -= armor;
                             tile.getArmies().get(j).getUnits().get(k).getUnitStats().setArmor(0);
-                            tile.getArmies().get(j).getUnits().get(k).getUnitStats().setArmor(health - totalDamage);
+                            tile.getArmies().get(j).getUnits().get(k).getUnitStats().setHealth(health - totalDamage);
                             totalDamage = 0;
                         }
 
@@ -113,6 +118,11 @@ public class Attacker {
                     // end function if there is no more damage
                     if (totalDamage == 0)
                         return;
+
+                    // ensure the unit is not on your team
+                    if(this.selectedUnits.get(0).getOwner() == tile.getUnits().get(j).getOwner()){
+                        break;
+                    }
 
                     // get health and armor, check if unit should die or just lose health
                     int health = tile.getUnits().get(j).getUnitStats().getHealth();
@@ -136,9 +146,11 @@ public class Attacker {
                     else {
                         totalDamage -= armor;
                         tile.getUnits().get(j).getUnitStats().setArmor(0);
-                        tile.getUnits().get(j).getUnitStats().setArmor(health - totalDamage);
+                        tile.getUnits().get(j).getUnitStats().setHealth(health - totalDamage);
                         totalDamage = 0;
                     }
+
+
 
                 }
 
@@ -149,14 +161,32 @@ public class Attacker {
                 if (totalDamage == 0)
                     return;
 
-                int health = tile.getStructure().getStats().getHealth();
+                // ensure the unit is not on your team
+                if(tile.getStructure() != null) {
+                    if (this.selectedUnits.get(0).getOwner() == tile.getStructure().getOwner()) {
+                        break;
+                    }
 
-                if(totalDamage >= health) {
-                    tile.getStructure().getStats().setHealth(0);
-                    totalDamage -= health;
-                } else {
-                    tile.getStructure().getStats().setHealth(health - totalDamage);
-                    totalDamage = 0;
+
+                    int health = tile.getStructure().getStats().getHealth();
+                    int armor = tile.getStructure().getStats().getArmor();
+
+                    if (totalDamage >= health + armor) {
+                        tile.getStructure().getStats().setHealth(0);
+                        tile.getStructure().getStats().setArmor(0);
+                        totalDamage -= health;
+                        totalDamage -= health;
+                    }
+                    else if(totalDamage < armor) {
+                        tile.getStructure().getStats().setArmor(0);
+                        totalDamage = 0;
+                    }
+                    else {
+                        totalDamage -= armor;
+                        tile.getStructure().getStats().setArmor(0);
+                        tile.getStructure().getStats().setHealth(health - totalDamage);
+                        totalDamage = 0;
+                    }
                 }
 
                 // if some ranged damage is used, account for it
@@ -176,6 +206,11 @@ public class Attacker {
                         // end function if there is no more damage
                         if (totalRangedDamage == 0)
                             return;
+
+                        // ensure the unit is not on your team
+                        if(this.selectedUnits.get(0).getOwner() == tile.getArmies().get(j).getUnits().get(k).getOwner()){
+                            break;
+                        }
 
                         // get health and armor, check if unit should die or just lose health
                         int health = tile.getArmies().get(j).getUnits().get(k).getUnitStats().getHealth();
@@ -199,7 +234,7 @@ public class Attacker {
                         else {
                             totalRangedDamage -= armor;
                             tile.getArmies().get(j).getUnits().get(k).getUnitStats().setArmor(0);
-                            tile.getArmies().get(j).getUnits().get(k).getUnitStats().setArmor(health - totalRangedDamage);
+                            tile.getArmies().get(j).getUnits().get(k).getUnitStats().setHealth(health - totalRangedDamage);
                             totalRangedDamage = 0;
                         }
 
@@ -214,6 +249,11 @@ public class Attacker {
                     // end function if there is no more damage
                     if (totalRangedDamage == 0)
                         return;
+
+                    // ensure the unit is not on your team
+                    if(this.selectedUnits.get(0).getOwner() == tile.getUnits().get(j).getOwner()){
+                        break;
+                    }
 
                     // get health and armor, check if unit should die or just lose health
                     int health = tile.getUnits().get(j).getUnitStats().getHealth();
@@ -237,7 +277,7 @@ public class Attacker {
                     else {
                         totalRangedDamage -= armor;
                         tile.getUnits().get(j).getUnitStats().setArmor(0);
-                        tile.getUnits().get(j).getUnitStats().setArmor(health - totalRangedDamage);
+                        tile.getUnits().get(j).getUnitStats().setHealth(health - totalRangedDamage);
                         totalRangedDamage = 0;
                     }
 
@@ -248,27 +288,39 @@ public class Attacker {
                 if (totalRangedDamage == 0)
                     return;
 
-                int health = tile.getStructure().getStats().getHealth();
+                // ensure the unit is not on your team
+                if(tile.getStructure() != null) {
+                    if (this.selectedUnits.get(0).getOwner() == tile.getStructure().getOwner()) {
+                        break;
+                    }
 
-                if(totalRangedDamage >= health) {
-                    tile.getStructure().getStats().setHealth(0);
-                    totalRangedDamage -= health;
-                } else {
-                    tile.getStructure().getStats().setHealth(health - totalRangedDamage);
-                    totalRangedDamage = 0;
+                    int health = tile.getStructure().getStats().getHealth();
+                    int armor = tile.getStructure().getStats().getArmor();
+
+                    if (totalDamage >= health + armor) {
+                        tile.getStructure().getStats().setHealth(0);
+                        tile.getStructure().getStats().setArmor(0);
+                        totalDamage -= health;
+                        totalDamage -= health;
+                    }
+                    else if(totalDamage < armor) {
+                        tile.getStructure().getStats().setArmor(0);
+                        totalDamage = 0;
+                    }
+                    else {
+                        totalDamage -= armor;
+                        tile.getStructure().getStats().setArmor(0);
+                        tile.getStructure().getStats().setHealth(health - totalDamage);
+                        totalDamage = 0;
+                    }
+
+
                 }
-
-
-
 
 
             }
 
-
-
         }
-
-
 
     }
 

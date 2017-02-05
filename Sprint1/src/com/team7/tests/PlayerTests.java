@@ -219,8 +219,171 @@ public class PlayerTests {
         assertEquals(tiles.get(4), map.getTile(13, 2));
 
 
+    }
+
+
+    @Test
+    // This tests the attacking for a single unit
+    public void testAttackMelee() throws Exception {
+
+        // create map and player
+        Map map = new Map();
+        Player player1 = new Player();
+        Player player2 = new Player();
+
+        // create units and give them to player
+        Unit melee = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit teammate = new MeleeUnit(map.getGrid()[17][3], player1);
+        Unit ranged = new RangedUnit(map.getGrid()[18][2], player2);
+        player1.addUnit(melee);
+        player2.addUnit(ranged);
+        player1.addUnit(teammate);
+
+        // check Melee units only get the tile next to it
+        Attacker attacker = new Attacker(map, melee, 6);
+
+        attacker.attack();
+
+        assertEquals(player2.getUnits().get(0).getUnitStats().getArmor(), 0);
+        assertTrue(player2.getUnits().get(0).getUnitStats().getHealth() < 100);
+
+
+        // check ranged attack
+        attacker = new Attacker(map, ranged, 4);
+
+        attacker.attack();
+        assertEquals(player1.getUnits().get(0).getUnitStats().getArmor(), 0);
+        assertTrue(player1.getUnits().get(0).getUnitStats().getHealth() < 100);
+
+
+        // check you can't attack a teammate
+        attacker = new Attacker(map, melee, 2);
+        attacker.attack();
+
+        assertEquals(player1.getUnits().get(1).getUnitStats().getArmor(), 10);
+        assertEquals(player1.getUnits().get(1).getUnitStats().getHealth(), 100);
+
 
     }
+
+
+    @Test
+    // This tests the attacking for a single unit
+    public void testAttackRanged() throws Exception {
+
+        // create map and player
+        Map map = new Map();
+        Player player1 = new Player();
+        Player player2 = new Player();
+
+        // create units and give them to player
+        Unit melee = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit ranged = new RangedUnit(map.getGrid()[17][5], player2);
+        player1.addUnit(melee);
+        player2.addUnit(ranged);
+
+
+        // check Melee units only get the tile next to it
+        Attacker attacker = new Attacker(map, ranged, 8);
+
+        attacker.attack();
+
+        assertEquals(player1.getUnits().get(0).getUnitStats().getArmor(), 0);
+        assertTrue(player1.getUnits().get(0).getUnitStats().getHealth() < 100);
+
+
+    }
+
+
+
+    @Test
+    // This tests the attacking for an army
+    public void testAttackArmy() throws Exception {
+
+        // create map and player
+        Map map = new Map();
+        Player player1 = new Player();
+        Player player2 = new Player();
+
+        // create army and units for each player
+        Unit melee1 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee2 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee3 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee4 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee5 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit ranged1 = new RangedUnit(map.getGrid()[17][2], player1);
+        Unit ranged2 = new RangedUnit(map.getGrid()[17][2], player1);
+        Unit ranged3 = new RangedUnit(map.getGrid()[17][2], player1);
+        Army army1 = new Army(map.getGrid()[17][2], player1);
+        player1.addUnit(melee1);
+        player1.addUnit(melee2);
+        player1.addUnit(melee3);
+        player1.addUnit(melee4);
+        player1.addUnit(melee5);
+        player1.addUnit(ranged1);
+        player1.addUnit(ranged2);
+        player1.addUnit(ranged3);
+        army1.addUnitToArmy(melee1);
+        army1.addUnitToArmy(melee2);
+        army1.addUnitToArmy(melee3);
+        army1.addUnitToArmy(melee4);
+        army1.addUnitToArmy(melee5);
+        army1.addUnitToArmy(ranged1);
+        army1.addUnitToArmy(ranged2);
+        army1.addUnitToArmy(ranged3);
+        player1.addArmy(army1);
+
+
+        Unit melee8 = new MeleeUnit(map.getGrid()[17][3], player2);
+        Unit melee9 = new MeleeUnit(map.getGrid()[17][3], player2);
+        Unit melee10 = new MeleeUnit(map.getGrid()[17][4], player2);
+        Army army2 = new Army(map.getGrid()[17][3], player2);
+        player2.addUnit(melee8);
+        player2.addUnit(melee9);
+        player2.addUnit(melee10);
+        army2.addUnitToArmy(melee8);
+        army2.addUnitToArmy(melee9);
+        player2.addArmy(army2);
+        player2.addStructure(new Base(map.getGrid()[16][2], player2));
+
+
+
+        // check Melee units only get the tile next to it and ranged hits farther
+        Attacker attacker = new Attacker(map, army1.getUnits(), 2);
+        attacker.attack();
+        attacker = new Attacker(map, army1.getUnits(), 2);
+        attacker.attack();
+        attacker = new Attacker(map, army1.getUnits(), 2);
+        attacker.attack();
+        attacker = new Attacker(map, army1.getUnits(), 2);
+        attacker.attack();
+        attacker = new Attacker(map, army1.getUnits(), 2);
+        attacker.attack();
+
+        // destroy base
+        attacker = new Attacker(map, army1.getUnits(), 4);
+        attacker.attack();
+        attacker = new Attacker(map, army1.getUnits(), 4);
+        attacker.attack();
+        attacker = new Attacker(map, army1.getUnits(), 4);
+        attacker.attack();
+
+
+        // check health
+        System.out.println(player2.getStructures().get(0).getStats().getHealth());
+
+        // print health for each unit
+        for(int i = 0; i < player2.getUnits().size(); i++) {
+            System.out.println(player2.getUnits().get(i).getUnitStats().getHealth());
+        }
+
+
+        player2.checkUnitArmyStructs();
+
+        assertEquals(player2.isDefeated(), true);
+
+    }
+
 
 
 
