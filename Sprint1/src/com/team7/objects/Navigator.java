@@ -60,11 +60,14 @@ public class Navigator {
         movement = army.getSlowestSpeed();
 
         unitsLeft = selectedUnits.size();
+        System.out.println("unitsLeft = " + unitsLeft);
 
-        Arrays.fill(healthOfAllUnits, 25);
-        for(int i = 0; i < selectedUnits.size() - 1; i++){
+        Arrays.fill(healthOfAllUnits, 0);
+        for(int i = 0; i < selectedUnits.size(); i++){
             healthOfAllUnits[i] = selectedUnits.get(i).getUnitStats().getHealth();
+            System.out.println("Unit at index " + i + " has health of " + healthOfAllUnits[i]);
         }
+        System.out.println("");
     }
 
 
@@ -105,10 +108,15 @@ public class Navigator {
                 tmpX++;
                 break;
         }
+        boolean valid = false;
+        boolean tileinQueue = false;
+        for(int i = 0; i < selectedUnits.size(); i++){
+            selectedUnit = selectedUnits.get(i);
+            health = healthOfAllUnits[i];
 
-//        for(Unit u : selectedUnits){
-//            health = healthOfAllUnits[healthIndex];
-//            healthIndex++;
+            System.out.print("Current Unit in Navigator checker index: " + i + "\t\t");
+            System.out.print("name: " + selectedUnit + "\t\t");
+            System.out.println("health: " + health + "\n");
 
             //TODO check if unit is frozen
             if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
@@ -116,61 +124,75 @@ public class Navigator {
                     if (hasMovementLeft()){ //third ensure that a unit can still move
 //                         if(isUnitAlive() && hasUnitRemaining())
 //                        The above statement is not working properly
-                        if (!isUnitAlive()) { //ensure unit is alive to affect stats and navigator has unit
-                            System.out.println("Added to queue");
+                        if (isUnitAlive()) { //ensure unit is alive to affect stats and navigator has unit
                             calculateNetEffectByTile(map.getTile(tmpX, tmpY));
-                            tilePath.add(map.getTile(tmpX, tmpY)); //only add to tilePath if Unit survived the way
+                            if(!tileinQueue){
+                                tileinQueue = true;
+                                tilePath.add(map.getTile(tmpX, tmpY)); //only add to tilePath if Unit survived the way, only do so once
+                                System.out.println("Added tile " + map.getTile(tmpX,tmpY) + " to queue \n");
+                            }
+
                         }
-                        x = tmpX;
-                        y = tmpY;
-                        return true;
+                      //  x = tmpX;
+                       // y = tmpY;
+                      //  return true;
+                        valid = true;
                     }
                 }
             }
-//        }
 
+        }
+        System.out.println("END OF PARSE \n\n");
+        if(valid){
+            x = tmpX;
+            y = tmpY;
+            return true;
+        }
         return false;
     }
 
     //when ENTER is pressed
     public void updateModel(){
-        System.out.println("src coordinate X: "+selectedUnit.getLocation().getxCoordinate());
-        System.out.println("src coordinate Y: "+selectedUnit.getLocation().getyCoordinate());
+        System.out.println("START OF UPDATE \n");
+        Queue<Tile> tmpTilePath = tilePath;
+        for(int i = 0; i < selectedUnits.size(); i++){
+            selectedUnit = selectedUnits.get(i);
 
-        for(Unit u : selectedUnits){
-            System.out.println("current unit: " + u);
-            System.out.println("command size: " + tilePath.size());
-            selectedUnit = u;
+            System.out.println("current unit: " + selectedUnit);
 
-            if (tilePath.peek() != null){
-                tilePath.peek().removeUnitFromTile(selectedUnit); //remove unit from starting point
+            System.out.println("src coordinate X: "+ selectedUnit.getLocation().getxCoordinate());
+            System.out.println("src coordinate Y: "+ selectedUnit.getLocation().getyCoordinate() + "\n");
+            System.out.println("tilePathQ size: " + tmpTilePath.size() + "\n");
+
+            if (tmpTilePath.peek() != null){
+                tmpTilePath.peek().removeUnitFromTile(selectedUnit); //remove unit from starting point
                 //Previously the loop was running for less no. of times because it was checking the tilePath.size()
                 // which is changing on every iteration because of deletion
-                int t=tilePath.size();
-                for(int i = 0; i < t - 1; i++){
-//                    System.out.println("current tile in path: " + tilePath.size());
+                for(int j = 0; j < tmpTilePath.size() - 1; j++){
                     tilePath.remove().clearTile();    //remove all tiles in path EXCEPT the last one
                     //last element in tilePath is the unit destination
                 }
 
                 //now only one Tile left in tilePath, the last one (destination)
-                tilePath.peek().addUnitToTile(selectedUnit);        //add Unit to final tile
-                selectedUnit.setLocation(tilePath.peek());          //add tile location to unit
+                tmpTilePath.peek().addUnitToTile(selectedUnit);        //add Unit to final tile
+                selectedUnit.setLocation(tmpTilePath.peek());          //add tile location to unit
 
                 if (selectedUnit.getArmy() != null){
-                    selectedUnit.getArmy().setRallyPoint(tilePath.peek());
+                    selectedUnit.getArmy().setRallyPoint(tmpTilePath.peek());
                 }
 
-                tilePath.remove().clearTile();                      //clear tile of resources
+                tmpTilePath.remove().clearTile();                      //clear tile of resources
+                tmpTilePath = tilePath;
             }
 
             //update stats
-            selectedUnit.getUnitStats().setHealth(this.health);
+            selectedUnit.getUnitStats().setHealth(healthOfAllUnits[i]);
+            System.out.println("updated unit health to: " + healthOfAllUnits[i]);  //TODO fix health array to correspond to unit List
 
         }
 
         System.out.println("target coordinate X: "+selectedUnit.getLocation().getxCoordinate());
-        System.out.println("target coordinate Y: "+selectedUnit.getLocation().getyCoordinate());
+        System.out.println("target coordinate Y: "+selectedUnit.getLocation().getyCoordinate() + "\n\n\n");
 
         selectedUnit.getOwner().setMoney(selectedUnit.getOwner().getMoney() + this.collectedMoney);
         selectedUnit.getOwner().setConstruction(selectedUnit.getOwner().getConstruction() + this.collectedConstruction);
@@ -182,6 +204,7 @@ public class Navigator {
     private boolean hasUnitRemaining(){
         if (!isUnitAlive()){    //if unit is dead, decrement units left
             unitsLeft--;
+            System.out.println("a Unit has died, unitsLeft = " + unitsLeft + "\n");
         }
         return unitsLeft > 0;
     }

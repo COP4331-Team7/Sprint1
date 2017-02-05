@@ -27,6 +27,7 @@ public class MoveArmyTests {
         }
 
         Unit ranged = new RangedUnit(game.getMap().getTile(17,3),p);        //create ranged unit at 17,3
+        ranged.getUnitStats().setHealth(50);
         Unit melee = new MeleeUnit(game.getMap().getTile(17,3),p);
         Army a = new Army(game.getMap().getTile(17,3), p);                  //create army at 17,3
         a.addUnitToArmy(ranged);                                                //adding ranged to army
@@ -40,15 +41,11 @@ public class MoveArmyTests {
         nav.parseInputCommand('8');
         nav.parseInputCommand('8');
         nav.parseInputCommand('8');
-        nav.parseInputCommand('8');
-        nav.parseInputCommand('8');
-        nav.parseInputCommand('8');
-        nav.parseInputCommand('8');
-        nav.parseInputCommand('8');
 
         nav.updateModel();
 
-        System.out.println("LOOK HERE: " + a.getRallyPoint().getyCoordinate());
+        System.out.println("Final RP xcoord: " + a.getRallyPoint().getxCoordinate());
+        System.out.println("Final RP ycoord: " + a.getRallyPoint().getyCoordinate());
 
 
     }
