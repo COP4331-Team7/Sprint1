@@ -16,6 +16,8 @@ import com.team7.objects.terrain.Desert;
 import com.team7.objects.terrain.FlatLand;
 import com.team7.objects.terrain.Mountains;
 import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.combatUnit.MeleeUnit;
+import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 
@@ -235,6 +237,7 @@ public class MainViewImage extends JPanel implements MouseListener {
 
                     // draw units
                     int colonistCount = 0, explorerCount = 0;
+                    int meleeCount = 0, rangeCount = 0, armyCount = 0;
                     ArrayList<Unit> units = grid[xx][yy].getUnits();
                     if( !units.isEmpty() ) {    // if there are units on this tile
                         for(int n = 0; n < units.size(); n++) {
@@ -242,16 +245,39 @@ public class MainViewImage extends JPanel implements MouseListener {
                                 colonistCount++;
                             if( units.get(n) instanceof Explorer)
                                 explorerCount++;
+                            if( units.get(n) instanceof MeleeUnit)
+                                meleeCount++;
+                            if( units.get(n) instanceof RangedUnit)
+                                rangeCount++;
                         }
                         //System.out.println("tile[" + xx + "][" + yy + "] has " + colonistCount + " colonist and " + explorerCount + " explorer(s)");
-                        if(colonistCount != 0) {
+                        if(grid[xx][yy].getArmies() != null) {
+                            ArrayList<Army> armies = grid[xx][yy].getArmies();
+                            if(grid[xx][yy].getArmies().size() != 0) {
+                                Army army = armies.get(0);
+                                 int sizeOfArmy = army.getUnits().size();
+
+                                  g2ds.drawImage(armyImage, x_coord, y_coord, null);
+                                 g2ds.drawString( Integer.toString( sizeOfArmy ), x_coord, y_coord + 45);
+                            }
+                        }
+                        if (colonistCount != 0) {
                             g2ds.drawImage(colonistImage, x_coord, y_coord, null);
-                            g2ds.drawString( Integer.toString( colonistCount ), x_coord, y_coord + 45);
+                            g2ds.drawString(Integer.toString(colonistCount), x_coord, y_coord + 45);
                         }
-                        if(explorerCount != 0) {
+                        if (explorerCount != 0) {
                             g2ds.drawImage(explorerImage, x_coord, y_coord, null);
-                            g2ds.drawString( Integer.toString( explorerCount ), x_coord, y_coord + 45);
+                            g2ds.drawString(Integer.toString(explorerCount), x_coord, y_coord + 45);
                         }
+                        if (meleeCount != 0) {
+                            g2ds.drawImage(meleeImage, x_coord, y_coord, null);
+                            g2ds.drawString(Integer.toString(meleeCount), x_coord, y_coord + 45);
+                        }
+                        if (rangeCount != 0) {
+                            g2ds.drawImage(rangeImage, x_coord, y_coord, null);
+                            g2ds.drawString(Integer.toString(rangeCount), x_coord, y_coord + 45);
+                        }
+
                     }
 
                 }
