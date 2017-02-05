@@ -134,6 +134,7 @@ public class Army {
         for(int i = 0; i < this.units.size(); i++){
             removeUnitFromArmy(this.units.get(i));
         }
+        this.owner.removeArmy(this);
     }
 
     public int getTurnsFrozen() {
