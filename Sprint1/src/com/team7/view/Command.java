@@ -88,7 +88,7 @@ public class Command extends JPanel implements KeyListener {
     private int currTypeInstance = -1;
     private int currCommand = -1;
 
-    private static final int CONTROL_KEY_CODE = 4;
+    private static final int CONTROL_KEY_CODE = 1;
     private static final int LEFT_KEY_CODE = 37;
     private static final int UP_KEY_CODE = 38;
     private static final int RIGHT_KEY_CODE = 39;
@@ -589,7 +589,7 @@ public class Command extends JPanel implements KeyListener {
                 BasicStroke.CAP_SQUARE,
                 BasicStroke.JOIN_ROUND,
                 3.0f) );
-        g2d.drawLine(x_loc2 - TILESIZE/2, y_loc2 - TILESIZE - 40, x_loc2 + x - TILESIZE/2, y_loc2 + y - TILESIZE - 40 );
+        //g2d.drawLine(x_loc2 - TILESIZE/2, y_loc2 - TILESIZE - 40, x_loc2 + x - TILESIZE/2, y_loc2 + y - TILESIZE - 40 );
         msc.getMainView().rePaintMap();
 
         for(int i = 0; i <= 30; i++) {
