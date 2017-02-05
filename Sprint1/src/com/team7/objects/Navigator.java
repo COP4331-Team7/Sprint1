@@ -137,7 +137,7 @@ public class Navigator {
         //TODO check if unit is frozen
     }
     
-    public ArrayList<Tile> updateModelNew(){
+    public ArrayList<Tile> updateModel(){
         if (tilePathList.isEmpty()){
             System.out.println("Empty Tile Path");
             return null;
@@ -183,68 +183,6 @@ public class Navigator {
             }
         }
     }
-    //when ENTER is pressed
-    public void updateModel(){
-        System.out.println("START OF UPDATE \n");
-        if (tilePathList.isEmpty()){
-            System.out.println("Empty Tile Path");
-            return;
-        }
-
-     //   int unitsAliveInList = selectedUnits.size();
-
-        //there exists some path of the CURSOR
-        Tile currentTileInPath;
-        for(int i = 0; i < tilePathList.size(); i++){ //iterate through each tile in final path list
-            selectedUnit = selectedUnits.get(0);        //the first unit in an army, or an individual unit (ie explorer)
-            currentTileInPath = tilePathList.get(i);
-            System.out.println("Iterating through tile path \t"+currentTileInPath);
-            calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnit);
-            for(int j = 0; j < selectedUnits.size(); j++){//iterate through each unit commanded (1 for non-Army)
-                if(unitsAliveInList == 0){      //if no units are alive, dont move them
-                    //delete the army
-                    if (selectedUnit.getArmy() != null) {
-                        selectedUnit.setArmy(null);
-                    }
-
-                    return;
-                }
-                selectedUnit = selectedUnits.get(j);
-                System.out.println("Iterating through each unit on tile \t"+selectedUnit);
-                calculateNetUnitEffectByTile(currentTileInPath, selectedUnit);      //updates the unit health and movement
-                boolean dead = tryToRemoveUnit(selectedUnit);
-                System.out.println("Final Helath \t"+selectedUnit.getUnitStats().getHealth());
-
-                if (!dead){ //update location
-                    selectedUnit.getLocation().removeUnitFromTile(selectedUnit);    //remove unit from old TILE
-
-                    selectedUnit.setLocation(currentTileInPath);                    //update UNIT with tile reference
-                    currentTileInPath.addUnitToTile(selectedUnit);                  //update TILE with unit reference
-
-                    System.out.println("selectedUnit Tile x: " + selectedUnit.getLocation().getxCoordinate());
-                    System.out.println("selectedUnit Tile y: " + selectedUnit.getLocation().getyCoordinate());
-                }else{
-                    unitsAliveInList--;
-                    if (selectedUnit.getArmy() != null){
-                        selectedUnit.getArmy().removeUnitFromArmy(selectedUnit);        //remove unit from army
-                    }
-                    selectedUnit.getOwner().removeUnit(selectedUnit);
-                    selectedUnit.getLocation().removeUnitFromTile(selectedUnit);
-                }
-            }
-
-            //update GUI via controller
-
-        }
-
-        if(selectedUnit.getArmy() != null){
-            selectedUnit.getArmy().setRallyPoint(tilePathList.get(tilePathList.size() - 1));        //change RP of army to final Tile
-            tilePathList.get(tilePathList.size() - 1).addArmyToTile(selectedUnit.getArmy());     //change Tile to have army
-        }
-
-
-    }
-
 
 
     private boolean tryToRemoveUnit(Unit unitToCheck){

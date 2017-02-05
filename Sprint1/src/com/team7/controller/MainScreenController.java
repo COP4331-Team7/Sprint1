@@ -4,7 +4,7 @@ import com.team7.objects.unit.Unit;
 import com.team7.view.*;
 import com.team7.objects.*;
 
-import java.awt.*;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -29,20 +29,12 @@ public class MainScreenController {
     public void setMap(  Map map ) {
         view.getScreen().getMainScreen().getMainViewImage().setMap( map );
     }
-
-    public void addCommandToPath(int index, String s) {
-        path.add(index, s );
-    }
     public void moveMode(Unit selected){ //called 1nce
         navigator = new Navigator(game.getMap(), selected);
     }
     public boolean sendCommand(char command){ //called per number keystroke
 
         return navigator.parseInputCommand(command);
-    }
-
-    public void clearCommandPath() {
-        path.clear();
     }
 
 
@@ -86,7 +78,36 @@ public class MainScreenController {
         return view.getScreen().getMainScreen().getMainViewImage();
     }
 
+
+
     public void updateModel() {
-        navigator.updateModel();
+        if(navigator.updateModel()!=null){
+            //Iterate through each tile in path
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+
+            for(int i = 0; i<navigator.updateModel().size(); i++){
+
+                    navigator.reDrawMapViaModel(navigator.updateModel().get(i));
+
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.getScreen().getMainScreen().drawMap();
+                    }
+                });
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                }
+                }
+            }).start();
+
+            }
+        }
     }
-}
+

@@ -7,7 +7,6 @@ import com.team7.objects.unit.combatUnit.MeleeUnit;
 import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
-import javafx.scene.input.KeyCombination;
 
 import javax.swing.*;
 import java.awt.*;
