@@ -15,7 +15,7 @@ import static org.testng.AssertJUnit.assertTrue;
 public class GameTests {
 
     @Test
-    void nextTurn() throws Exception {
+    public void nextTurn() throws Exception {
         Player p1 = new Player();
         Player p2 = new Player();
         Game g = new Game(p1, p2);
@@ -25,7 +25,7 @@ public class GameTests {
     }
 
     @Test
-    void getCurrentPlayer() throws Exception{
+    public void getCurrentPlayer() throws Exception{
         Player p1 = new Player();
         Player p2 = new Player();
         Game g = new Game(p1, p2);

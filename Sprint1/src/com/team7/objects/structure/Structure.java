@@ -3,6 +3,8 @@ package com.team7.objects.structure;
 import com.team7.objects.*;
 import com.team7.objects.unit.Unit;
 
+import java.util.ArrayList;
+
 public abstract class Structure {
     private int id;
     private Player owner;
@@ -109,16 +111,6 @@ public abstract class Structure {
         this.defenseDirection = defenseDirection;
     }
 
-    // this helper function decodes string of next command in command queue and calls necessary function
-    public void decodeNextInstruction(Map map) {
-
-        // Get the next command to be run and remove it from the queue
-        Command command = commands.getCommands().get(0);
-        commands.getCommands().remove(0);
-
-
-
-    }
 
     public void setType(String s) {this.type = s;}
 
