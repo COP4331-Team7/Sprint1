@@ -64,6 +64,8 @@ public class Game {
             currentPlayer.getStructures().get(i).decodeNextInstruction(map);
         }
 
+        // TODO: UPDATE MAP?
+
     }
 
     //Switches the turn to the next player
