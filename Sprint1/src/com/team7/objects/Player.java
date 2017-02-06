@@ -49,6 +49,7 @@ public class Player {
 
 
     private void resetUnitMovement(){
+        // loop through all units and reset movement
         for(int i = 0; i < this.units.size(); i++){
             if(this.getUnits().get(i) instanceof MeleeUnit)
                 this.units.get(i).getUnitStats().setMovement(8);
@@ -58,8 +59,16 @@ public class Player {
                 this.units.get(i).getUnitStats().setMovement(10);
             else if(this.getUnits().get(i) instanceof RangedUnit)
                 this.units.get(i).getUnitStats().setMovement(6);
-
         }
+        // Check for new slowest speed for each army
+        for(int i = 0; i < this.armies.size(); i++) {
+            for(int j = 0; j < this.armies.get(i).getUnits().size(); j++){
+                if(armies.get(i).getUnits().get(j).getUnitStats().getMovement() < armies.get(i).getSlowestSpeed()){
+                    armies.get(i).setSlowestSpeed(armies.get(i).getUnits().get(j).getUnitStats().getMovement());
+                }
+            }
+        }
+
     }
 
 

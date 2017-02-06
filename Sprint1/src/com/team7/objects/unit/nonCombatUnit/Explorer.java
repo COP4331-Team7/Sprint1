@@ -10,7 +10,7 @@ public class Explorer extends NonCombatUnit {
     private static int ids = 1;
 
     public Explorer(Tile startTile, Player player){
-        UnitStats stats = new UnitStats(0, 0, 10, 10, 100, 3);
+        UnitStats stats = new UnitStats(0, 0, 10, 100, 100, 3);
         //int id = ProbabilityGenerator.randomInteger(0, 99999);
         setOwner(player);
         setArmy(null);
