@@ -22,5 +22,45 @@ public class CommandQueue {
     public void setCommands(ArrayList<Command> commands) {
         this.commands = commands;
     }
+
+    public void raiseCommmand(String commandString) {
+        for (int i=0; i<commands.size(); i++) {
+                if (commandString.equals(commands.get(i).getCommandString())) {
+                    if (i==0) {
+                        System.out.println("Can't Raise command any higher");
+                        return;
+                    }
+                    Command temp = commands.get(i);
+                    commands.set(i, commands.get(i-1));
+                    commands.set(i-1, temp);
+                    return;
+            }
+        }
+    }
+
+    public void lowerCommand(String commandString) {
+        int size = commands.size();
+        for (int i=0; i<size; i++) {
+            if (commandString.equals(commands.get(i).getCommandString())) {
+                System.out.println("Command found at index " + i);
+                if (i == commands.size()-1) {
+                    System.out.println("Can't Lower any further");
+                    return;
+                }
+                Command temp = commands.get(i);
+                commands.set(i, commands.get(i + 1));
+                commands.set(i + 1, temp);
+                return;
+            }
+        }
+    }
+
+    public void removeCommand(String commandString) {
+        for (int i=0; i<commands.size(); i++) {
+            if (commandString.equals(commands.get(i).getCommandString())) {
+                commands.remove(i);
+            }
+        }
+    }
 }
 

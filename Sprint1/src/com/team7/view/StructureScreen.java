@@ -65,6 +65,8 @@ public class StructureScreen extends JPanel {
         structureList.setModel(strucListModel);
 
         //Format Command List
+        comListModel.addElement("Test");
+        structureCommands.setModel(comListModel);
         JScrollPane commandScrollPane = new JScrollPane(structureCommands);
         commandPanel.add(commandScrollPane, BorderLayout.CENTER);
         JPanel commandButtonPanel = new JPanel(new BorderLayout());
@@ -116,6 +118,10 @@ public class StructureScreen extends JPanel {
         repaint();
     }
 
+    public JList<String> getQueueList() {
+        return structureCommands;
+    }
+
     public JList<String> getStructureList() {
         return structureList;
     }
@@ -123,4 +129,7 @@ public class StructureScreen extends JPanel {
     public JTextArea getStatsTextArea() {
         return statsTextArea;
     }
+    public JButton getMoveOrderUp() {return moveOrderUp;}
+    public JButton getMoveOrderDown() {return moveOrderDown;}
+    public JButton getCancelCommand() {return cancelCommand; }
 }

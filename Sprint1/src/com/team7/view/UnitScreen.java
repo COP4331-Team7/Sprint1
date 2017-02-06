@@ -277,6 +277,9 @@ public class UnitScreen extends JPanel {
     }
     public JButton getAddUnitButton() { return addUnit;}
     public JButton getRemoveUnitButton() { return removeUnit;}
+    public JButton getCancelCommand() {return cancelCommand;}
+    public JButton getMoveUpCommandButton() {return moveOrderUp;}
+    public JButton getMoveDownCommandButton() {return moveOrderDown;}
 
     //Getter Methods for every list to be accessed by UnitScreenController
     public JList getUnitList() {
@@ -285,23 +288,15 @@ public class UnitScreen extends JPanel {
     public JList<String> getArmyList() {return armyList;}
     public JList getUnitsinArmyList() {return unitsInArmyList;}
 
-    public JButton getCancelCommand() {
-        return cancelCommand;
-    }
-
-    public JButton getMoveOrderUp() {
-        return moveOrderUp;
-    }
-
-    public JButton getMoveOrderDown() {
-        return moveOrderDown;
-    }
-
     public void setArmies(ArrayList<Army> armies) {
         armyModel.clear();
         for (Army a: armies) {
             armyModel.addElement(a.getName());
         }
         repaint();
+    }
+
+    public JList<String> getQueueList() {
+        return queue;
     }
 }

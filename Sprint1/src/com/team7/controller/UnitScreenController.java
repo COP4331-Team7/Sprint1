@@ -241,6 +241,71 @@ public class UnitScreenController {
             }
         });
 
+        //Add action listener for cancel command button
+        view.getScreen().getUnitScreen().getCancelCommand().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getScreen().getUnitScreen().getCancelCommand()) {
+                    String selectedCommand = view.getScreen().getUnitScreen().getQueueList().getSelectedValue();
+                    String selectedArmy = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                    if (selectedArmy == null || selectedCommand == null) {
+                        return;
+                    }
+                    List<Army> armies = game.getCurrentPlayer().getArmies();
+                    for (Army a : armies) {
+                        if (selectedArmy.equals(a.getName())) {
+                            a.getCommandQueue().removeCommand(selectedCommand);
+                            view.getScreen().getUnitScreen().setQueueModel(a.getCommandQueue().getCommands());
+                            System.out.println("Removed command " + selectedCommand + " from queue");
+                        }
+                    }
+                }
+            }
+        });
+
+        //Add action listener for move up button
+        view.getScreen().getUnitScreen().getMoveUpCommandButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getScreen().getUnitScreen().getMoveUpCommandButton()) {
+                    String selectedCommand = view.getScreen().getUnitScreen().getQueueList().getSelectedValue();
+                    String selectedArmy = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                    if (selectedArmy == null || selectedCommand == null) {
+                        return;
+                    }
+                    List<Army> armies = game.getCurrentPlayer().getArmies();
+                    for (Army a : armies) {
+                        if (selectedArmy.equals(a.getName())) {
+                            a.getCommandQueue().raiseCommmand(selectedCommand);
+                            view.getScreen().getUnitScreen().setQueueModel(a.getCommandQueue().getCommands());
+                            System.out.println("Raised " + selectedCommand + " from queue");
+                        }
+                    }
+                }
+            }
+        });
+
+        //Add Action listener for move down button
+        view.getScreen().getUnitScreen().getMoveDownCommandButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == view.getScreen().getUnitScreen().getMoveDownCommandButton()) {
+                    String selectedCommand = view.getScreen().getUnitScreen().getQueueList().getSelectedValue();
+                    String selectedArmy = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                    if (selectedArmy == null || selectedCommand == null) {
+                        return;
+                    }
+                    List<Army> armies = game.getCurrentPlayer().getArmies();
+                    for (Army a : armies) {
+                        if (selectedArmy.equals(a.getName())) {
+                            a.getCommandQueue().lowerCommand(selectedCommand);
+                            view.getScreen().getUnitScreen().setQueueModel(a.getCommandQueue().getCommands());
+                            System.out.println("Lowered" + selectedCommand + " from queue");
+                        }
+                    }
+                }
+            }
+        });
     }
 
 
