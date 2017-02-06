@@ -1,5 +1,6 @@
 package com.team7.objects;
 
+import com.team7.objects.CommandObject;
 import java.util.ArrayList;
 
 public class CommandQueue {
@@ -30,7 +31,7 @@ public class CommandQueue {
                         System.out.println("Can't Raise command any higher");
                         return;
                     }
-                    Command temp = commands.get(i);
+                    CommandObject temp = commands.get(i);
                     commands.set(i, commands.get(i-1));
                     commands.set(i-1, temp);
                     return;
@@ -47,7 +48,7 @@ public class CommandQueue {
                     System.out.println("Can't Lower any further");
                     return;
                 }
-                Command temp = commands.get(i);
+                CommandObject temp = commands.get(i);
                 commands.set(i, commands.get(i + 1));
                 commands.set(i + 1, temp);
                 return;

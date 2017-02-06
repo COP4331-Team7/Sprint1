@@ -65,7 +65,7 @@ public class StructureScreen extends JPanel {
         structureList.setModel(strucListModel);
 
         //Format Command List
-        comListModel.addElement("Test");
+        //comListModel.addElement("Test");
         structureCommands.setModel(comListModel);
         JScrollPane commandScrollPane = new JScrollPane(structureCommands);
         commandPanel.add(commandScrollPane, BorderLayout.CENTER);
