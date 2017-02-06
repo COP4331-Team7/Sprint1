@@ -1,10 +1,12 @@
 package com.team7.view;
 
 import com.team7.objects.structure.Structure;
+import com.team7.objects.CommandObject;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+
 
 public class StructureScreen extends JPanel {
 
@@ -69,7 +71,7 @@ public class StructureScreen extends JPanel {
         commandButtonPanel.add(cancelCommand, BorderLayout.CENTER);
         commandButtonPanel.add(moveOrderDown, BorderLayout.LINE_END);
         commandButtonPanel.add(moveOrderUp, BorderLayout.LINE_START);
-        commandButtonPanel.add(produceUnit, BorderLayout.PAGE_END);
+        //commandButtonPanel.add(produceUnit, BorderLayout.PAGE_END);
         commandPanel.add(commandButtonPanel, BorderLayout.SOUTH);
 
         //Format Stats box
@@ -104,6 +106,14 @@ public class StructureScreen extends JPanel {
         for (Structure s: structures) {
             strucListModel.addElement(s.getType() + " " +  s.getId());
         }
+    }
+
+    public void setCommands(ArrayList<CommandObject> commands) {
+        comListModel.clear();
+        for (CommandObject c: commands) {
+            comListModel.addElement(c.getCommandString());
+        }
+        repaint();
     }
 
     public JList<String> getStructureList() {

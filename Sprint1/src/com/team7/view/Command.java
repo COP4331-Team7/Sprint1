@@ -1,7 +1,12 @@
 package com.team7.view;
 
 import com.team7.controller.MainScreenController;
+import com.team7.objects.Army;
+import com.team7.objects.CommandObject;
 import com.team7.objects.Player;
+import com.team7.objects.Tile;
+import com.team7.objects.structure.Base;
+import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.combatUnit.MeleeUnit;
 import com.team7.objects.unit.combatUnit.RangedUnit;
@@ -65,7 +70,8 @@ public class Command extends JPanel implements KeyListener {
                                                     "DECOMMISSION",
                                                      "POWER DOWN",
                                                      "POWER UP",
-                                                      "MOVE"};
+                                                      "MOVE",
+                                                        "MAKE BASE"};
 
 
    // private final static String[] types = { "STRUCTURE", "UNIT", "ARMY" };
@@ -115,7 +121,7 @@ public class Command extends JPanel implements KeyListener {
         commandSelectPanel.add(typeInstanceLabel);
         commandSelectPanel.add(commandLabel);
 
-        executeCommandButton = new JButton("EXECUTE COMMAND");
+        executeCommandButton = new JButton("ISSUE COMMAND");
         endTurnButton = new JButton("END TURN");
         commandSelectPanel.add( executeCommandButton );
         commandSelectPanel.add( endTurnButton );
@@ -140,7 +146,64 @@ public class Command extends JPanel implements KeyListener {
         sb.append( commandLabel.getText().substring(commandLabel.getText().lastIndexOf(":") + 1) );
 
         String command_string = sb.toString( );
+        System.out.println("commnd is: " + command_string);
+        // QUEUE THE COMMAND
+        Unit targetUnit = null;
+        Army targetArmy = null;
+        Base targetBase = null;
+        ArrayList<Tile> path = null;
+        if(currCommand == -1 && currMode == 0) {
+            path = msc.getQueuedTile();
+            System.out.println("path before entering Q " + path);
+        }
+        if( getCurrSelectedUnit() != null ) {
+            targetUnit = getCurrSelectedUnit();
+        }
+        else if ( getCurrSelectedArmy() != null ) {
+            targetArmy = getCurrSelectedArmy();
+            targetArmy.getCommandQueue().addCommand( new CommandObject( command_string, path ));
+        }
+        else if ( getCurrSelectedBase() != null ) {
+            targetBase = getCurrSelectedBase();
+            targetBase.getCommandQueue().addCommand( new CommandObject( command_string, path ));
+        }
+
+        return command_string;
+    }
+
+    public String extractCommand(String direction) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(" ");
+        //sb.append( modeLabel.getText().substring(modeLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( typeLabel.getText().substring(typeLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( typeInstanceLabel.getText().substring(typeInstanceLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( commandLabel.getText().substring(commandLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( direction );
+        String command_string = sb.toString( );
         System.out.println("commyString = " + command_string);
+
+        // QUEUE THE COMMAND
+        Unit targetUnit = null;
+        Army targetArmy = null;
+        Base targetBase = null;
+        ArrayList<Tile> path = null;
+        if(currCommand == -1 && currMode == 0) {
+            path = msc.getQueuedTile();
+            System.out.println("path before entering Q " + path);
+        }
+        if( getCurrSelectedUnit() != null ) {
+            targetUnit = getCurrSelectedUnit();
+        }
+        else if ( getCurrSelectedArmy() != null ) {
+            targetArmy = getCurrSelectedArmy();
+            targetArmy.getCommandQueue().addCommand( new CommandObject( command_string, path ));
+        }
+        else if ( getCurrSelectedBase() != null ) {
+            targetBase = getCurrSelectedBase();
+            targetBase.getCommandQueue().addCommand( new CommandObject( command_string, path ));
+        }
+
         return command_string;
     }
 
@@ -166,13 +229,14 @@ public class Command extends JPanel implements KeyListener {
             commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?unitCommands[currCommand]:"")); //up / down arrow
         else if (currMode == 3)
             commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?armyCommands[currCommand]:"")); //up / down arrow
+        else if (currMode == 0 && currTypeInstance != -1)
+            commandLabel.setText("COMMAND (\u2191 / \u2193): " + "MOVE");
         else
             commandLabel.setText("COMMAND (\u2191 / \u2193): ");
 
         if(currTypeInstance == -1) {
             typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): ");
             statusInfo.clearStats();
-
         }
         else if(currMode == 2 && currType == 0) { // get list of player's Colonist instances
             ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
@@ -226,6 +290,33 @@ public class Command extends JPanel implements KeyListener {
             typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?meleeUnits.get(currTypeInstance).getId():""));
             statusInfo.setUnit( meleeUnits.get(currTypeInstance) );
         }
+        // get list of players armies
+        else if(currMode == 0 && currType == -1) { // get list of RallyPoint instances
+            ArrayList<Army> armies = (ArrayList<Army>) currentPlayer.getArmies();
+            for (int n = 0; n < armies.size(); n++) {
+                typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?armies.get(currTypeInstance).getId():""));
+            }
+        }
+        // get list of players armies
+        else if(currMode == 3) { // get list of RallyPoint instances
+            ArrayList<Army> armies = (ArrayList<Army>) currentPlayer.getArmies();
+            for (int n = 0; n < armies.size(); n++) {
+                typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?armies.get(currTypeInstance).getId():""));
+            }
+        }
+        else if(currMode == 1 && currType == 0) { // get list of BaseInstances
+            ArrayList<Structure> structs =  currentPlayer.getStructures();
+            ArrayList<Base> bases = new ArrayList<Base>();
+            if (!structs.isEmpty()) {    // if there are units on this tile
+                for (int n = 0; n < structs.size(); n++) {
+                    if (structs.get(n) instanceof Base) {
+                        bases.add((Base) structs.get(n));
+                    }
+                }
+            }
+            typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?bases.get(currTypeInstance).getId():""));
+        }
+
 
     }
 
@@ -293,8 +384,8 @@ public class Command extends JPanel implements KeyListener {
 
         updateCommand();
 
-        // if RALLY POINT or UNIT mode, and command is MOVE
-        if( (currMode == 0 || currMode == 2) && currCommand == 4) {
+        // UNIT mode, and command is MOVE
+        if( currMode == 2 && currCommand == 4) {
 
             // isTrackingPath = false;
 
@@ -320,10 +411,13 @@ public class Command extends JPanel implements KeyListener {
                     }
                     break;
                 case '5':
+                    System.out.println("unit function");
                     if(isTrackingPath == false) {
                         isTrackingPath = true;
-                        moveCursorToSelectedUnit();
-                        msc.moveMode( getCurrSelectedUnit() );
+                        if(currMode == 2) {      // 2 = UNIT
+                            msc.moveMode( getCurrSelectedUnit() );
+                            moveCursorToSelectedUnit();
+                        }
                         break;
                     }
                     commandOrder = 0;
@@ -395,9 +489,160 @@ public class Command extends JPanel implements KeyListener {
 
 
         }
+        else  if( currMode == 0 && currType == -1) {    // RALLY POINT, MOVE command
 
+            switch( e.getKeyChar() ) {
+                case '1':
+                    if(msc.sendCommand( '1' )) { // SW
+                        moveMouse(-TILESIZE, TILESIZE, true);
+                    }
+                    break;
+                case '2':
+                    if(msc.sendCommand( '2' )) { // S
+                        moveMouse(0, TILESIZE, true);
+                    }
+                    break;
+                case '3':
+                    if(msc.sendCommand( '3' )) { // SE
+                        moveMouse(TILESIZE, TILESIZE, true);
+                    }
+                    break;
+                case '4':
+                    if(msc.sendCommand( '4' )) { // W
+                        moveMouse(-TILESIZE, 0, true);
+                    }
+                    break;
+                case '5':
+                    System.out.println("army function");
+                    if(isTrackingPath == false) {
+                        isTrackingPath = true;
+                        if(currMode == 0) {      // 0 = RALLY POINT
+                            msc.moveMode( getCurrSelectedArmy() );
+                            moveCursorToSelectedUnit();
+                        }
+                        break;
+                    }
+                    msc.updateModel();
+                    extractCommand();
+                    commandOrder = 0;
+
+                    clearCommand();
+                    isTrackingPath = false;
+                    break;
+                case '6':
+                    if(msc.sendCommand( '6' )) { // E
+                        moveMouse(TILESIZE, 0, true);
+                    }
+                    break;
+                case '7':
+                    if(msc.sendCommand( '7' )) { // NW
+                        moveMouse(-TILESIZE, -TILESIZE, true);
+                    }
+                    break;
+                case '8':
+                    if(msc.sendCommand( '8' )) { // N
+                        moveMouse(0, -TILESIZE, true);
+                    }
+                    break;
+                case '9':
+                    if(msc.sendCommand( '9' )){
+                        moveMouse(TILESIZE, -TILESIZE, true); // NE
+                    }
+                case 'z':
+                    //  if(msc.sendCommand( '1' )) { // SW
+                    moveMouse(-TILESIZE, TILESIZE, true);
+                    //    }
+                    break;
+                case 'x':
+                    //   if(msc.sendCommand( '2' )) { // S
+                    moveMouse(0, TILESIZE, true);
+                    // }
+                    break;
+                case 'c':
+                    //  if(msc.sendCommand( '3' )) { // SE
+                    moveMouse(TILESIZE, TILESIZE, true);
+                    // }
+                    break;
+                case 'a':
+                    // if(msc.sendCommand( '4' )) { // W
+                    moveMouse(-TILESIZE, 0, true);
+                    // }
+                    break;
+                case 'd':
+                    //  if(msc.sendCommand( '6' )) { // E
+                    moveMouse(TILESIZE, 0, true);
+                    //}
+                    break;
+                case 'q':
+                    // if(msc.sendCommand( '7' )) { // NW
+                    moveMouse(-TILESIZE, -TILESIZE, true);
+                    // }
+                    break;
+                case 'w':
+                    // if(msc.sendCommand( '8' )) { // N
+                    moveMouse(0, -TILESIZE, true);
+                    // }
+                    break;
+                case 'e':
+                    // if(msc.sendCommand( '9' )){
+                    moveMouse(TILESIZE, -TILESIZE, true); // NE
+                    // }
+                    break;
+                default:
+            }
+        }
+        else if(currMode == 1 && currType == 0) { // get # of player's base instances
+            switch( e.getKeyChar() ) {
+                case '5':
+                    if(isTrackingPath == false) {
+                        isTrackingPath = true;
+                        if(currMode == 1) {      // 0 = RALLY POINT
+                            moveCursorToSelectedUnit();
+                        }
+                        break;
+                    }
+                    commandOrder = 0;
+                    clearCommand();
+                    isTrackingPath = false;
+                    break;
+                default:
+            }
+        }
+
+
+        if((currMode == 1 || currMode == 3) && currTypeInstance != -1 ) {
+
+            System.out.println("QUE COMMAND!!!!");
+
+            switch( e.getKeyChar() ) {
+            case '1':
+                extractCommand( "1" );
+                break;
+            case '2':
+                extractCommand( "2" );
+                break;
+            case '3':
+                extractCommand( "3" );
+                break;
+            case '4':
+                extractCommand( "4" );
+                break;
+            case '6':
+                extractCommand( "6" );
+                break;
+            case '7':
+                extractCommand( "7" );
+                break;
+            case '8':
+                extractCommand( "8" );
+                break;
+            case '9':
+                extractCommand( "9" );
+                break;
+                default:
+            }
+        }
     }
-
 
     private int getNumTypes(int currMode) {        // get # of options the current MODE has
             int size = 0;
@@ -424,7 +669,7 @@ public class Command extends JPanel implements KeyListener {
     private int getNumInstances(int currMode, int currType) {      // get # instances of a given type
 
         if(currMode == 2 && currType == 0) { // get list of player's Explorer instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units = currentPlayer.getUnits();
             ArrayList<Explorer> explorers = new ArrayList<Explorer>();
             if( !units.isEmpty() ) {    // if there are units on this tile
                 for(int n = 0; n < units.size(); n++) {
@@ -436,7 +681,7 @@ public class Command extends JPanel implements KeyListener {
             return explorers.size();
         }
         else if(currMode == 2 && currType == 1) { // get list of player's Colonist instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units =  currentPlayer.getUnits();
             ArrayList<Colonist> colonists = new ArrayList<Colonist>();
             if (!units.isEmpty()) {    // if there are units on this tile
                 for (int n = 0; n < units.size(); n++) {
@@ -445,10 +690,10 @@ public class Command extends JPanel implements KeyListener {
                     }
                 }
             }
-            return colonists.size();
+            return colonists.size() + 1;
         }
         else if(currMode == 2 && currType == 2) { // get list of player's Ranged Unit instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units = currentPlayer.getUnits();
             ArrayList<RangedUnit> rangeUnits = new ArrayList<RangedUnit>();
             if (!units.isEmpty()) {    // if there are units on this tile
                 for (int n = 0; n < units.size(); n++) {
@@ -460,7 +705,7 @@ public class Command extends JPanel implements KeyListener {
             return rangeUnits.size();
         }
         else if(currMode == 2 && currType == 3) { // get list of player's Melee Unit instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units = currentPlayer.getUnits();
             ArrayList<MeleeUnit> meleeUnits = new ArrayList<MeleeUnit>();
             if (!units.isEmpty()) {    // if there are units on this tile
                 for (int n = 0; n < units.size(); n++) {
@@ -471,7 +716,53 @@ public class Command extends JPanel implements KeyListener {
             }
             return meleeUnits.size();
         }
-        else
+        else if(currMode == 0 && currType == -1) { // get # of player's army instances
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("armysize = " + armies.size());
+                return armies.size();
+            }
+        }
+        else if(currMode == 3 && currType == 0) { // get # : ENTIRE ARMY
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("armysize = " + armies.size());
+                return armies.size();
+            }
+        }
+        else if(currMode == 3 && currType == 0) { // get # : ENTIRE ARMY
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("ENTIRE_ARMY = " + armies.size());
+                return armies.size();
+            }
+        }
+        else if(currMode == 3 && currType == 1) { // get # : BATTLE GROUP
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("BATTLE GROUP = " + armies.size());
+                return armies.size();
+            }
+        }
+        else if(currMode == 3 && currType == 2) { // get # : REINFORCEMENTS
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("REINFORCEMENTS = " + armies.size());
+                return armies.size();
+            }
+        }
+        else if(currMode == 1 && currType == 0) { // get # of player's base instances
+            ArrayList<Structure> structs =  currentPlayer.getStructures();
+            ArrayList<Base> bases = new ArrayList<Base>();
+            if (!structs.isEmpty()) {    // if there are units on this tile
+                for (int n = 0; n < structs.size(); n++) {
+                    if (structs.get(n) instanceof Base) {
+                        bases.add((Base) structs.get(n));
+                    }
+                }
+                return bases.size();
+            }
+        }
             return 0;
     }
 
@@ -498,21 +789,13 @@ public class Command extends JPanel implements KeyListener {
     public JButton getExecuteCommandButton() {
         return executeCommandButton;
     }
-    public void queueCommand() {
-        String commands = extractCommand();
-        System.out.println("commands  = "  + commands );
-
-//        String[] parts = command.split(" ");
-//        System.out.println("type = "  + parts[0] );
-//        System.out.println("instance = "  + parts[1] );
-    }
 
     public Unit getCurrSelectedUnit() {
 
         Unit selection = null;
 
         if(currMode == 2 && currType == 0) { // get list of player's Explorer instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units =  currentPlayer.getUnits();
             ArrayList<Explorer> explorers = new ArrayList<Explorer>();
             if( !units.isEmpty() ) {    // if there are units on this tile
                 for(int n = 0; n < units.size(); n++) {
@@ -524,7 +807,7 @@ public class Command extends JPanel implements KeyListener {
             }
         }
         else if(currMode == 2 && currType == 1) { // get list of player's Colonist instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units = currentPlayer.getUnits();
             ArrayList<Colonist> colonists = new ArrayList<Colonist>();
             if( !units.isEmpty() ) {    // if there are units on this tile
                 for(int n = 0; n < units.size(); n++) {
@@ -535,6 +818,19 @@ public class Command extends JPanel implements KeyListener {
                 selection = colonists.get( currTypeInstance );
             }
         }
+
+        return selection;
+    }
+
+    public Army getCurrSelectedArmy() {
+
+        System.out.println("instance = " + currTypeInstance) ;
+
+        ArrayList<Army> armies = (ArrayList<Army>) currentPlayer.getArmies();
+        if(armies.size() == 0) {
+            return null;
+        }
+        Army selection =  armies.get(currTypeInstance);
 
         return selection;
     }
@@ -589,7 +885,7 @@ public class Command extends JPanel implements KeyListener {
                 BasicStroke.CAP_SQUARE,
                 BasicStroke.JOIN_ROUND,
                 3.0f) );
-        g2d.drawLine(x_loc2 - TILESIZE/2, y_loc2 - TILESIZE - 40, x_loc2 + x - TILESIZE/2, y_loc2 + y - TILESIZE - 40 );
+        //g2d.drawLine(x_loc2 - TILESIZE/2, y_loc2 - TILESIZE - 40, x_loc2 + x - TILESIZE/2, y_loc2 + y - TILESIZE - 40 );
         msc.getMainView().rePaintMap();
 
         for(int i = 0; i <= 30; i++) {
@@ -600,13 +896,44 @@ public class Command extends JPanel implements KeyListener {
 
     }
 
+    public Base getCurrSelectedBase() {
+
+        ArrayList<Structure> structs =  currentPlayer.getStructures();
+        ArrayList<Base> bases = new ArrayList<Base>();
+        if (!structs.isEmpty()) {    // if there are units on this tile
+            for (int n = 0; n < structs.size(); n++) {
+                if (structs.get(n) instanceof Base) {
+                    bases.add((Base) structs.get(n));
+                }
+            }
+        }
+        return bases.get( currTypeInstance );
+    }
+
     public void moveCursorToSelectedUnit() {
-        Unit selection = getCurrSelectedUnit();
+        Unit selection  =null;
+        Base selection2 = null;
+        if(currMode == 0) {
+            selection = getCurrSelectedArmy().getUnits().get(0);
+            System.out.println("got reference of army in movecursor");
+        }
+        else if (currMode == 1) {
+            selection2 = getCurrSelectedBase();
+            System.out.println("got reference of army in movecursor");
+        }
+        else{
+            selection = getCurrSelectedUnit();
+        }
+
 
         int currTileX = TILES_VISIBLE_X/2, currTileY = TILES_VISIBLE_Y/2;
         if(selection != null){
             currTileX = selection.getLocation().getxCoordinate() - msc.getMainView().getXdest() + 1;
             currTileY = selection.getLocation().getyCoordinate() - msc.getMainView().getYdest() + 2;
+        }
+        else if(selection2 != null){
+            currTileX = selection2.getLocation().getxCoordinate() - msc.getMainView().getXdest() + 1;
+            currTileY = selection2.getLocation().getyCoordinate() - msc.getMainView().getYdest() + 2;
         }
 
         final Point p = new Point( (int)MouseInfo.getPointerInfo().getLocation().getX(), (int)MouseInfo.getPointerInfo().getLocation().getY());

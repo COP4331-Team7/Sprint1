@@ -1,5 +1,6 @@
 package com.team7.controller;
 
+import com.team7.objects.structure.Base;
 import com.team7.objects.unit.Unit;
 import com.team7.view.*;
 import com.team7.objects.*;
@@ -13,6 +14,7 @@ public class MainScreenController {
  private Game game;
  private View view;
  private ArrayList<String> path = new ArrayList<String >();
+ public ArrayList<Tile> queuedTiles = new ArrayList<>();
  Navigator navigator;
 
     public MainScreenController(Game game, View view) {
@@ -32,6 +34,10 @@ public class MainScreenController {
     public void moveMode(Unit selected){ //called 1nce
         navigator = new Navigator(game.getMap(), selected);
     }
+    public void moveMode(Army selected){ //called 1nce
+        navigator = new Navigator(game.getMap(), selected);
+    }
+
     public boolean sendCommand(char command){ //called per number keystroke
 
         return navigator.parseInputCommand(command);
@@ -61,7 +67,7 @@ public class MainScreenController {
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == view.getScreen().getMainScreen().getCommand().getExecuteCommandButton()) {
                     System.out.println("Player " + game.getTurn() + "'s command: ");
-                    view.getScreen().getMainScreen().getCommand().queueCommand();
+                    view.getScreen().getMainScreen().getCommand().extractCommand();
                     view.getScreen().getMainScreen().getCommand().clearCommand();
                     view.getScreen().getMainScreen().giveCommandFocus();
                 }
@@ -82,33 +88,72 @@ public class MainScreenController {
     public void updateModel() {
         if(navigator.updateModel()!=null){
             //Iterate through each tile in path
-            new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    ArrayList<Tile> pathOfCursorTiles = navigator.updateModel();
+                    for(int i = 0; i < pathOfCursorTiles.size(); i++){
+                        if(!navigator.reDrawMapViaModel(pathOfCursorTiles.get(i), null)){
+                            //user is out of movement, cut arraylist
+                            for (int j = i; j > 0; j--){        //remove all elements from i and under
+                                pathOfCursorTiles.remove(j);
+                            }
+                            queuedTiles = pathOfCursorTiles;
+                            System.out.println("queuedTiles at cursor: " + queuedTiles.toString());
+                            //send queuedTiles to the commandQ
+                            return;
+                        }
+                        navigator.reDrawMapViaModel(pathOfCursorTiles.get(i), null);
+                        view.getScreen().getMainScreen().getMainViewImage().zoomToDestination( navigator.updateModel().get(i).getxCoordinate() - 11/2, navigator.updateModel().get(i).getyCoordinate() - 7/2, 50);
+                        view.getScreen().getMainScreen().getMainViewInfo().updateStats();
 
-
-            for(int i = 0; i<navigator.updateModel().size(); i++){
-
-                    navigator.reDrawMapViaModel(navigator.updateModel().get(i));
-                    view.getScreen().getMainScreen().getMainViewImage().zoomToDestination( navigator.updateModel().get(i).getxCoordinate() - 11/2, navigator.updateModel().get(i).getyCoordinate() - 7/2, 50);
-                    view.getScreen().getMainScreen().getMainViewInfo().updateStats();
-
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.getScreen().getMainScreen().drawMap();
-                    }
-                });
-                try {
-                    Thread.sleep(400);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                        SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.getScreen().getMainScreen().drawMap();
+                        }});
+                        try {
+                            Thread.sleep(400);
+                        }catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                     }
                 }
-                }
-                }
-            }).start();
+            });
 
+            t.start();
+
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
         }
+        }
+
+        public void getTilePath() {
+
+        }
+
+        public ArrayList<Tile> getQueuedTile() {
+            System.out.println("getQdTiles: " + queuedTiles.toString());
+            return queuedTiles;
+        }
+
+        public String getCommandString() {
+            return view.getScreen().getMainScreen().getCommand().extractCommand();
+        }
+
+        public void queueCommand() {
+         //    QUEUE THE COMMAND
+        Unit targetUnit = null;
+        Army targetArmy = null;
+        Base targetBase = null;
+        ArrayList<Tile> path = null;
+
+        }
+
+
     }
 

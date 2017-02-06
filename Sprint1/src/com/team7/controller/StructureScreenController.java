@@ -23,6 +23,7 @@ public class StructureScreenController {
 
     private void setStructures() {view.getScreen().getStructureScreen().setStructures((ArrayList<Structure>) game.getCurrentPlayer().getStructures());}
 
+    //List selector for structure select
     private void addActionListeners() {
         view.getScreen().getStructureScreen().getStructureList().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -39,6 +40,7 @@ public class StructureScreenController {
                 }
 
                 view.getScreen().getStructureScreen().getStatsTextArea().setText(getStats(selectedStructureObject));
+                view.getScreen().getStructureScreen().setCommands(selectedStructureObject.getCommandQueue().getCommands());
                 view.getScreen().getStructureScreen().repaint();
             }
         });

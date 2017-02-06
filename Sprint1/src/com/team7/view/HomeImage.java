@@ -17,7 +17,8 @@ public class HomeImage extends JPanel {
         public HomeImage()
         {
             try {
-               image = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/bg1.png")).replace("file:","")));
+//                System.out.println("hello"+String.valueOf(Main.class.getClass().getResourceAsStream("/terrains/bg1.png")));
+                image = ImageIO.read(getClass().getResourceAsStream("/terrains/bg1.png"));
             }
             catch (IOException e) {
             }

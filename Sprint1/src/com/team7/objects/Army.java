@@ -2,10 +2,8 @@ package com.team7.objects;
 
 import com.team7.ProbabilityGenerator;
 import com.team7.objects.unit.Unit;
-import com.team7.objects.CommandQueue;
 
 import java.util.ArrayList;
-import java.util.StringJoiner;
 
 
 public class Army {
@@ -178,7 +176,7 @@ public class Army {
     public void moveArmy(Map map, ArrayList<Tile> tiles) {
         Navigator navigator = new Navigator(map, this);
         for(int i = 0; i < tiles.size(); i++) {
-            navigator.reDrawMapViaModel(tiles.get(i));
+            navigator.reDrawMapViaModel(tiles.get(i),units);
         }
     }
 
@@ -186,12 +184,16 @@ public class Army {
     // this helper function decodes string of next command in command queue and calls necessary function
     public void decodeNextInstruction(Map map) {
 
+        String commandString = "";
+        CommandObject command = null;
         // Get the next command to be run and remove it from the queue
-        Command command = commands.getCommands().get(0);
+        if (commands.getCommands().size() > 0) {
+
+            command = commands.getCommands().get(0);
         commands.getCommands().remove(0);
 
-        String commandString = command.getCommandString();
-
+        commandString = command.getCommandString();
+        }
 
         if(commandString.contains("attack")) {
             int dir = Integer.parseInt(commandString.substring(commandString.length() - 1));
