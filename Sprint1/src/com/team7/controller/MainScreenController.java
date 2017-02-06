@@ -1,6 +1,7 @@
 package com.team7.controller;
 
 import com.team7.objects.structure.Base;
+import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.view.*;
@@ -196,7 +197,33 @@ public class MainScreenController {
         }
 
 
+        public void makeUnit(Structure base, String type) {
+            ((Base) base).createUnit(type);
+        }
 
+        public void defendStructure(Structure base, int dir) {
+            base.setDefenseDirection(dir);
+        }
+
+        public void healUnit(Structure base) {
+            ((Base) base).healUnits();
+        }
+
+        public void decomissionStructure(Structure base) {
+            base.decommission();
+        }
+
+        public void powerUpStructure(Structure base) {
+            base.powerUp();
+        }
+
+        public void powerDownStructure(Structure base) {
+            base.powerDown();
+        }
+
+        public void cancelQueueStructure(Structure base) {
+            base.getCommandQueue().getCommands().clear();
+        }
 
 
     }
