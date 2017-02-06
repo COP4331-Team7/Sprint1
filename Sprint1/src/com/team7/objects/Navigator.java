@@ -123,6 +123,7 @@ public class Navigator {
                     System.out.println("has movement left");
                     //at this point, the move is VALID from a cursor perspective
                     tilePathList.add(map.getTile(tmpX,tmpY));
+                    maxMovement += map.getTile(tmpX, tmpY).getTerrain().getMovementInfluence();
                     x = tmpX;
                     y = tmpY;
                     return true;
