@@ -10,6 +10,9 @@ import com.team7.objects.unit.nonCombatUnit.Explorer;
 import java.util.HashMap;
 
 public class Base extends Structure {
+
+    private static int ids = 1;
+
     public Base(Tile startTile, Player player) {
 
         HashMap<String, Integer> productionRateMap = new HashMap<>(); //holds the number of turns it takes for a Base to create a Unit
@@ -18,6 +21,7 @@ public class Base extends Structure {
         productionRateMap.put("Colonist", 5);
         productionRateMap.put("Explorer", 1);
 
+        setId( takeId() );
         setOwner(player);
         setStats(new StructureStats(0, 0, 50, productionRateMap, 300, 8));
         setLocation(startTile);
@@ -31,7 +35,6 @@ public class Base extends Structure {
         setDefenseDirection(0);
 
     }
-
 
     public Unit createUnit(String type) {
 
@@ -78,43 +81,48 @@ public class Base extends Structure {
 
         String commandString = command.getCommandString();
 
-        if(commandString.contains("attack")) {
+        if (commandString.contains("attack")) {
             System.out.println("Attack isn't needed for any structures yet");
-        }
-        else if(commandString.contains("make")) {
+        } else if (commandString.contains("make")) {
             String lastLetter = commandString.substring(commandString.length() - 1);
-            if(lastLetter == "r") {
+            if (lastLetter == "r") {
                 this.createUnit("Explorer");
-            }
-            else if(lastLetter == "t") {
+            } else if (lastLetter == "t") {
                 this.createUnit("Colonist");
-            }
-            else if(lastLetter == "e") {
+            } else if (lastLetter == "e") {
                 this.createUnit("Melee");
-            }
-            else if(lastLetter == "d") {
+            } else if (lastLetter == "d") {
                 this.createUnit("Ranged");
             }
-        }
-        else if(commandString.contains("defend")) {
+        } else if (commandString.contains("defend")) {
             int dir = Integer.parseInt(commandString.substring(commandString.length() - 1));
             setDefenseDirection(dir);
-        }
-        else if(commandString.contains("heal")) {
+        } else if (commandString.contains("heal")) {
             this.healUnits();
-        }
-        else if(commandString.contains("decomission")) {
+        } else if (commandString.contains("decomission")) {
             this.decommission();
-        }
-        else if(commandString.contains("down")) {
+        } else if (commandString.contains("down")) {
             this.powerDown();
-        }
-        else if(commandString.contains("cancel")) {
+        } else if (commandString.contains("cancel")) {
             this.getCommandQueue().getCommands().clear();
         }
+    }
 
 
 
+
+    public int takeId() {
+        for(int i = 0; i < 10; i++) {
+            if( ((ids >> i) & 1) == 0 ) {
+                returnId(i);
+                return  i;
+            }
+        }
+        return  -1;
+    }
+
+    public void returnId(int id) {
+        ids = (ids ^ (1 << id) );
 
     }
 
