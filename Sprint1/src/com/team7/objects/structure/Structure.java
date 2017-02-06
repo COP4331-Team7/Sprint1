@@ -36,11 +36,11 @@ public abstract class Structure {
     }
 
     public CommandQueue getCommandQueue() {
-        return commandQueue;
+        return commands;
     }
 
     public void setCommandQueue(CommandQueue commandQueue) {
-        this.commandQueue = commandQueue;
+        this.commands = commandQueue;
     }
 
     public boolean isPowered() {
