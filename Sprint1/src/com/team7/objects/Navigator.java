@@ -149,7 +149,8 @@ public class Navigator {
     public void reDrawMapViaModel(Tile currentTileInPath) {
         selectedUnit = selectedUnits.get(0);        //the first unit in an army, or an individual unit (ie explorer)
         System.out.println("Iterating through tile path \t" + currentTileInPath);
-        calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnit);
+        boolean dead = tryToRemoveUnit(selectedUnit);
+        if(!dead){calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnit);}
         for (int j = 0; j < selectedUnits.size(); j++) {//iterate through each unit commanded (1 for non-Army)
             if (unitsAliveInList == 0) {      //if no units are alive, dont move them
                 //delete the army
@@ -162,7 +163,7 @@ public class Navigator {
             selectedUnit = selectedUnits.get(j);
             System.out.println("Iterating through each unit on tile \t" + selectedUnit);
             calculateNetUnitEffectByTile(currentTileInPath, selectedUnit);      //updates the unit health and movement
-            boolean dead = tryToRemoveUnit(selectedUnit);
+//            boolean dead = tryToRemoveUnit(selectedUnit);
             System.out.println("Final Helath \t" + selectedUnit.getUnitStats().getHealth());
 
             if (!dead) { //update location
@@ -175,7 +176,9 @@ public class Navigator {
                 System.out.println("selectedUnit Tile y: " + selectedUnit.getLocation().getyCoordinate());
             } else {
                 unitsAliveInList--;
+                System.out.println("1 Unit died and remaining \t" + unitsAliveInList);
                 if (selectedUnit.getArmy() != null) {
+                    System.out.println("Removing army \t" );
                     selectedUnit.getArmy().removeUnitFromArmy(selectedUnit);        //remove unit from army
                 }
                 selectedUnit.getOwner().removeUnit(selectedUnit);
