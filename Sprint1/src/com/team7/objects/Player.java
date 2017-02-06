@@ -35,7 +35,6 @@ public class Player {
     // Big function that controls everything that could happen in a turn
     public void takeTurn() {
 
-        executeQueues();
 
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
@@ -309,21 +308,6 @@ public class Player {
             if(this.structures.get(i).getMovesFrozen() > 0) {
                 this.structures.get(i).setMovesFrozen(this.structures.get(i).getMovesFrozen() - 1);
             }
-        }
-
-    }
-
-    // This function will loop through all armies and structures and execute next command in queue
-    private void executeQueues() {
-
-        // loop through list of armies and execute next command
-        for(int i = 0; i < this.armies.size(); i++) {
-            this.armies.get(i).decodeNextInstruction();
-        }
-
-        // loop through list of structures and execute next command
-        for(int i = 0; i < this.structures.size(); i++) {
-            this.structures.get(i).decodeNextInstruction();
         }
 
     }

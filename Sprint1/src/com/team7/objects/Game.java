@@ -43,11 +43,27 @@ public class Game {
 
 //
 //        while (!players[0].isDefeated() && !players[1].isDefeated()) {
+              //executeQueues()
 //            //currentPlayer.takeTurn(); --TODO
 //            nextTurn();
 //        }
 //
 //        endGame();
+    }
+
+    // This function will loop through all armies and structures and execute next command in queue
+    private void executeQueues() {
+
+        // loop through list of armies and execute next command
+        for(int i = 0; i < currentPlayer.getArmies().size(); i++) {
+            currentPlayer.getArmies().get(i).decodeNextInstruction(map);
+        }
+
+        // loop through list of structures and execute next command
+        for(int i = 0; i < currentPlayer.getStructures().size(); i++) {
+            currentPlayer.getStructures().get(i).decodeNextInstruction(map);
+        }
+
     }
 
     //Switches the turn to the next player

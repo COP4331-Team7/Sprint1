@@ -1,10 +1,7 @@
 package com.team7.objects.structure;
 
-import com.team7.objects.Command;
-import com.team7.objects.Player;
-import com.team7.objects.Tile;
+import com.team7.objects.*;
 import com.team7.objects.unit.Unit;
-import com.team7.objects.CommandQueue;
 
 public abstract class Structure {
     private int id;
@@ -113,7 +110,7 @@ public abstract class Structure {
     }
 
     // this helper function decodes string of next command in command queue and calls necessary function
-    public void decodeNextInstruction() {
+    public void decodeNextInstruction(Map map) {
 
         // Get the next command to be run and remove it from the queue
         Command command = commands.getCommands().get(0);

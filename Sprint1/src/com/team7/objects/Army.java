@@ -170,13 +170,23 @@ public class Army {
         this.name = name;
     }
 
+    public void attack(int direction) {
+        //Attacker attacker = new Attacker();
+    }
+
+
     // this helper function decodes string of next command in command queue and calls necessary function
-    public void decodeNextInstruction() {
+    public void decodeNextInstruction(Map map) {
 
         // Get the next command to be run and remove it from the queue
         Command command = commands.getCommands().get(0);
         commands.getCommands().remove(0);
 
+        String commandString = command.getCommandString();
+
+        if(commandString.contains("Attack")){
+
+        }
 
 
     }
