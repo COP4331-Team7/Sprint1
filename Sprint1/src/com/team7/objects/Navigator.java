@@ -164,7 +164,7 @@ public class Navigator {
             System.out.println("Iterating through each unit on tile \t" + selectedUnit);
             calculateNetUnitEffectByTile(currentTileInPath, selectedUnit);      //updates the unit health and movement
 //            boolean dead = tryToRemoveUnit(selectedUnit);
-            System.out.println("Final Helath \t" + selectedUnit.getUnitStats().getHealth());
+            System.out.println("Final Health \t" + selectedUnit.getUnitStats().getHealth());
 
             if (!dead) { //update location
                 selectedUnit.getLocation().removeUnitFromTile(selectedUnit);    //remove unit from old TILE
@@ -174,7 +174,12 @@ public class Navigator {
 
                 System.out.println("selectedUnit Tile x: " + selectedUnit.getLocation().getxCoordinate());
                 System.out.println("selectedUnit Tile y: " + selectedUnit.getLocation().getyCoordinate());
+                //Check the health after it jas been changed on the tile
+                    boolean isDeadAfterEffect = tryToRemoveUnit(selectedUnit);
+                    if(isDeadAfterEffect){currentTileInPath.setDecal(new Decal("Skull"));}
+                //
             } else {
+
                 unitsAliveInList--;
                 System.out.println("1 Unit died and remaining \t" + unitsAliveInList);
                 if (selectedUnit.getArmy() != null) {
@@ -184,7 +189,9 @@ public class Navigator {
                 selectedUnit.getOwner().removeUnit(selectedUnit);
                 selectedUnit.getLocation().removeUnitFromTile(selectedUnit);
             }
+
         }
+
     }
 
 
