@@ -26,13 +26,7 @@ public class Main {
         StructureScreenController structureScreenController = new StructureScreenController(game, view);
         ScreenSelectController screenSelectController = new ScreenSelectController(view, game); // this controller doesn't need to know model
 
-        //      start the game
-        //      while the game is not over
-        //             let the current player issue commands
-        //             once the current player has finished their turn
-        //             execute existing commands
-        //             give the other player control s
-        //
+       // game.enterGameLoop();
 
     }
 

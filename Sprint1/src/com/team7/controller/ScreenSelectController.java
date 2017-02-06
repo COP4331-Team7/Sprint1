@@ -1,10 +1,13 @@
 package com.team7.controller;
 
+import com.team7.objects.Army;
 import com.team7.objects.Game;
 import com.team7.view.*;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ScreenSelectController {
 
@@ -33,6 +36,30 @@ public class ScreenSelectController {
                 if (e.getSource() == view.getScreen().getMainScreen().getScreenSelectButtons().getUnitScreenButton()) {
                     view.getScreen().setCurrScreen("UNIT_OVERVIEW");
                     view.getScreen().getUnitScreen().setUnits(game.getCurrentPlayer().getUnits());
+
+                    if (view.getScreen().getUnitScreen().getArmyList().getSelectedValue() != null) {
+                        String selectedArmy = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                        List<Army> armies = game.getCurrentPlayer().getArmies();
+
+                        for (Army a: armies) {
+                            if (a.getName().equals(selectedArmy)) {
+                                view.getScreen().getUnitScreen().getUnitsinArmyList().setModel(new AbstractListModel() {
+                                    @Override
+                                    public int getSize() {
+                                        return a.getUnits().size();
+                                    }
+
+                                    @Override
+                                    public Object getElementAt(int index) {
+                                        return a.getUnits().get(index).getType() + " " + a.getUnits().get(index).getId();
+                                    }
+                                });
+
+                                view.getScreen().getUnitScreen().setQueueModel(a.getCommandQueue().getCommands());
+                                view.getScreen().getUnitScreen().repaint();
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -59,6 +86,27 @@ public class ScreenSelectController {
                 if (e.getSource() == view.getScreen().getUnitScreen().getScreenSelectButtons().getUnitScreenButton()) {
                     view.getScreen().setCurrScreen("UNIT_OVERVIEW");
                     view.getScreen().getUnitScreen().setUnits(game.getCurrentPlayer().getUnits());
+                    String selectedArmy = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                    List<Army> armies = game.getCurrentPlayer().getArmies();
+
+                    for (Army a: armies) {
+                        if (a.getName().equals(selectedArmy)) {
+                            view.getScreen().getUnitScreen().getUnitsinArmyList().setModel(new AbstractListModel() {
+                                @Override
+                                public int getSize() {
+                                    return a.getUnits().size();
+                                }
+
+                                @Override
+                                public Object getElementAt(int index) {
+                                    return a.getUnits().get(index).getType() + " " + a.getUnits().get(index).getId();
+                                }
+                            });
+
+                            view.getScreen().getUnitScreen().setQueueModel(a.getCommandQueue().getCommands());
+                            view.getScreen().getUnitScreen().repaint();
+                        }
+                    }
                 }
             }
         });
@@ -85,6 +133,27 @@ public class ScreenSelectController {
                 if (e.getSource() == view.getScreen().getStructureScreen().getScreenSelectButtons().getUnitScreenButton()) {
                     view.getScreen().setCurrScreen("UNIT_OVERVIEW");
                     view.getScreen().getUnitScreen().setUnits(game.getCurrentPlayer().getUnits());
+                    String selectedArmy = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                    List<Army> armies = game.getCurrentPlayer().getArmies();
+
+                    for (Army a: armies) {
+                        if (a.getName().equals(selectedArmy)) {
+                            view.getScreen().getUnitScreen().getUnitsinArmyList().setModel(new AbstractListModel() {
+                                @Override
+                                public int getSize() {
+                                    return a.getUnits().size();
+                                }
+
+                                @Override
+                                public Object getElementAt(int index) {
+                                    return a.getUnits().get(index).getType() + " " + a.getUnits().get(index).getId();
+                                }
+                            });
+
+                            view.getScreen().getUnitScreen().setQueueModel(a.getCommandQueue().getCommands());
+                            view.getScreen().getUnitScreen().repaint();
+                        }
+                    }
                 }
             }
         });

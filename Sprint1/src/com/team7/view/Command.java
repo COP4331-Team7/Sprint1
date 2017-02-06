@@ -2,7 +2,9 @@ package com.team7.view;
 
 import com.team7.controller.MainScreenController;
 import com.team7.objects.Army;
+import com.team7.objects.CommandObject;
 import com.team7.objects.Player;
+import com.team7.objects.Tile;
 import com.team7.objects.structure.Base;
 import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
@@ -144,19 +146,29 @@ public class Command extends JPanel implements KeyListener {
         sb.append( commandLabel.getText().substring(commandLabel.getText().lastIndexOf(":") + 1) );
 
         String command_string = sb.toString( );
-
+        System.out.println("commnd is: " + command_string);
         // QUEUE THE COMMAND
         Unit targetUnit = null;
         Army targetArmy = null;
         Base targetBase = null;
+        ArrayList<Tile> path = null;
+        if(currCommand == -1 && currMode == 0) {
+            path = msc.getQueuedTile();
+            System.out.println("path before entering Q " + path);
+        }
         if( getCurrSelectedUnit() != null ) {
             targetUnit = getCurrSelectedUnit();
         }
         else if ( getCurrSelectedArmy() != null ) {
+            System.out.println("army has been selected");
             targetArmy = getCurrSelectedArmy();
+            System.out.println("targetArmy: " + targetArmy);
+            targetArmy.getCommandQueue().addCommand( new CommandObject( command_string, path ));
+            System.out.println("commands in q " + targetArmy.getCommandQueue().getCommands().get(0));
         }
         else if ( getCurrSelectedBase() != null ) {
             targetBase = getCurrSelectedBase();
+            targetBase.getCommandQueue().addCommand( new CommandObject( command_string, path ));
         }
 
         return command_string;
@@ -178,14 +190,21 @@ public class Command extends JPanel implements KeyListener {
         Unit targetUnit = null;
         Army targetArmy = null;
         Base targetBase = null;
+        ArrayList<Tile> path = null;
+        if(currCommand == -1 && currMode == 0) {
+            path = msc.getQueuedTile();
+            System.out.println("path before entering Q " + path);
+        }
         if( getCurrSelectedUnit() != null ) {
             targetUnit = getCurrSelectedUnit();
         }
         else if ( getCurrSelectedArmy() != null ) {
             targetArmy = getCurrSelectedArmy();
+            targetArmy.getCommandQueue().addCommand( new CommandObject( command_string, path ));
         }
         else if ( getCurrSelectedBase() != null ) {
             targetBase = getCurrSelectedBase();
+            targetBase.getCommandQueue().addCommand( new CommandObject( command_string, path ));
         }
 
         return command_string;
@@ -214,7 +233,7 @@ public class Command extends JPanel implements KeyListener {
         else if (currMode == 3)
             commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?armyCommands[currCommand]:"")); //up / down arrow
         else if (currMode == 0 && currTypeInstance != -1)
-            commandLabel.setText("COMMAND (\u2191 / \u2193): " + "MOVE");
+            commandLabel.setText("COMMAND (\u2191 / \u2193): " + "move");
         else
             commandLabel.setText("COMMAND (\u2191 / \u2193): ");
 
@@ -506,8 +525,10 @@ public class Command extends JPanel implements KeyListener {
                         }
                         break;
                     }
-                    commandOrder = 0;
                     msc.updateModel();
+                    extractCommand();
+                    commandOrder = 0;
+
                     clearCommand();
                     isTrackingPath = false;
                     break;

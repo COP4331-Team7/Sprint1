@@ -1,5 +1,6 @@
 package com.team7.controller;
 
+import com.team7.objects.structure.Base;
 import com.team7.objects.unit.Unit;
 import com.team7.view.*;
 import com.team7.objects.*;
@@ -59,6 +60,7 @@ public class MainScreenController {
                     setCurrentPlayer( game.getCurrentPlayer() );
                     view.getScreen().getUnitScreen().setUnits((ArrayList<Unit>) game.getCurrentPlayer().getUnits());
                     view.getScreen().getMainScreen().giveCommandFocus();
+                    view.getScreen().getMainScreen().drawMap();
                 }
             }
         } );
@@ -86,8 +88,9 @@ public class MainScreenController {
 
     public void updateModel() {
         if(navigator.updateModel()!=null){
+            queuedTiles = navigator.updateModel();
             //Iterate through each tile in path
-            new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     ArrayList<Tile> pathOfCursorTiles = navigator.updateModel();
@@ -98,6 +101,7 @@ public class MainScreenController {
                                 pathOfCursorTiles.remove(j);
                             }
                             queuedTiles = pathOfCursorTiles;
+                            System.out.println("queuedTiles at cursor: " + queuedTiles.toString());
                             //send queuedTiles to the commandQ
                             return;
                         }
@@ -117,14 +121,21 @@ public class MainScreenController {
                         }
                      }
                 }
-            }).start();
+            });
 
-            }
+            t.start();
+
+        }
         }
 
 
         public ArrayList<Tile> getQueuedTile() {
+            System.out.println("getQdTiles: " + queuedTiles.toString());
             return queuedTiles;
+        }
+
+        public String getCommandString() {
+            return view.getScreen().getMainScreen().getCommand().extractCommand();
         }
 
 

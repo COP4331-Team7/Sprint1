@@ -3,7 +3,7 @@ package com.team7.view;
 import com.team7.objects.Army;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
-import com.team7.objects.Command;
+import com.team7.objects.CommandObject;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.UnitStats;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
@@ -194,7 +194,6 @@ public class UnitScreen extends JPanel {
         String s = (String)unitList.getSelectedValue();
         String stats = getStats(s);
         textArea.setText(stats);
-        setQueueBox(s);
     }
 
     //--TODO-- Missing functionallity in unit to complete this function
@@ -261,9 +260,9 @@ public class UnitScreen extends JPanel {
         return this.armyModel;
     }
 
-    public void setQueueModel(ArrayList<Command> commands) {
+    public void setQueueModel(ArrayList<CommandObject> commands) {
         queueModel.clear();
-        for (Command c : commands) {
+        for (CommandObject c : commands) {
             queueModel.addElement(c.getCommandString());
         }
     }
@@ -277,6 +276,9 @@ public class UnitScreen extends JPanel {
     }
     public JButton getAddUnitButton() { return addUnit;}
     public JButton getRemoveUnitButton() { return removeUnit;}
+    public JButton getCancelCommand() {return cancelCommand;}
+    public JButton getMoveUpCommandButton() {return moveOrderUp;}
+    public JButton getMoveDownCommandButton() {return moveOrderDown;}
 
     //Getter Methods for every list to be accessed by UnitScreenController
     public JList getUnitList() {
@@ -285,23 +287,15 @@ public class UnitScreen extends JPanel {
     public JList<String> getArmyList() {return armyList;}
     public JList getUnitsinArmyList() {return unitsInArmyList;}
 
-    public JButton getCancelCommand() {
-        return cancelCommand;
-    }
-
-    public JButton getMoveOrderUp() {
-        return moveOrderUp;
-    }
-
-    public JButton getMoveOrderDown() {
-        return moveOrderDown;
-    }
-
     public void setArmies(ArrayList<Army> armies) {
         armyModel.clear();
         for (Army a: armies) {
             armyModel.addElement(a.getName());
         }
         repaint();
+    }
+
+    public JList<String> getQueueList() {
+        return queue;
     }
 }

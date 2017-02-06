@@ -2,17 +2,17 @@ package com.team7.objects;
 
 import java.util.ArrayList;
 
-public class Command {
+public class CommandObject {
 
     private String commandString;
     private ArrayList<Tile> movementTiles;
 
-    public Command() {
+    public CommandObject() {
             commandString = "";
             movementTiles = new ArrayList<Tile>();
     }
 
-    public Command(String string, ArrayList<Tile> tileList) {
+    public CommandObject(String string, ArrayList<Tile> tileList) {
         commandString = string;
         movementTiles = tileList;
     }
