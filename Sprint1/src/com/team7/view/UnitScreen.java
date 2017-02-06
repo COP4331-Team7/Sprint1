@@ -3,7 +3,7 @@ package com.team7.view;
 import com.team7.objects.Army;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
-import com.team7.objects.Command;
+import com.team7.objects.CommandObject;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.UnitStats;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
@@ -261,9 +261,9 @@ public class UnitScreen extends JPanel {
         return this.armyModel;
     }
 
-    public void setQueueModel(ArrayList<Command> commands) {
+    public void setQueueModel(ArrayList<CommandObject> commands) {
         queueModel.clear();
-        for (Command c : commands) {
+        for (CommandObject c : commands) {
             queueModel.addElement(c.getCommandString());
         }
     }

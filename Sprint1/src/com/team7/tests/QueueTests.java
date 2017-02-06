@@ -33,7 +33,7 @@ public class QueueTests {
 
 
         // Execute attack command
-        army.getCommandQueue().addCommand(new Command("attack 2", null));
+        army.getCommandQueue().addCommand(new CommandObject("attack 2", null));
 
         g.executeQueues();
 
@@ -62,8 +62,8 @@ public class QueueTests {
         melee.getUnitStats().setHealth(12);
         ((Colonist) colonist).buildBase();
 
-        player1.getStructures().get(0).getCommandQueue().addCommand(new Command("heal/repair unit", null));
-        player1.getStructures().get(0).getCommandQueue().addCommand(new Command("heal/repair unit", null));
+        player1.getStructures().get(0).getCommandQueue().addCommand(new CommandObject("heal/repair unit", null));
+        player1.getStructures().get(0).getCommandQueue().addCommand(new CommandObject("heal/repair unit", null));
 
         g.executeQueues();
         g.executeQueues();

@@ -1,7 +1,7 @@
 package com.team7.view;
 
 import com.team7.objects.structure.Structure;
-import com.team7.objects.Command;
+import com.team7.objects.CommandObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -108,9 +108,9 @@ public class StructureScreen extends JPanel {
         }
     }
 
-    public void setCommands(ArrayList<Command> commands) {
+    public void setCommands(ArrayList<CommandObject> commands) {
         comListModel.clear();
-        for (Command c: commands) {
+        for (CommandObject c: commands) {
             comListModel.addElement(c.getCommandString());
         }
         repaint();

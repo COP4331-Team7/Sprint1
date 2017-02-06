@@ -49,14 +49,56 @@ public class Game {
         players[0].addStructure(new Base(this.map.getGrid()[15][4], players[0]));
         players[0].addStructure(new Base(this.map.getGrid()[15][5], players[0]));
 
-//
-//        while (!players[0].isDefeated() && !players[1].isDefeated()) {
-              //executeQueues()
-//            //currentPlayer.takeTurn(); --TODO
-//            nextTurn();
-//        }
-//
-//        endGame();
+        Player player1 = players[0];
+        // create army and units for each player
+        Unit melee1 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee2 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee3 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee4 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee5 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit ranged1 = new RangedUnit(map.getGrid()[17][2], player1);
+        Unit ranged2 = new RangedUnit(map.getGrid()[17][2], player1);
+        Unit ranged3 = new RangedUnit(map.getGrid()[17][2], player1);
+        Army army1 = new Army(map.getGrid()[17][2], player1);
+        player1.addUnit(melee1);
+        player1.addUnit(melee2);
+        player1.addUnit(melee3);
+        player1.addUnit(melee4);
+        player1.addUnit(melee5);
+        player1.addUnit(ranged1);
+        player1.addUnit(ranged2);
+        player1.addUnit(ranged3);
+        army1.addUnitToArmy(melee1);
+        army1.addUnitToArmy(melee2);
+        army1.addUnitToArmy(melee3);
+        army1.addUnitToArmy(melee4);
+        army1.addUnitToArmy(melee5);
+        army1.addUnitToArmy(ranged1);
+        army1.addUnitToArmy(ranged2);
+        army1.addUnitToArmy(ranged3);
+        player1.addArmy(army1);
+
+
+    }
+
+    public void enterGameLoop() {
+
+
+        //      start the game
+        //      while the game is not over
+        //             let the current player issue commands
+        //             once the current player has finished their turn
+        //             execute existing commands
+        //             give the other player control s
+        //
+
+        while (!players[0].isDefeated() && !players[1].isDefeated()) {
+            executeQueues();
+            currentPlayer.takeTurn();
+        }
+
+        endGame();
+
     }
 
     // This function will loop through all armies and structures and execute next command in queue

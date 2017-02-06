@@ -1,5 +1,6 @@
 package com.team7.controller;
 
+import com.team7.objects.structure.Base;
 import com.team7.objects.unit.Unit;
 import com.team7.view.*;
 import com.team7.objects.*;
@@ -87,7 +88,7 @@ public class MainScreenController {
     public void updateModel() {
         if(navigator.updateModel()!=null){
             //Iterate through each tile in path
-            new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     ArrayList<Tile> pathOfCursorTiles = navigator.updateModel();
@@ -98,6 +99,7 @@ public class MainScreenController {
                                 pathOfCursorTiles.remove(j);
                             }
                             queuedTiles = pathOfCursorTiles;
+                            System.out.println("queuedTiles at cursor: " + queuedTiles.toString());
                             //send queuedTiles to the commandQ
                             return;
                         }
@@ -117,14 +119,39 @@ public class MainScreenController {
                         }
                      }
                 }
-            }).start();
+            });
 
+            t.start();
+
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
+        }
         }
 
+        public void getTilePath() {
+
+        }
 
         public ArrayList<Tile> getQueuedTile() {
+            System.out.println("getQdTiles: " + queuedTiles.toString());
             return queuedTiles;
+        }
+
+        public String getCommandString() {
+            return view.getScreen().getMainScreen().getCommand().extractCommand();
+        }
+
+        public void queueCommand() {
+         //    QUEUE THE COMMAND
+        Unit targetUnit = null;
+        Army targetArmy = null;
+        Base targetBase = null;
+        ArrayList<Tile> path = null;
+
         }
 
 

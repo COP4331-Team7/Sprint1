@@ -76,11 +76,14 @@ public class Base extends Structure {
     public void decodeNextInstruction(Map map) {
 
         // Get the next command to be run and remove it from the queue
-        Command command = this.getCommandQueue().getCommands().get(0);
-        this.getCommandQueue().getCommands().remove(0);
+        CommandObject command;
+        String commandString = "";
+        if( this.getCommandQueue().getCommands().size() > 0 ) {
+            command = this.getCommandQueue().getCommands().get(0);
+            this.getCommandQueue().getCommands().remove(0);
 
-        String commandString = command.getCommandString();
-
+            commandString = command.getCommandString();
+        }
         if (commandString.contains("attack")) {
             System.out.println("Attack isn't needed for any structures yet");
         } else if (commandString.contains("make")) {
