@@ -26,8 +26,12 @@ public class Base extends Structure {
         setCommandQueue(new CommandQueue()); //create reference to a CommandQueue
         setPowered(true); //a Base is powered upon creation
         setMovesFrozen(0);
+
+        setType("Base");
+
         setAttackDirection(0);
         setDefenseDirection(0);
+
     }
 
 

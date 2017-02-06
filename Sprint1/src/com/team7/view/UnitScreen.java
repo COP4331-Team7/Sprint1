@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class UnitScreen extends JPanel {
 
@@ -34,6 +35,7 @@ public class UnitScreen extends JPanel {
 
     //List Models
     DefaultListModel armyModel = new DefaultListModel();
+    DefaultListModel queueModel = new DefaultListModel();
 
     //Buttons to be accessed by UnitScreenController
     JButton addArmy = new JButton("CREATE ARMY");
@@ -86,17 +88,7 @@ public class UnitScreen extends JPanel {
                 return units[index].getType() + " " + units[index].getId();
             }
         });
-        queue.setModel(new AbstractListModel() {
-            @Override
-            public int getSize() {
-                return 0;
-            }
-
-            @Override
-            public String getElementAt(int index) {
-                return null;
-            }
-        });
+        queue.setModel(queueModel);
 
         //Configure init model for unitsInArmyList
         unitsInArmyList.setModel(new AbstractListModel() {
@@ -195,15 +187,31 @@ public class UnitScreen extends JPanel {
         String s = (String)unitList.getSelectedValue();
         String stats = getStats(s);
         textArea.setText(stats);
+        setQueueBox(s);
     }
 
     //--TODO-- Missing functionallity in unit to complete this function
-    private void setQueueBox(Unit u) {
-        CommandQueue q =  new CommandQueue();
-        if (u instanceof NonCombatUnit) {
-            //Fetch command queue from unit directly
+    private void setQueueBox(String unitString) {
+        Unit selected = null;
+        for (Unit u: units) {
+            if (unitString.equals(u.getType() + " " + u.getId())) {
+                selected = u;
+            }
+        }
+
+        if (selected instanceof NonCombatUnit) {
+            queueModel.clear();
         } else {
-            //Fetch command from this unit's army
+            queueModel.clear();
+            //Queue<String> q = selected.getArmy().getCommands().getData();
+//            if (q != null) {
+//                String[] commands = (String[]) q.toArray();
+//                for (String s : commands) {
+//                    queueModel.addElement(s);
+//                }
+//            } else {
+//                System.out.println("Command queue for unit " + unitString + " is null");
+//            }
         }
     }
 
@@ -214,7 +222,6 @@ public class UnitScreen extends JPanel {
         for (Unit u: units) {
             String test = u.getType() + " " + u.getId();
             if (test.equals(unitString)) {
-                setQueueBox(u);
                 UnitStats stats = u.getUnitStats();
                 out = "Offensive Damage: " + stats.getOffensiveDamage()
                         + "\nDefensive Damage: " + stats.getDefensiveDamage()
