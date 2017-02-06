@@ -5,12 +5,12 @@ import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Player {
-    private List<Unit> units;
-    private List<Structure> structures;
-    private List<Army> armies;
+    private ArrayList<Unit> units;
+    private ArrayList<Structure> structures;
+    private ArrayList<Army> armies;
     private int research;
     private int construction;
     private int money;
@@ -63,11 +63,11 @@ public class Player {
 
     // Unit helper functions
 
-    public List<Unit> getUnits() {
+    public ArrayList<Unit> getUnits() {
         return units;
     }
 
-    public void setUnits(List<Unit> units) {
+    public void setUnits(ArrayList<Unit> units) {
         this.units = units;
     }
 
@@ -157,11 +157,11 @@ public class Player {
 
     // Structure helper functions
 
-    public List<Structure> getStructures() {
+    public ArrayList<Structure> getStructures() {
         return structures;
     }
 
-    public void setStructures(List<Structure> structures) {
+    public void setStructures(ArrayList<Structure> structures) {
         this.structures = structures;
     }
 
@@ -200,11 +200,11 @@ public class Player {
 
     // Army helper functions
 
-    public List<Army> getArmies() {
+    public ArrayList<Army> getArmies() {
         return armies;
     }
 
-    public void setArmies(List<Army> armies) {
+    public void setArmies(ArrayList<Army> armies) {
         this.armies = armies;
     }
 
