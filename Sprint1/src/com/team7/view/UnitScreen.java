@@ -1,9 +1,8 @@
 package com.team7.view;
 
-import com.team7.objects.Army;
-import com.team7.objects.CommandQueue;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
+import com.team7.objects.Command;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.UnitStats;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
@@ -11,12 +10,10 @@ import com.team7.objects.unit.nonCombatUnit.Explorer;
 import com.team7.objects.unit.nonCombatUnit.NonCombatUnit;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Queue;
 
 public class UnitScreen extends JPanel {
 
@@ -26,22 +23,25 @@ public class UnitScreen extends JPanel {
     private Unit[] units;
     private ArrayList<Unit> unitsInSelectedArmy = new ArrayList<Unit>();
     private JList unitList = new JList();
-    private JList queue = new JList();
-    private JList armyList = new JList();
+    private JList<String> queue = new JList<>();
+    private JList<String> armyList = new JList<String>();
     private JList unitsInArmyList = new JList();
     private JTextArea textArea = new JTextArea();
     private JPanel unitOverviewComponents = new JPanel();
     private int selectedArmy;
 
     //List Models
-    DefaultListModel armyModel = new DefaultListModel();
-    DefaultListModel queueModel = new DefaultListModel();
+    DefaultListModel<String> armyModel = new DefaultListModel<String>();
+    DefaultListModel<String> queueModel = new DefaultListModel<String>();
 
     //Buttons to be accessed by UnitScreenController
-    JButton addArmy = new JButton("CREATE ARMY");
-    JButton decomissionArmy = new JButton("DISBAND ARMY");
-    JButton addUnit = new JButton("ADD UNIT");
-    JButton removeUnit = new JButton("REMOVE UNIT");
+    private JButton addArmy = new JButton("CREATE ARMY");
+    private JButton decomissionArmy = new JButton("DISBAND ARMY");
+    private JButton addUnit = new JButton("ADD UNIT");
+    private JButton removeUnit = new JButton("REMOVE UNIT");
+    private JButton cancelCommand = new JButton("CANCEL COMMAND");
+    private JButton moveOrderUp = new JButton("⟰");
+    private JButton moveOrderDown = new JButton("⟱");
 
     public UnitScreen() {
 
@@ -115,9 +115,14 @@ public class UnitScreen extends JPanel {
         queueScrollPane.setMaximumSize(new Dimension(200,400));
         queueScrollPane.setPreferredSize(new Dimension(200, 200));
         queuePane.setMaximumSize(new Dimension(200,400));
-        JLabel queueLabel = new JLabel("Command Queue (IF COMBAT UNIT)", SwingConstants.CENTER);
+        JLabel queueLabel = new JLabel("Command Queue", SwingConstants.CENTER);
         queuePane.add(queueLabel, BorderLayout.NORTH);
         queuePane.add(queueScrollPane);
+        JPanel buttonPanel = new JPanel(new BorderLayout());
+        buttonPanel.add(moveOrderDown, BorderLayout.LINE_END);
+        buttonPanel.add(moveOrderUp, BorderLayout.LINE_START);
+        buttonPanel.add(cancelCommand, BorderLayout.CENTER);
+        queuePane.add(buttonPanel, BorderLayout.SOUTH);
         queue.setVisibleRowCount(10);
 
         //Format text box
@@ -173,10 +178,10 @@ public class UnitScreen extends JPanel {
         //Format and add all components to the data pane
         unitOverviewComponents.setLayout(new GridLayout(2,3));
         unitOverviewComponents.add(scrollBox);
-        unitOverviewComponents.add(queuePane);
+        unitOverviewComponents.add(titleLabel);
         unitOverviewComponents.add(textBox);
         unitOverviewComponents.add(armyPanel);
-        unitOverviewComponents.add(titleLabel);
+        unitOverviewComponents.add(queuePane);
         unitOverviewComponents.add(uAPanel);
 
         pane.add(unitOverviewComponents);
@@ -250,8 +255,15 @@ public class UnitScreen extends JPanel {
         JOptionPane.showMessageDialog(unitOverviewComponents, s, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public DefaultListModel getArmyModel() {
+    public DefaultListModel<String> getArmyModel() {
         return this.armyModel;
+    }
+
+    public void setQueueModel(ArrayList<Command> commands) {
+        queueModel.clear();
+        for (Command c : commands) {
+            queueModel.addElement(c.getCommandString());
+        }
     }
 
     //Getter methods for every button to be acccessed by the UnitScreenController
@@ -268,6 +280,18 @@ public class UnitScreen extends JPanel {
     public JList getUnitList() {
         return unitList;
     }
-    public JList getArmyList() {return armyList;}
+    public JList<String> getArmyList() {return armyList;}
     public JList getUnitsinArmyList() {return unitsInArmyList;}
+
+    public JButton getCancelCommand() {
+        return cancelCommand;
+    }
+
+    public JButton getMoveOrderUp() {
+        return moveOrderUp;
+    }
+
+    public JButton getMoveOrderDown() {
+        return moveOrderDown;
+    }
 }

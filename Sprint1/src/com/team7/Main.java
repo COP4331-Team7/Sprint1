@@ -24,7 +24,7 @@ public class Main {
         MainScreenController mainScreenController            = new MainScreenController(game, view);
         UnitScreenController unitScreenController          = new UnitScreenController(game, view);
         StructureScreenController structureScreenController = new StructureScreenController(game, view);
-        ScreenSelectController screenSelectController = new ScreenSelectController(view); // this controller doesn't need to know model
+        ScreenSelectController screenSelectController = new ScreenSelectController(view, game); // this controller doesn't need to know model
 
         //      start the game
         //      while the game is not over

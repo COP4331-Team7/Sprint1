@@ -3,7 +3,6 @@ package com.team7.controller;
 import com.team7.objects.Army;
 import com.team7.view.*;
 import com.team7.objects.Game;
-import com.team7.objects.Player;
 import com.team7.objects.unit.Unit;
 
 import javax.swing.*;
@@ -80,7 +79,7 @@ public class UnitScreenController {
         view.getScreen().getUnitScreen().getDisbandArmyButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getScreen().getUnitScreen().getDisbandArmyButton()) {
-                    String selectedArmy = (String) view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                    String selectedArmy = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
                     List<Army> armies = game.getCurrentPlayer().getArmies();
 
                     for (Army a: armies) {
@@ -105,7 +104,7 @@ public class UnitScreenController {
                 if (e.getSource() == view.getScreen().getUnitScreen().getAddUnitButton()) {
                     //System.out.println("Hit add unit button");
                     String selectedUnitString = (String) view.getScreen().getUnitScreen().getUnitList().getSelectedValue();
-                    String selectedArmyString = (String) view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                    String selectedArmyString = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
 
                     Unit selectedUnitObject = null;
                     Army selectedArmyObject = null;
@@ -170,11 +169,11 @@ public class UnitScreenController {
         view.getScreen().getUnitScreen().getArmyList().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                String selectedArmy = (String) view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                String selectedArmy = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
                 List<Army> armies = game.getCurrentPlayer().getArmies();
 
                 for (Army a: armies) {
-                    if (a.getName() == selectedArmy) {
+                    if (a.getName().equals(selectedArmy)) {
                         view.getScreen().getUnitScreen().getUnitsinArmyList().setModel(new AbstractListModel() {
                             @Override
                             public int getSize() {
@@ -186,6 +185,9 @@ public class UnitScreenController {
                                 return a.getUnits().get(index).getType() + " " + a.getUnits().get(index).getId();
                             }
                         });
+
+                        view.getScreen().getUnitScreen().setQueueModel(a.getCommands().getCommands());
+                        view.getScreen().getUnitScreen().repaint();
                     }
                 }
             }
@@ -197,7 +199,7 @@ public class UnitScreenController {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getScreen().getUnitScreen().getRemoveUnitButton()) {
                     String selectedUnitString = (String) view.getScreen().getUnitScreen().getUnitsinArmyList().getSelectedValue();
-                    String selectedArmyString = (String) view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
+                    String selectedArmyString = view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
 
                     Unit selectedUnitObject = null;
                     Army selectedArmyObject = null;
