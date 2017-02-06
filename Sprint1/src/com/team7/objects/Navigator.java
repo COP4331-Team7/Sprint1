@@ -60,7 +60,8 @@ public class Navigator {
         tilePath = new LinkedList<>();
         tilePath.add(army.getRallyPoint());
 
-        maxMovement = army.getSlowestSpeed();
+       // maxMovement = army.getSlowestSpeed();
+        maxMovement = 100;
 
         unitsAliveInList = selectedUnits.size();
 
@@ -145,11 +146,14 @@ public class Navigator {
     }
 
     public void reDrawMapViaModel(Tile currentTileInPath) {
-        selectedUnit = selectedUnits.get(0);        //the first unit in an army, or an individual unit (ie explorer)
-        System.out.println("Iterating through tile path \t" + currentTileInPath);
-        boolean dead = tryToRemoveUnit(selectedUnit);
-        if(!dead){calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnit);}
+
+        boolean dead;
         for (int j = 0; j < selectedUnits.size(); j++) {//iterate through each unit commanded (1 for non-Army)
+            selectedUnit = selectedUnits.get(j);
+            dead = tryToRemoveUnit(selectedUnits.get(j));
+            if (!dead) {
+                calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnits.get(j));
+            }
             if (unitsAliveInList == 0) {      //if no units are alive, dont move them
                 //delete the army
                 if (selectedUnit.getArmy() != null) {
@@ -159,9 +163,7 @@ public class Navigator {
                 return;
             }
             selectedUnit = selectedUnits.get(j);
-            System.out.println("Iterating through each unit on tile \t" + selectedUnit);
             calculateNetUnitEffectByTile(currentTileInPath, selectedUnit);      //updates the unit health and movement
-            System.out.println("Final Health \t" + selectedUnit.getUnitStats().getHealth());
 
             if (!dead) { //update location
 
@@ -177,25 +179,28 @@ public class Navigator {
                 selectedUnit.setLocation(currentTileInPath);                    //update UNIT with tile reference
                 currentTileInPath.addUnitToTile(selectedUnit);                  //update TILE with unit reference
 
-
-
-                System.out.println("selectedUnit Tile x: " + selectedUnit.getLocation().getxCoordinate());
-                System.out.println("selectedUnit Tile y: " + selectedUnit.getLocation().getyCoordinate());
                 //Check the health after it jas been changed on the tile
-                    boolean isDeadAfterEffect = tryToRemoveUnit(selectedUnit);
-                    if(isDeadAfterEffect){currentTileInPath.setDecal(new Decal("Skull"));}
-                //
+                boolean isDeadAfterEffect = tryToRemoveUnit(selectedUnit);
+                if(isDeadAfterEffect){
+                    currentTileInPath.setDecal(new Decal("Skull"));
+                    selectedUnit.getLocation().removeArmyFromTile(selectedUnit.getArmy());      //remove army from old TILE
+                    selectedUnit.getLocation().removeUnitFromTile(selectedUnit);    //remove unit from old TILE
+                }
+
             } else {
 
                 unitsAliveInList--;
-                System.out.println("1 Unit died and remaining \t" + unitsAliveInList);
+
+                if (unitsAliveInList > 0){
+                    selectedUnit.getLocation().removeArmyFromTile(selectedUnit.getArmy());      //remove army from old TILE
+                }
                 if (selectedUnit.getArmy() != null) {
-                    System.out.println("Removing army \t" );
                     selectedUnit.getArmy().removeUnitFromArmy(selectedUnit);        //remove unit from army
                 }
                 selectedUnit.getOwner().removeUnit(selectedUnit);
                 selectedUnit.getLocation().removeUnitFromTile(selectedUnit);
             }
+
 
         }
 
