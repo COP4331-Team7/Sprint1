@@ -176,7 +176,25 @@ public class Army {
     public void moveArmy(Map map, ArrayList<Tile> tiles) {
         Navigator navigator = new Navigator(map, this);
         for(int i = 0; i < tiles.size(); i++) {
+
+            if(!navigator.reDrawMapViaModel(tiles.get(i), units)){
+                //user is out of movement, cut arraylist
+                for (int j = i; j > 0; j--){        //remove all elements from i and under
+                    tiles.remove(j);
+                }
+                System.out.println("queuedTiles at cursor: " + tiles.toString());
+                //send queuedTiles to the commandQ
+                StringBuilder sb = new StringBuilder();
+
+                sb.append(" ");
+                sb.append(getId());
+                sb.append(" move ");
+                System.out.println("adding new command because movement not possible: " + sb.toString());
+                getCommandQueue().addCommand(new CommandObject(sb.toString(), tiles));
+                return;
+            }
             navigator.reDrawMapViaModel(tiles.get(i),units);
+
         }
     }
 

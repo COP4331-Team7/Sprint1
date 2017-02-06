@@ -40,6 +40,8 @@ public class Game {
         players[0].addUnit(new Explorer(this.map.getGrid()[15][3], players[0]));
         players[0].addUnit(new Explorer(this.map.getGrid()[17][4], players[0]));
         players[0].addUnit(new Colonist(this.map.getGrid()[16][4], players[0]));
+        players[0].addUnit(new RangedUnit(this.map.getGrid()[18][4], players[0]));
+        players[0].addUnit(new MeleeUnit(this.map.getGrid()[19][4], players[0]));
 
         players[1].addUnit(new Explorer(this.map.getGrid()[3][18], players[1]));
         players[1].addUnit(new Explorer(this.map.getGrid()[3][17], players[1]));
@@ -125,6 +127,10 @@ public class Game {
         executeQueues();
         currentPlayer.takeTurn();
 
+        if(currentPlayer.isDefeated() == true){
+            endGame();
+        }
+
         if(currentPlayer == players[0])
             currentPlayer = players[1];
         else 
@@ -167,12 +173,15 @@ public class Game {
 
 
     public void endGame() {
-        
-        System.exit(0);
-        
+
+        System.out.println("GAME OVER!!!!" );
+
         /*   --TODO--
         Display a game over splash screen and exit the program, gunna wait until the GUI is integrated
         to be able to do this. */
+
+        System.exit(0);
+
     }
 
 

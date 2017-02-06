@@ -31,7 +31,9 @@ public class Navigator {
     private ArrayList<Unit> selectedUnits = new ArrayList<>();
     private ArrayList<Integer> healthOfAllUnits = new ArrayList<>();
 
-   private int maxMovement;
+    private int maxMovement;
+
+    boolean isMaxMovementSet = false;
 
     //when MOVE mode is executed
     public Navigator(Map map, Unit selectedUnit){
@@ -43,6 +45,7 @@ public class Navigator {
         y = selectedUnit.getLocation().getyCoordinate();
 
         maxMovement = selectedUnit.getUnitStats().getMovement();
+        isMaxMovementSet = true;
 
         unitsAliveInList  = selectedUnits.size();
 
@@ -55,6 +58,7 @@ public class Navigator {
         y = army.getRallyPoint().getyCoordinate();
 
         maxMovement = army.getSlowestSpeed();
+        isMaxMovementSet = true;
 
         unitsAliveInList = selectedUnits.size();
 
@@ -137,7 +141,15 @@ public class Navigator {
     public boolean reDrawMapViaModel(Tile currentTileInPath, ArrayList<Unit> selectedUnits) {
         if (selectedUnits == null){     //check if method called via COMMANDQ (selectedUnits non null)
             selectedUnits = this.selectedUnits; //or via CONTROLLER (selectedUnits was set in constructor)
+                                                //movement was already set correctly
         }
+
+        if(!isMaxMovementSet){
+            maxMovement = selectedUnits.get(0).getArmy().getSlowestSpeed();
+            isMaxMovementSet = true;
+        }
+
+
 
         if (!isAnyUnitFrozen(selectedUnits)){
             if (hasMovementLeft()) {
@@ -231,8 +243,6 @@ public class Navigator {
     private void calculateNetPlayerStatEffectByTile(Tile currentTile, Unit selectedUnit){
         //only visited ONCE per movement interaction
 
-        //TODO add movement influence here
-
 
         //Resource - MUST BE DONE BY EXPLORER
         if (selectedUnit instanceof Explorer){
@@ -285,6 +295,7 @@ public class Navigator {
 
     private boolean hasMovementLeft() {
         maxMovement--;
+        System.out.println("moves left: "+ maxMovement);
         return maxMovement > 0;
     }
 }
