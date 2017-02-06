@@ -124,7 +124,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                 skullImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/decals/skullImage.png"));
 
 
-                baseImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/structures/baseImage.png")).replace("file:","")));
+                baseImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/structures/baseImage.png"));
 
                 // moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
                 // hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
