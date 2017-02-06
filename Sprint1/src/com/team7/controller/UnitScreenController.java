@@ -21,13 +21,14 @@ public class UnitScreenController {
         this.game = game;
         this.view = view;
         setUnits((ArrayList<Unit>) game.getCurrentPlayer().getUnits());
+        setArmies(game.getCurrentPlayer().getArmies());
         addActionListeners();
     }
 
     void setUnits(ArrayList<Unit> units) {
         view.getScreen().getUnitScreen().setUnits(units);
     }
-
+    void setArmies(ArrayList<Army> armies) { view.getScreen().getUnitScreen().setArmies(armies);}
     private void addActionListeners() {
 
         //Add Action Listener for "Create Army" button
@@ -186,7 +187,7 @@ public class UnitScreenController {
                             }
                         });
 
-                        view.getScreen().getUnitScreen().setQueueModel(a.getCommands().getCommands());
+                        view.getScreen().getUnitScreen().setQueueModel(a.getCommandQueue().getCommands());
                         view.getScreen().getUnitScreen().repaint();
                     }
                 }

@@ -1,5 +1,6 @@
 package com.team7.view;
 
+import com.team7.objects.Army;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
 import com.team7.objects.Command;
@@ -21,6 +22,7 @@ public class UnitScreen extends JPanel {
     private JScrollPane jScrollPane = null;
     private JScrollPane queueScrollPane;
     private Unit[] units;
+    private Army[] armies;
     private ArrayList<Unit> unitsInSelectedArmy = new ArrayList<Unit>();
     private JList unitList = new JList();
     private JList<String> queue = new JList<>();
@@ -293,5 +295,13 @@ public class UnitScreen extends JPanel {
 
     public JButton getMoveOrderDown() {
         return moveOrderDown;
+    }
+
+    public void setArmies(ArrayList<Army> armies) {
+        armyModel.clear();
+        for (Army a: armies) {
+            armyModel.addElement(a.getName());
+        }
+        repaint();
     }
 }
