@@ -130,6 +130,10 @@ public class MainScreenController {
         }
         }
 
+        public void reDrawGUI() {
+            view.getScreen().getMainScreen().drawMap();
+        }
+
 
         public ArrayList<Tile> getQueuedTile() {
             System.out.println("getQdTiles: " + queuedTiles.toString());
