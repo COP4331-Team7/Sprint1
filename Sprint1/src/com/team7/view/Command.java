@@ -244,10 +244,17 @@ public class Command extends JPanel implements KeyListener {
                 typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?armies.get(currTypeInstance).getId():""));
             }
         }
-
-        if(currMode == 1 && currType == 0) { // get list of BaseInstances
-
-
+        else if(currMode == 1 && currType == 0) { // get list of BaseInstances
+            ArrayList<Structure> structs =  currentPlayer.getStructures();
+            ArrayList<Base> bases = new ArrayList<Base>();
+            if (!structs.isEmpty()) {    // if there are units on this tile
+                for (int n = 0; n < structs.size(); n++) {
+                    if (structs.get(n) instanceof Base) {
+                        bases.add((Base) structs.get(n));
+                    }
+                }
+            }
+            typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?bases.get(currTypeInstance).getId():""));
         }
 
 
@@ -524,6 +531,23 @@ public class Command extends JPanel implements KeyListener {
 
 
         }
+        else if(currMode == 1 && currType == 0) { // get # of player's base instances
+            switch( e.getKeyChar() ) {
+                case '5':
+                    if(isTrackingPath == false) {
+                        isTrackingPath = true;
+                        if(currMode == 1) {      // 0 = RALLY POINT
+                            moveCursorToSelectedUnit();
+                        }
+                        break;
+                    }
+                    commandOrder = 0;
+                    clearCommand();
+                    isTrackingPath = false;
+                    break;
+                default:
+            }
+        }
 
 
 
@@ -787,11 +811,29 @@ public class Command extends JPanel implements KeyListener {
 
     }
 
-    public void moveCursorToSelectedUnit() {
-        Unit selection=null;
-        if(currMode==0) {
+    public Base getCurrSelectedBase() {
 
+        ArrayList<Structure> structs =  currentPlayer.getStructures();
+        ArrayList<Base> bases = new ArrayList<Base>();
+        if (!structs.isEmpty()) {    // if there are units on this tile
+            for (int n = 0; n < structs.size(); n++) {
+                if (structs.get(n) instanceof Base) {
+                    bases.add((Base) structs.get(n));
+                }
+            }
+        }
+        return bases.get( currTypeInstance );
+    }
+
+    public void moveCursorToSelectedUnit() {
+        Unit selection  =null;
+        Base selection2 = null;
+        if(currMode == 0) {
             selection = getCurrSelectedArmy().getUnits().get(0);
+            System.out.println("got reference of army in movecursor");
+        }
+        else if (currMode == 1) {
+            selection2 = getCurrSelectedBase();
             System.out.println("got reference of army in movecursor");
         }
         else{
@@ -803,6 +845,10 @@ public class Command extends JPanel implements KeyListener {
         if(selection != null){
             currTileX = selection.getLocation().getxCoordinate() - msc.getMainView().getXdest() + 1;
             currTileY = selection.getLocation().getyCoordinate() - msc.getMainView().getYdest() + 2;
+        }
+        else if(selection2 != null){
+            currTileX = selection2.getLocation().getxCoordinate() - msc.getMainView().getXdest() + 1;
+            currTileY = selection2.getLocation().getyCoordinate() - msc.getMainView().getYdest() + 2;
         }
 
         final Point p = new Point( (int)MouseInfo.getPointerInfo().getLocation().getX(), (int)MouseInfo.getPointerInfo().getLocation().getY());

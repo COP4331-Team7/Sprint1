@@ -12,6 +12,9 @@ import com.team7.objects.unit.nonCombatUnit.Explorer;
 import java.util.HashMap;
 
 public class Base extends Structure {
+
+    private static int ids = 1;
+
     public Base(Tile startTile, Player player) {
 
         HashMap<String, Integer> productionRateMap = new HashMap<>(); //holds the number of turns it takes for a Base to create a Unit
@@ -20,6 +23,7 @@ public class Base extends Structure {
         productionRateMap.put("Colonist", 5);
         productionRateMap.put("Explorer", 1);
 
+        setId( takeId() );
         setOwner(player);
         setStats(new StructureStats(0, 0, 50, productionRateMap, 300, 8));
         setLocation(startTile);
@@ -29,7 +33,6 @@ public class Base extends Structure {
         setAttackDirection(0);
         setDefenseDirection(0);
     }
-
 
     public Unit createUnit(String type) {
 
@@ -66,6 +69,21 @@ public class Base extends Structure {
         }
 
     }
+
+    public int takeId() {
+        for(int i = 0; i < 10; i++) {
+            if( ((ids >> i) & 1) == 0 ) {
+                returnId(i);
+                return  i;
+            }
+        }
+        return  -1;
+    }
+
+    public void returnId(int id) {
+        ids = (ids ^ (1 << id) );
+    }
+
 
 
 }
