@@ -155,8 +155,20 @@ public class Command extends JPanel implements KeyListener {
             path = msc.getQueuedTile();
             System.out.println("path before entering Q " + path);
         }
-        if( getCurrSelectedUnit() != null ) {
-            targetUnit = getCurrSelectedUnit();
+        else if (currMode == 2 && currCommand == 5 && currType == 1) {
+            msc.createBase( getCurrSelectedUnit() );
+        }
+        else if (currMode == 2 && currCommand == 0 ) {
+            // reinforce
+        }
+        else if (currMode == 2 && currCommand == 1 ) {
+            // commision
+        }
+        else if (currMode == 2 && currCommand == 2 ) {
+            // p down
+        }
+        else if (currMode == 2 && currCommand == 3 ) {
+            // pUp
         }
         else if (getCurrSelectedBase() == null && getCurrSelectedArmy() != null ) {
             System.out.println("army has been selected");
@@ -169,6 +181,7 @@ public class Command extends JPanel implements KeyListener {
             targetBase = getCurrSelectedBase();
             targetBase.getCommandQueue().addCommand( new CommandObject( command_string, path ));
         }
+        msc.getMainView().reDrawMap();
 
         return command_string;
     }
