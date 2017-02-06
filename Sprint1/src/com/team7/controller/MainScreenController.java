@@ -89,26 +89,33 @@ public class MainScreenController {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    ArrayList<Tile> pathOfCursorTiles = navigator.updateModel();
+                    for(int i = 0; i < pathOfCursorTiles.size(); i++){
+                        if(!navigator.reDrawMapViaModel(pathOfCursorTiles.get(i))){
+                            //user is out of movement, cut arraylist
+                            ArrayList<Tile> queuedTiles = new ArrayList<>();
+                            for (int j = i; j > 0; j--){        //remove all elements from i and under
+                                pathOfCursorTiles.remove(j);
+                            }
+                            queuedTiles = pathOfCursorTiles;
+                            //send queuedTiles to the commandQ
+                            return;
+                        }
+                        navigator.reDrawMapViaModel(pathOfCursorTiles.get(i));
+                        view.getScreen().getMainScreen().getMainViewImage().zoomToDestination( navigator.updateModel().get(i).getxCoordinate() - 11/2, navigator.updateModel().get(i).getyCoordinate() - 7/2, 50);
+                        view.getScreen().getMainScreen().getMainViewInfo().updateStats();
 
-
-            for(int i = 0; i < navigator.updateModel().size(); i++){
-
-                    navigator.reDrawMapViaModel(navigator.updateModel().get(i));
-                    view.getScreen().getMainScreen().getMainViewImage().zoomToDestination( navigator.updateModel().get(i).getxCoordinate() - 11/2, navigator.updateModel().get(i).getyCoordinate() - 7/2, 50);
-                    view.getScreen().getMainScreen().getMainViewInfo().updateStats();
-
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.getScreen().getMainScreen().drawMap();
-                    }
-                });
-                try {
-                    Thread.sleep(400);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                }
+                        SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.getScreen().getMainScreen().drawMap();
+                        }});
+                        try {
+                            Thread.sleep(400);
+                        }catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                     }
                 }
             }).start();
 
