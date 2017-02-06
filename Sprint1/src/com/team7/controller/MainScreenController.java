@@ -167,5 +167,10 @@ public class MainScreenController {
         }
 
 
+        public void attack(Army army, int dir) {
+
+        }
+
+
     }
 
