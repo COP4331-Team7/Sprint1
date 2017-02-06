@@ -79,7 +79,7 @@ public class Map {
     private void populateMap() {
         for (Tile[] tileArray: grid){
             for (Tile tile: tileArray) {
-                populateTile(tile);
+                //populateTile(tile);
             }
         }
 
