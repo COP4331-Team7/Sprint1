@@ -7,7 +7,7 @@ public class CommandQueue {
     private ArrayList<Command> commands;
 
     public CommandQueue() {
-        commands = new ArrayList<Command>()
+        commands = new ArrayList<Command>();
     }
     
     private void addCommand(Command command){
