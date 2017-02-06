@@ -88,6 +88,7 @@ public class MainScreenController {
 
     public void updateModel() {
         if(navigator.updateModel()!=null){
+            queuedTiles = navigator.updateModel();
             //Iterate through each tile in path
             Thread t = new Thread(new Runnable() {
                 @Override
@@ -123,12 +124,6 @@ public class MainScreenController {
             });
 
             t.start();
-
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
         }
         }
