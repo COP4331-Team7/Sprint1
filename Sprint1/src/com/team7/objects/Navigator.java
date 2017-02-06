@@ -141,13 +141,12 @@ public class Navigator {
     public boolean reDrawMapViaModel(Tile currentTileInPath, ArrayList<Unit> selectedUnits) {
         if (selectedUnits == null){     //check if method called via COMMANDQ (selectedUnits non null)
             selectedUnits = this.selectedUnits; //or via CONTROLLER (selectedUnits was set in constructor)
-                                                //movement was already set correctly
         }
 
-        if(!isMaxMovementSet){
-            maxMovement = selectedUnits.get(0).getArmy().getSlowestSpeed();
-            isMaxMovementSet = true;
-        }
+     //   if(!isMaxMovementSet){
+     //       maxMovement = selectedUnits.get(0).getArmy().getSlowestSpeed();
+      //      isMaxMovementSet = true;
+      //  }
 
 
 
@@ -294,8 +293,16 @@ public class Navigator {
     }
 
     private boolean hasMovementLeft() {
-        maxMovement--;
-        System.out.println("moves left: "+ maxMovement);
-        return maxMovement > 0;
+      //  maxMovement--;
+      //  System.out.println("moves left: "+ maxMovement);
+        if (selectedUnits.get(0) instanceof Explorer || selectedUnits.get(0) instanceof Colonist){
+            selectedUnits.get(0).getUnitStats().setMovement(selectedUnits.get(0).getUnitStats().getMovement() - 1);
+            return selectedUnits.get(0).getUnitStats().getMovement() > 0;
+
+        } else{//army
+            selectedUnits.get(0).getArmy().setSlowestSpeed(selectedUnits.get(0).getArmy().getSlowestSpeed() - 1);
+            return selectedUnits.get(0).getArmy().getSlowestSpeed() > 0;
+
+        }
     }
 }
