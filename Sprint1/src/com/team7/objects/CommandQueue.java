@@ -1,16 +1,18 @@
 package com.team7.objects;
 
-import java.util.Queue;
+import java.util.ArrayList;
 
 public class CommandQueue {
-    private Queue<String> commands;
+
+    private ArrayList<Command> commands;
+
+    public CommandQueue() {
+        commands = new ArrayList<Command>()
+    }
     
-    private void addCommand(String command){
+    private void addCommand(Command command){
         commands.add(command);
     }
 
-    private String getNextCommand(){
-        return commands.remove();
-    }
 }
 
