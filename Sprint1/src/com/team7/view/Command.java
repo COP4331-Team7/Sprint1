@@ -68,7 +68,8 @@ public class Command extends JPanel implements KeyListener {
                                                     "DECOMMISSION",
                                                      "POWER DOWN",
                                                      "POWER UP",
-                                                      "MOVE"};
+                                                      "MOVE",
+                                                        "MAKE BASE"};
 
 
    // private final static String[] types = { "STRUCTURE", "UNIT", "ARMY" };
@@ -118,7 +119,7 @@ public class Command extends JPanel implements KeyListener {
         commandSelectPanel.add(typeInstanceLabel);
         commandSelectPanel.add(commandLabel);
 
-        executeCommandButton = new JButton("EXECUTE COMMAND");
+        executeCommandButton = new JButton("ISSUE COMMAND");
         endTurnButton = new JButton("END TURN");
         commandSelectPanel.add( executeCommandButton );
         commandSelectPanel.add( endTurnButton );
@@ -143,7 +144,50 @@ public class Command extends JPanel implements KeyListener {
         sb.append( commandLabel.getText().substring(commandLabel.getText().lastIndexOf(":") + 1) );
 
         String command_string = sb.toString( );
+
+        // QUEUE THE COMMAND
+        Unit targetUnit = null;
+        Army targetArmy = null;
+        Base targetBase = null;
+        if( getCurrSelectedUnit() != null ) {
+            targetUnit = getCurrSelectedUnit();
+        }
+        else if ( getCurrSelectedArmy() != null ) {
+            targetArmy = getCurrSelectedArmy();
+        }
+        else if ( getCurrSelectedBase() != null ) {
+            targetBase = getCurrSelectedBase();
+        }
+
+        return command_string;
+    }
+
+    public String extractCommand(String direction) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(" ");
+        //sb.append( modeLabel.getText().substring(modeLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( typeLabel.getText().substring(typeLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( typeInstanceLabel.getText().substring(typeInstanceLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( commandLabel.getText().substring(commandLabel.getText().lastIndexOf(":") + 1) );
+        sb.append( direction );
+        String command_string = sb.toString( );
         System.out.println("commyString = " + command_string);
+
+        // QUEUE THE COMMAND
+        Unit targetUnit = null;
+        Army targetArmy = null;
+        Base targetBase = null;
+        if( getCurrSelectedUnit() != null ) {
+            targetUnit = getCurrSelectedUnit();
+        }
+        else if ( getCurrSelectedArmy() != null ) {
+            targetArmy = getCurrSelectedArmy();
+        }
+        else if ( getCurrSelectedBase() != null ) {
+            targetBase = getCurrSelectedBase();
+        }
+
         return command_string;
     }
 
@@ -528,8 +572,6 @@ public class Command extends JPanel implements KeyListener {
                     break;
                 default:
             }
-
-
         }
         else if(currMode == 1 && currType == 0) { // get # of player's base instances
             switch( e.getKeyChar() ) {
@@ -550,9 +592,39 @@ public class Command extends JPanel implements KeyListener {
         }
 
 
+        if((currMode == 1 || currMode == 3) && currTypeInstance != -1 ) {
 
+            System.out.println("QUE COMMAND!!!!");
+
+            switch( e.getKeyChar() ) {
+            case '1':
+                extractCommand( "1" );
+                break;
+            case '2':
+                extractCommand( "2" );
+                break;
+            case '3':
+                extractCommand( "3" );
+                break;
+            case '4':
+                extractCommand( "4" );
+                break;
+            case '6':
+                extractCommand( "6" );
+                break;
+            case '7':
+                extractCommand( "7" );
+                break;
+            case '8':
+                extractCommand( "8" );
+                break;
+            case '9':
+                extractCommand( "9" );
+                break;
+                default:
+            }
+        }
     }
-
 
     private int getNumTypes(int currMode) {        // get # of options the current MODE has
             int size = 0;
@@ -600,7 +672,7 @@ public class Command extends JPanel implements KeyListener {
                     }
                 }
             }
-            return colonists.size();
+            return colonists.size() + 1;
         }
         else if(currMode == 2 && currType == 2) { // get list of player's Ranged Unit instances
             ArrayList<Unit> units = currentPlayer.getUnits();
@@ -699,14 +771,6 @@ public class Command extends JPanel implements KeyListener {
     public JButton getExecuteCommandButton() {
         return executeCommandButton;
     }
-    public void queueCommand() {
-        String commands = extractCommand();
-        System.out.println("commands  = "  + commands );
-
-//        String[] parts = command.split(" ");
-//        System.out.println("type = "  + parts[0] );
-//        System.out.println("instance = "  + parts[1] );
-    }
 
     public Unit getCurrSelectedUnit() {
 
@@ -745,6 +809,9 @@ public class Command extends JPanel implements KeyListener {
         System.out.println("instance = " + currTypeInstance) ;
 
         ArrayList<Army> armies = (ArrayList<Army>) currentPlayer.getArmies();
+        if(armies.size() == 0) {
+            return null;
+        }
         Army selection =  armies.get(currTypeInstance);
 
         return selection;

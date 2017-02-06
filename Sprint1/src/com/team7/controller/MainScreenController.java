@@ -13,6 +13,7 @@ public class MainScreenController {
  private Game game;
  private View view;
  private ArrayList<String> path = new ArrayList<String >();
+ public ArrayList<Tile> queuedTiles = new ArrayList<>();
  Navigator navigator;
 
     public MainScreenController(Game game, View view) {
@@ -65,7 +66,7 @@ public class MainScreenController {
             public void actionPerformed(ActionEvent e) {
                 if(e.getSource() == view.getScreen().getMainScreen().getCommand().getExecuteCommandButton()) {
                     System.out.println("Player " + game.getTurn() + "'s command: ");
-                    view.getScreen().getMainScreen().getCommand().queueCommand();
+                    view.getScreen().getMainScreen().getCommand().extractCommand();
                     view.getScreen().getMainScreen().getCommand().clearCommand();
                     view.getScreen().getMainScreen().giveCommandFocus();
                 }
@@ -93,7 +94,6 @@ public class MainScreenController {
                     for(int i = 0; i < pathOfCursorTiles.size(); i++){
                         if(!navigator.reDrawMapViaModel(pathOfCursorTiles.get(i), null)){
                             //user is out of movement, cut arraylist
-                            ArrayList<Tile> queuedTiles = new ArrayList<>();
                             for (int j = i; j > 0; j--){        //remove all elements from i and under
                                 pathOfCursorTiles.remove(j);
                             }
@@ -121,5 +121,12 @@ public class MainScreenController {
 
             }
         }
+
+
+        public ArrayList<Tile> getQueuedTile() {
+            return queuedTiles;
+        }
+
+
     }
 
