@@ -159,7 +159,7 @@ public class Command extends JPanel implements KeyListener {
         if( getCurrSelectedUnit() != null ) {
             targetUnit = getCurrSelectedUnit();
         }
-        else if ( getCurrSelectedArmy() != null ) {
+        else if (getCurrSelectedBase() == null && getCurrSelectedArmy() != null ) {
             System.out.println("army has been selected");
             targetArmy = getCurrSelectedArmy();
             System.out.println("targetArmy: " + targetArmy);

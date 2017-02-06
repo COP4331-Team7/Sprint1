@@ -2,6 +2,7 @@ package com.team7.controller;
 
 import com.team7.objects.Army;
 import com.team7.objects.Game;
+import com.team7.objects.structure.Structure;
 import com.team7.view.*;
 
 import javax.swing.*;
@@ -68,6 +69,21 @@ public class ScreenSelectController {
                 if (e.getSource() == view.getScreen().getMainScreen().getScreenSelectButtons().getStructureScreenButton()) {
                     view.getScreen().setCurrScreen("STRUCTURE_OVERVIEW");
                     view.getScreen().getStructureScreen().setStructures(game.getCurrentPlayer().getStructures());
+
+                    if (view.getScreen().getStructureScreen().getStructureList().getSelectedValue() != null) {
+                        String selectedStructure = view.getScreen().getStructureScreen().getStructureList().getSelectedValue();
+                        List<Structure> structures = game.getCurrentPlayer().getStructures();
+                        Structure selectedStructureObject = null;
+
+                        for (Structure s: structures) {
+                            if(selectedStructure.equals(s.getType() + " " + s.getId())) {
+                                selectedStructureObject = s;
+                            }
+                        }
+
+                        view.getScreen().getStructureScreen().setCommands(selectedStructureObject.getCommandQueue().getCommands());
+                        view.getScreen().getStructureScreen().repaint();
+                    }
                 }
             }
         });
@@ -115,6 +131,21 @@ public class ScreenSelectController {
                 if (e.getSource() == view.getScreen().getUnitScreen().getScreenSelectButtons().getStructureScreenButton()) {
                     view.getScreen().setCurrScreen("STRUCTURE_OVERVIEW");
                     view.getScreen().getStructureScreen().setStructures(game.getCurrentPlayer().getStructures());
+
+                    if (view.getScreen().getStructureScreen().getStructureList().getSelectedValue() != null) {
+                        String selectedStructure = view.getScreen().getStructureScreen().getStructureList().getSelectedValue();
+                        List<Structure> structures = game.getCurrentPlayer().getStructures();
+                        Structure selectedStructureObject = null;
+
+                        for (Structure s: structures) {
+                            if(selectedStructure.equals(s.getType() + " " + s.getId())) {
+                                selectedStructureObject = s;
+                            }
+                        }
+
+                        view.getScreen().getStructureScreen().setCommands(selectedStructureObject.getCommandQueue().getCommands());
+                        view.getScreen().getStructureScreen().repaint();
+                    }
                 }
             }
         });
@@ -162,6 +193,21 @@ public class ScreenSelectController {
                 if (e.getSource() == view.getScreen().getStructureScreen().getScreenSelectButtons().getStructureScreenButton()) {
                     view.getScreen().setCurrScreen("STRUCTURE_OVERVIEW");
                     view.getScreen().getStructureScreen().setStructures(game.getCurrentPlayer().getStructures());
+
+                    if (view.getScreen().getStructureScreen().getStructureList().getSelectedValue() != null) {
+                        String selectedStructure = view.getScreen().getStructureScreen().getStructureList().getSelectedValue();
+                        List<Structure> structures = game.getCurrentPlayer().getStructures();
+                        Structure selectedStructureObject = null;
+
+                        for (Structure s: structures) {
+                            if(selectedStructure.equals(s.getType() + " " + s.getId())) {
+                                selectedStructureObject = s;
+                            }
+                        }
+
+                        view.getScreen().getStructureScreen().setCommands(selectedStructureObject.getCommandQueue().getCommands());
+                        view.getScreen().getStructureScreen().repaint();
+                    }
                 }
             }
         });
