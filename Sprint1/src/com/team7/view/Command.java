@@ -73,7 +73,6 @@ public class Command extends JPanel implements KeyListener {
                                                       "MOVE",
                                                         "MAKE BASE"};
 
-
    // private final static String[] types = { "STRUCTURE", "UNIT", "ARMY" };
 
     private final static String[] structureTypes = { "BASE" };
@@ -849,22 +848,22 @@ public class Command extends JPanel implements KeyListener {
 
         if(x < 0 && pTemp.getX() - TILESIZE <= 0) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() + TILESIZE, (int)MouseInfo.getPointerInfo().getLocation().getY());
-            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() - 1), msc.getMainView().getYdest(), 0 );
+            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() - 2), msc.getMainView().getYdest(), 0 );
             return;
         }
         if(x > 0 && pTemp.getX() >= width - TILESIZE) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() - TILESIZE, (int)MouseInfo.getPointerInfo().getLocation().getY());
-            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() + 1), msc.getMainView().getYdest(), 0 );
+            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() + 2), msc.getMainView().getYdest(), 0 );
             return;
         }
         if(y > 0 && pTemp.getY() >= height - TILESIZE) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() - TILESIZE);
-            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest()), (msc.getMainView().getYdest() + 1), 0 );
+            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest()), (msc.getMainView().getYdest() + 2), 0 );
             return;
         }
         if(y < 0 && pTemp.getY() - TILESIZE <= 0 ) {
             robot.mouseMove((int)MouseInfo.getPointerInfo().getLocation().getX() , (int)MouseInfo.getPointerInfo().getLocation().getY() + TILESIZE);
-            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() ), (msc.getMainView().getYdest() - 1), 0 );
+            msc.getMainView().zoomToDestination( (msc.getMainView().getXdest() ), (msc.getMainView().getYdest() - 2), 0 );
             return;
         }
 
