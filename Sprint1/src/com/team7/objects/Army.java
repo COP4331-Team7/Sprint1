@@ -18,10 +18,11 @@ public class Army {
     private int turnsFrozen;
     private String name;
 
+    private static int ids = 1;
 
 
     public Army(Tile startTile, Player player){
-        int id = ProbabilityGenerator.randomInteger(0, 99999);
+        setId( takeId() );
         this.units = new ArrayList<Unit>();
         this.commands = new CommandQueue();
         this.owner = player;
@@ -54,6 +55,18 @@ public class Army {
         unit.setArmy(null);
     }
 
+    public int takeId() {
+        for(int i = 0; i < 10; i++) {
+            if( ((ids >> i) & 1) == 0 ) {
+                returnId(i);
+                return  i;
+            }
+        }
+        return  -1;
+    }
+    public void returnId(int id) {
+        ids = (ids ^ (1 << id) );
+    }
 
     public long getId() {
         return id;
