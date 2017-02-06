@@ -101,8 +101,8 @@ public class MainViewImage extends JPanel implements MouseListener {
             try {
                tileImage_1 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/fracImg.png"));
                tileImage_2 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/hills_img.png"));
-               tileImage_3 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/sand_img.jpg"));
-               tileImage_4 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/grass_img.jpg"));
+               tileImage_3 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/sand_img.png"));
+               tileImage_4 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/grass_img.png"));
 
                moneyBagImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/moneyBag.png"));
                moonRockImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/moonRock.png"));
@@ -165,7 +165,7 @@ public class MainViewImage extends JPanel implements MouseListener {
 
             BufferedImage tempImg = new BufferedImage(733, 439, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2ds = (Graphics2D)tempImg.createGraphics();
-            g2ds.setFont(g2ds.getFont().deriveFont(30f));
+            g2ds.setFont(g2ds.getFont().deriveFont(25f));
 
             int x_coord, y_coord;   // pixel coordinates of top left corner of image drawn
 
