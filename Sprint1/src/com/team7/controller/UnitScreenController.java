@@ -103,7 +103,7 @@ public class UnitScreenController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getScreen().getUnitScreen().getAddUnitButton()) {
-                    System.out.println("Hit add unit button");
+                    //System.out.println("Hit add unit button");
                     String selectedUnitString = (String) view.getScreen().getUnitScreen().getUnitList().getSelectedValue();
                     String selectedArmyString = (String) view.getScreen().getUnitScreen().getArmyList().getSelectedValue();
 

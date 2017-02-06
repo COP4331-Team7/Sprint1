@@ -322,7 +322,7 @@ public class Player {
         }
 
         // loop through list of structures and execute next command
-        for(int i = 0; i < this.armies.size(); i++) {
+        for(int i = 0; i < this.structures.size(); i++) {
             this.structures.get(i).decodeNextInstruction();
         }
 
