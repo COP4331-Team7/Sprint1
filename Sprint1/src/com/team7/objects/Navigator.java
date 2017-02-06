@@ -161,14 +161,23 @@ public class Navigator {
             selectedUnit = selectedUnits.get(j);
             System.out.println("Iterating through each unit on tile \t" + selectedUnit);
             calculateNetUnitEffectByTile(currentTileInPath, selectedUnit);      //updates the unit health and movement
-//            boolean dead = tryToRemoveUnit(selectedUnit);
             System.out.println("Final Health \t" + selectedUnit.getUnitStats().getHealth());
 
             if (!dead) { //update location
+
+                if (selectedUnit.getArmy() != null){        //make sure army is being referenced, army still alive
+                    selectedUnit.getLocation().removeArmyFromTile(selectedUnit.getArmy());      //remove army from old TILE
+
+                    selectedUnit.getArmy().setRallyPoint(currentTileInPath);                    //update ARMY with tile reference
+                    currentTileInPath.addArmyToTile(selectedUnit.getArmy());                    //update TILE with army reference
+                }
+
                 selectedUnit.getLocation().removeUnitFromTile(selectedUnit);    //remove unit from old TILE
 
                 selectedUnit.setLocation(currentTileInPath);                    //update UNIT with tile reference
                 currentTileInPath.addUnitToTile(selectedUnit);                  //update TILE with unit reference
+
+
 
                 System.out.println("selectedUnit Tile x: " + selectedUnit.getLocation().getxCoordinate());
                 System.out.println("selectedUnit Tile y: " + selectedUnit.getLocation().getyCoordinate());
@@ -189,6 +198,7 @@ public class Navigator {
             }
 
         }
+
 
     }
 
