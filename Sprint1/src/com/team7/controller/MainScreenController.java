@@ -156,6 +156,7 @@ public class MainScreenController {
 
         public void decomissionUnit(Unit unit) {
             unit.decommission();
+            game.getCurrentPlayer().checkUnitArmyStructs();
         }
 
         public void powerUpUnit(Unit unit) {
@@ -186,6 +187,7 @@ public class MainScreenController {
 
         public void decomissionArmy(Army army) {
             army.decommission();
+            game.getCurrentPlayer().checkUnitArmyStructs();
         }
 
         public void powerDownArmy(Army army) {
@@ -215,6 +217,7 @@ public class MainScreenController {
 
         public void decomissionStructure(Structure base) {
             base.decommission();
+            game.getCurrentPlayer().checkUnitArmyStructs();
         }
 
         public void powerUpStructure(Structure base) {
