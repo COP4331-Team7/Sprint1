@@ -83,13 +83,34 @@ public class Base extends Structure {
         }
         else if(commandString.contains("make")) {
             String lastLetter = commandString.substring(commandString.length() - 1);
-            if(lastLetter == "r"){
-                createUnit("Explorer");
+            if(lastLetter == "r") {
+                this.createUnit("Explorer");
+            }
+            else if(lastLetter == "t") {
+                this.createUnit("Colonist");
+            }
+            else if(lastLetter == "e") {
+                this.createUnit("Melee");
+            }
+            else if(lastLetter == "d") {
+                this.createUnit("Ranged");
             }
         }
         else if(commandString.contains("defend")) {
             int dir = Integer.parseInt(commandString.substring(commandString.length() - 1));
             setDefenseDirection(dir);
+        }
+        else if(commandString.contains("heal")) {
+            this.healUnits();
+        }
+        else if(commandString.contains("decomission")) {
+            this.decommission();
+        }
+        else if(commandString.contains("down")) {
+            this.powerDown();
+        }
+        else if(commandString.contains("cancel")) {
+            this.getCommandQueue().getCommands().clear();
         }
 
 
