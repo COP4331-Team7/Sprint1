@@ -167,6 +167,8 @@ public class Command extends JPanel implements KeyListener {
             commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?unitCommands[currCommand]:"")); //up / down arrow
         else if (currMode == 3)
             commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?armyCommands[currCommand]:"")); //up / down arrow
+        else if (currMode == 0 && currTypeInstance != -1)
+            commandLabel.setText("COMMAND (\u2191 / \u2193): " + "MOVE");
         else
             commandLabel.setText("COMMAND (\u2191 / \u2193): ");
 
@@ -302,8 +304,8 @@ public class Command extends JPanel implements KeyListener {
 
         updateCommand();
 
-        // if RALLY POINT or UNIT mode, and command is MOVE
-        if( (currMode == 0 || currMode == 2) && currCommand == 4) {
+        // UNIT mode, and command is MOVE
+        if( currMode == 2 && currCommand == 4) {
 
             // isTrackingPath = false;
 
@@ -329,10 +331,13 @@ public class Command extends JPanel implements KeyListener {
                     }
                     break;
                 case '5':
+                    System.out.println("5 = " );
                     if(isTrackingPath == false) {
                         isTrackingPath = true;
-                        moveCursorToSelectedUnit();
-                        msc.moveMode( getCurrSelectedUnit() );
+                        if(currMode == 2) {      // 2 = UNIT
+                            msc.moveMode( getCurrSelectedUnit() );
+                            moveCursorToSelectedUnit();
+                        }
                         break;
                     }
                     commandOrder = 0;
@@ -404,6 +409,109 @@ public class Command extends JPanel implements KeyListener {
 
 
         }
+        else  if( currMode == 0 && currType == -1) {    // RALLY POINT, MOVE command
+
+            switch( e.getKeyChar() ) {
+                case '1':
+                    if(msc.sendCommand( '1' )) { // SW
+                        moveMouse(-TILESIZE, TILESIZE, true);
+                    }
+                    break;
+                case '2':
+                    if(msc.sendCommand( '2' )) { // S
+                        moveMouse(0, TILESIZE, true);
+                    }
+                    break;
+                case '3':
+                    if(msc.sendCommand( '3' )) { // SE
+                        moveMouse(TILESIZE, TILESIZE, true);
+                    }
+                    break;
+                case '4':
+                    if(msc.sendCommand( '4' )) { // W
+                        moveMouse(-TILESIZE, 0, true);
+                    }
+                    break;
+                case '5':
+                    if(isTrackingPath == false) {
+                        isTrackingPath = true;
+                        if(currMode == 0) {      // 0 = RALLY POINT
+                            msc.moveMode( getCurrSelectedArmy() );
+                            moveCursorToSelectedUnit();
+                        }
+                        break;
+                    }
+                    commandOrder = 0;
+                    msc.updateModel();
+                    clearCommand();
+                    isTrackingPath = false;
+                    break;
+                case '6':
+                    if(msc.sendCommand( '6' )) { // E
+                        moveMouse(TILESIZE, 0, true);
+                    }
+                    break;
+                case '7':
+                    if(msc.sendCommand( '7' )) { // NW
+                        moveMouse(-TILESIZE, -TILESIZE, true);
+                    }
+                    break;
+                case '8':
+                    if(msc.sendCommand( '8' )) { // N
+                        moveMouse(0, -TILESIZE, true);
+                    }
+                    break;
+                case '9':
+                    if(msc.sendCommand( '9' )){
+                        moveMouse(TILESIZE, -TILESIZE, true); // NE
+                    }
+                case 'z':
+                    //  if(msc.sendCommand( '1' )) { // SW
+                    moveMouse(-TILESIZE, TILESIZE, true);
+                    //    }
+                    break;
+                case 'x':
+                    //   if(msc.sendCommand( '2' )) { // S
+                    moveMouse(0, TILESIZE, true);
+                    // }
+                    break;
+                case 'c':
+                    //  if(msc.sendCommand( '3' )) { // SE
+                    moveMouse(TILESIZE, TILESIZE, true);
+                    // }
+                    break;
+                case 'a':
+                    // if(msc.sendCommand( '4' )) { // W
+                    moveMouse(-TILESIZE, 0, true);
+                    // }
+                    break;
+                case 'd':
+                    //  if(msc.sendCommand( '6' )) { // E
+                    moveMouse(TILESIZE, 0, true);
+                    //}
+                    break;
+                case 'q':
+                    // if(msc.sendCommand( '7' )) { // NW
+                    moveMouse(-TILESIZE, -TILESIZE, true);
+                    // }
+                    break;
+                case 'w':
+                    // if(msc.sendCommand( '8' )) { // N
+                    moveMouse(0, -TILESIZE, true);
+                    // }
+                    break;
+                case 'e':
+                    // if(msc.sendCommand( '9' )){
+                    moveMouse(TILESIZE, -TILESIZE, true); // NE
+                    // }
+                    break;
+                default:
+            }
+
+
+        }
+
+
 
     }
 
@@ -558,6 +666,16 @@ public class Command extends JPanel implements KeyListener {
         return selection;
     }
 
+    public Army getCurrSelectedArmy() {
+
+        System.out.println("instance = " + currTypeInstance) ;
+
+        ArrayList<Army> armies = (ArrayList<Army>) currentPlayer.getArmies();
+        Army selection =  armies.get(currTypeInstance);
+
+        return selection;
+    }
+
     public void moveMouse(int x, int y, boolean animate) {
 
         int width = msc.getMainView().getWidth();
@@ -620,7 +738,13 @@ public class Command extends JPanel implements KeyListener {
     }
 
     public void moveCursorToSelectedUnit() {
+
         Unit selection = getCurrSelectedUnit();
+        if (getCurrSelectedArmy() != null){
+            selection = getCurrSelectedArmy().getUnits().get(0);
+            System.out.println("got reference of army in movecursor");
+        }
+
 
         int currTileX = TILES_VISIBLE_X/2, currTileY = TILES_VISIBLE_Y/2;
         if(selection != null){

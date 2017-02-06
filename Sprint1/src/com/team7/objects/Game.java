@@ -1,5 +1,8 @@
 package com.team7.objects;
 
+import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.combatUnit.MeleeUnit;
+import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 
@@ -40,6 +43,36 @@ public class Game {
         players[1].addUnit(new Explorer(this.map.getGrid()[3][18], players[1]));
         players[1].addUnit(new Explorer(this.map.getGrid()[3][17], players[1]));
         players[1].addUnit(new Colonist(this.map.getGrid()[4][18], players[1]));
+
+        Player player1 = players[0];
+
+        // create army and units for each player
+        Unit melee1 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee2 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee3 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee4 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit melee5 = new MeleeUnit(map.getGrid()[17][2], player1);
+        Unit ranged1 = new RangedUnit(map.getGrid()[17][2], player1);
+        Unit ranged2 = new RangedUnit(map.getGrid()[17][2], player1);
+        Unit ranged3 = new RangedUnit(map.getGrid()[17][2], player1);
+        Army army1 = new Army(map.getGrid()[17][2], player1);
+        player1.addUnit(melee1);
+        player1.addUnit(melee2);
+        player1.addUnit(melee3);
+        player1.addUnit(melee4);
+        player1.addUnit(melee5);
+        player1.addUnit(ranged1);
+        player1.addUnit(ranged2);
+        player1.addUnit(ranged3);
+        army1.addUnitToArmy(melee1);
+        army1.addUnitToArmy(melee2);
+        army1.addUnitToArmy(melee3);
+        army1.addUnitToArmy(melee4);
+        army1.addUnitToArmy(melee5);
+        army1.addUnitToArmy(ranged1);
+        army1.addUnitToArmy(ranged2);
+        army1.addUnitToArmy(ranged3);
+        player1.addArmy(army1);
 
 //
 //        while (!players[0].isDefeated() && !players[1].isDefeated()) {

@@ -32,6 +32,10 @@ public class MainScreenController {
     public void moveMode(Unit selected){ //called 1nce
         navigator = new Navigator(game.getMap(), selected);
     }
+    public void moveMode(Army selected){ //called 1nce
+        navigator = new Navigator(game.getMap(), selected);
+    }
+
     public boolean sendCommand(char command){ //called per number keystroke
 
         return navigator.parseInputCommand(command);
