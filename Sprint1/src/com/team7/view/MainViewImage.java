@@ -240,6 +240,10 @@ public class MainViewImage extends JPanel implements MouseListener {
                         g2ds.drawImage(hieroglyphicBookImage, x_coord + 25, y_coord + 30, null);
                     }
 
+                    if ( grid[xx][yy].getStructure() instanceof Base) {
+                        g2ds.drawImage(baseImage, x_coord, y_coord, null);
+                    }
+
                     // draw units
                     int colonistCount = 0, explorerCount = 0;
                     int meleeCount = 0, rangeCount = 0, armyCount = 0;
@@ -284,9 +288,7 @@ public class MainViewImage extends JPanel implements MouseListener {
                         }
                     }
 
-                    if ( grid[xx][yy].getStructure() instanceof Base) {
-                        g2ds.drawImage(baseImage, x_coord, y_coord, null);
-                    }
+
 
                 }
             }
