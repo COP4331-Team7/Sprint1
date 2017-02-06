@@ -2,7 +2,10 @@ package com.team7.objects;
 
 import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.combatUnit.MeleeUnit;
+import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
+import com.team7.objects.unit.nonCombatUnit.Explorer;
 
 import java.util.ArrayList;
 
@@ -40,10 +43,24 @@ public class Player {
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
         subtractUpkeep();           // subtracts upkeep from all units/structures, ends game if money = 0
         subtractMovesFrozen();      // subtracts moves frozen from anything that is frozen
+        resetUnitMovement();
 
     }
 
 
+    private void resetUnitMovement(){
+        for(int i = 0; i < this.units.size(); i++){
+            if(this.getUnits().get(i) instanceof MeleeUnit)
+                this.units.get(i).getUnitStats().setMovement(8);
+            else if(this.getUnits().get(i) instanceof Colonist)
+                this.units.get(i).getUnitStats().setMovement(5);
+            else if(this.getUnits().get(i) instanceof Explorer)
+                this.units.get(i).getUnitStats().setMovement(10);
+            else if(this.getUnits().get(i) instanceof RangedUnit)
+                this.units.get(i).getUnitStats().setMovement(6);
+
+        }
+    }
 
 
 
@@ -285,7 +302,7 @@ public class Player {
 
 
         // if they run out of money the game is over
-        if(this.getMoney() == 0){
+        if(this.getMoney() <= 0){
             noStructures = true;
             noUnits = true;
             noArmies = true;

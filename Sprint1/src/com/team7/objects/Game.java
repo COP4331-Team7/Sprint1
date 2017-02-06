@@ -127,6 +127,10 @@ public class Game {
         executeQueues();
         currentPlayer.takeTurn();
 
+        if(currentPlayer.isDefeated() == true){
+            endGame();
+        }
+
         if(currentPlayer == players[0])
             currentPlayer = players[1];
         else 
@@ -169,12 +173,15 @@ public class Game {
 
 
     public void endGame() {
-        
-        System.exit(0);
-        
+
+        System.out.println("GAME OVER!!!!" );
+
         /*   --TODO--
         Display a game over splash screen and exit the program, gunna wait until the GUI is integrated
         to be able to do this. */
+
+        System.exit(0);
+
     }
 
 
