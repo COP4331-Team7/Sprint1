@@ -80,7 +80,7 @@ public class Player {
         // Put skull  on tile because unit died?
         this.units.remove(unit);
         unit.getLocation().removeUnitFromTile(unit);
-        unit.getLocation().setDecal(new Decal("Skull"));
+//        unit.getLocation().setDecal(new Decal("Skull"));
 
         if(this.units.size() == 0){
             this.noUnits = true;

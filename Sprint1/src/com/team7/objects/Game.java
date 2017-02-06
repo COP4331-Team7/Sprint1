@@ -1,6 +1,9 @@
 package com.team7.objects;
 
 import com.team7.objects.structure.Base;
+import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.combatUnit.MeleeUnit;
+import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 
@@ -41,6 +44,10 @@ public class Game {
         players[1].addUnit(new Explorer(this.map.getGrid()[3][18], players[1]));
         players[1].addUnit(new Explorer(this.map.getGrid()[3][17], players[1]));
         players[1].addUnit(new Colonist(this.map.getGrid()[4][18], players[1]));
+
+
+        players[0].addStructure(new Base(this.map.getGrid()[15][4], players[0]));
+        players[0].addStructure(new Base(this.map.getGrid()[15][5], players[0]));
 
 //
 //        while (!players[0].isDefeated() && !players[1].isDefeated()) {

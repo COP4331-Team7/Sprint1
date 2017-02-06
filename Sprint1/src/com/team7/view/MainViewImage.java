@@ -4,17 +4,21 @@ import com.team7.Main;
 import com.team7.objects.*;
 import com.team7.objects.areaEffects.ElixirShower;
 import com.team7.objects.areaEffects.Storm;
+import com.team7.objects.areaEffects.VolcanicVent;
 import com.team7.objects.items.Item;
 import com.team7.objects.items.Obstacle;
 import com.team7.objects.items.OneShotItem;
 import com.team7.objects.resource.HieroglyphicBooks;
 import com.team7.objects.resource.MoneyBag;
 import com.team7.objects.resource.MoonRocks;
+import com.team7.objects.structure.Base;
 import com.team7.objects.terrain.Crater;
 import com.team7.objects.terrain.Desert;
 import com.team7.objects.terrain.FlatLand;
 import com.team7.objects.terrain.Mountains;
 import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.combatUnit.MeleeUnit;
+import com.team7.objects.unit.combatUnit.RangedUnit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 
@@ -29,6 +33,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainViewImage extends JPanel implements MouseListener {
 
@@ -63,6 +68,15 @@ public class MainViewImage extends JPanel implements MouseListener {
 
         private  BufferedImage obstacleImage;
         private  BufferedImage oneShotImage;
+
+        private  BufferedImage meleeImage;
+        private  BufferedImage rangeImage;
+        private  BufferedImage armyImage;
+        private  BufferedImage ventImage;
+
+        private  BufferedImage skullImage;
+        private  BufferedImage baseImage;
+
             //
         private BufferedImage mapImage;
         private MainViewSelection mainViewSelection;
@@ -85,22 +99,33 @@ public class MainViewImage extends JPanel implements MouseListener {
             this.mainViewSelection = ms;
 
             try {
-               tileImage_1 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/mountainImage.png")).replace("file:","")));
-               tileImage_2 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/hills_img.png")).replace("file:","")));
-               tileImage_3 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/sand_img.jpg")).replace("file:","")));
-               tileImage_4 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/grass_img.jpg")).replace("file:","")));
+               tileImage_1 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/mountainImage.png"));
+               tileImage_2 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/hills_img.png"));
+               tileImage_3 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/sand_img.jpg"));
+               tileImage_4 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/grass_img.jpg"));
 
-               moneyBagImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moneyBag.png")).replace("file:","")));
-               moonRockImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moonRock.png")).replace("file:","")));
-               hieroglyphicBookImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/bookImage1.png")).replace("file:","")));
+               moneyBagImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/moneyBag.png"));
+               moonRockImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/moonRock.png"));
+               hieroglyphicBookImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/bookImage1.png"));
 
-               elixerShowerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/elixirShowerImage.png")).replace("file:","")));
-               stormImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/stormImageBig.png")).replace("file:","")));
-               colonistImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/colonistImage.png")).replace("file:","")));
-               explorerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/explorerImage.png")).replace("file:","")));
+               elixerShowerImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/areaEffects/elixirShowerImage.png"));
+               stormImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/areaEffects/stormImageBig.png"));
+               colonistImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/colonistImage.png"));
+               explorerImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/explorerImage.png"));
 
-               oneShotImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/oneShot.png")).replace("file:","")));
-               obstacleImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/stopIcon.png")).replace("file:","")));
+               oneShotImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/obstacles/oneShot.png"));
+               obstacleImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/obstacles/stopIcon.png"));
+
+                meleeImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/meleeImage.png"));
+                rangeImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/rangeImage.png"));
+                armyImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/armyImagepng.png"));
+                ventImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/areaEffects/vent.png"));
+
+                skullImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/decals/skullImage.png"));
+
+
+                baseImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/structures/baseImage.png")).replace("file:","")));
+
                 // moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
                 // hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 
@@ -184,13 +209,23 @@ public class MainViewImage extends JPanel implements MouseListener {
                     else if (grid[xx][yy].getAreaEffect() instanceof ElixirShower) {
                         g2ds.drawImage(elixerShowerImage, x_coord + 10, y_coord + 10, null);
                     }
+                    else if (grid[xx][yy].getAreaEffect() instanceof VolcanicVent) {
+                        g2ds.drawImage(ventImage, x_coord + 10, y_coord + 10, null);
+                    }
 
                     // draw obstacles
                     if(grid[xx][yy].getItem() instanceof Obstacle) {
                         g2ds.drawImage(obstacleImage, x_coord + 20, y_coord + 20, null);
                     }
-                    if(grid[xx][yy].getItem() instanceof OneShotItem) {
+                    else if(grid[xx][yy].getItem() instanceof OneShotItem) {
                         g2ds.drawImage(oneShotImage, x_coord + 20, y_coord + 20, null);
+                    }
+
+                    // draw decals
+                    if( grid[xx][yy].getDecal() != null) {
+                        if(Objects.equals(grid[xx][yy].getDecal().getType(), "Skull" )) {
+                          g2ds.drawImage(skullImage, x_coord, y_coord + 35, null);
+                      }
                     }
 
 
@@ -207,23 +242,50 @@ public class MainViewImage extends JPanel implements MouseListener {
 
                     // draw units
                     int colonistCount = 0, explorerCount = 0;
+                    int meleeCount = 0, rangeCount = 0, armyCount = 0;
+                    int sizeOfArmy = 0;
                     ArrayList<Unit> units = grid[xx][yy].getUnits();
-                    if( !units.isEmpty() ) {    // if there are units on this tile
+                    if(grid[xx][yy].getArmies() != null) {
+                        ArrayList<Army> armies = grid[xx][yy].getArmies();
+                        if(grid[xx][yy].getArmies().size() != 0) {
+                            Army army = armies.get(0);
+                            sizeOfArmy = army.getUnits().size();
+                            g2ds.drawImage(armyImage, x_coord, y_coord, null);
+                            g2ds.drawString( Integer.toString( sizeOfArmy ), x_coord, y_coord + 45);
+                        }
+                    }
+                    if( sizeOfArmy == 0 && !units.isEmpty() ) {    // if there are units on this tile
                         for(int n = 0; n < units.size(); n++) {
                             if( units.get(n) instanceof Colonist)
                                 colonistCount++;
                             if( units.get(n) instanceof Explorer)
                                 explorerCount++;
+                            if( units.get(n) instanceof MeleeUnit)
+                                meleeCount++;
+                            if( units.get(n) instanceof RangedUnit)
+                                rangeCount++;
                         }
                         //System.out.println("tile[" + xx + "][" + yy + "] has " + colonistCount + " colonist and " + explorerCount + " explorer(s)");
-                        if(colonistCount != 0) {
+                        if (colonistCount != 0) {
                             g2ds.drawImage(colonistImage, x_coord, y_coord, null);
-                            g2ds.drawString( Integer.toString( colonistCount ), x_coord, y_coord + 45);
+                            g2ds.drawString(Integer.toString(colonistCount), x_coord, y_coord + 45);
                         }
-                        if(explorerCount != 0) {
+                        if (explorerCount != 0) {
                             g2ds.drawImage(explorerImage, x_coord, y_coord, null);
-                            g2ds.drawString( Integer.toString( explorerCount ), x_coord, y_coord + 45);
+                            g2ds.drawString(Integer.toString(explorerCount), x_coord, y_coord + 45);
                         }
+                        if (meleeCount != 0) {
+                            g2ds.drawImage(meleeImage, x_coord, y_coord, null);
+                            g2ds.drawString(Integer.toString(meleeCount), x_coord, y_coord + 45);
+                        }
+                        if (rangeCount != 0) {
+                            g2ds.drawImage(rangeImage, x_coord, y_coord, null);
+                            g2ds.drawString(Integer.toString(rangeCount), x_coord, y_coord + 45);
+                        }
+                    }
+
+                    if ( grid[xx][yy].getStructure() instanceof Base) {
+                        g2ds.drawImage(baseImage, x_coord, y_coord, null);
                     }
 
                 }
