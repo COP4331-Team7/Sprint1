@@ -11,6 +11,7 @@ import com.team7.objects.items.OneShotItem;
 import com.team7.objects.resource.HieroglyphicBooks;
 import com.team7.objects.resource.MoneyBag;
 import com.team7.objects.resource.MoonRocks;
+import com.team7.objects.structure.Base;
 import com.team7.objects.terrain.Crater;
 import com.team7.objects.terrain.Desert;
 import com.team7.objects.terrain.FlatLand;
@@ -74,6 +75,7 @@ public class MainViewImage extends JPanel implements MouseListener {
         private  BufferedImage ventImage;
 
         private  BufferedImage skullImage;
+        private  BufferedImage baseImage;
 
             //
         private BufferedImage mapImage;
@@ -120,6 +122,9 @@ public class MainViewImage extends JPanel implements MouseListener {
                 ventImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/areaEffects/vent.png"));
 
                 skullImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/decals/skullImage.png"));
+
+
+                baseImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/structures/baseImage.png")).replace("file:","")));
 
                 // moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
                 // hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
@@ -277,7 +282,10 @@ public class MainViewImage extends JPanel implements MouseListener {
                             g2ds.drawImage(rangeImage, x_coord, y_coord, null);
                             g2ds.drawString(Integer.toString(rangeCount), x_coord, y_coord + 45);
                         }
+                    }
 
+                    if ( grid[xx][yy].getStructure() instanceof Base) {
+                        g2ds.drawImage(baseImage, x_coord, y_coord, null);
                     }
 
                 }
