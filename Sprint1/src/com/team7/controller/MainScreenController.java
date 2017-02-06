@@ -167,9 +167,36 @@ public class MainScreenController {
         }
 
 
-        public void attack(Army army, int dir) {
-
+        public void armyAttack(Army army, int dir) {
+            army.attack(this.game.getMap(), dir);
         }
+
+        public void armyDefend(Army army, int dir) {
+            army.setDefenseDirection(dir);
+        }
+
+        public void disbandArmy(Army army) {
+            army.disband();
+        }
+
+        public void decomissionArmy(Army army) {
+            army.decommission();
+        }
+
+        public void powerDownArmy(Army army) {
+            army.powerDown();
+        }
+
+        public void powerUpArmy(Army army) {
+            army.powerUp();
+        }
+
+        public void cancelQueue(Army army) {
+            army.getCommandQueue().getCommands().clear();
+        }
+
+
+
 
 
     }
