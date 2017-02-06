@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class CommandQueue {
 
-    // IMPORTANT: The last index in this list is the one to be run next
+    // IMPORTANT: The 0th index in this list is the one to be run next, the highest index has the last to be run
     private ArrayList<Command> commands;
 
     public CommandQueue() {

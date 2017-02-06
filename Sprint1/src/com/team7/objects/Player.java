@@ -33,23 +33,10 @@ public class Player {
 
 
     // Big function that controls everything that could happen in a turn
-    public void Turn() {
-        //get cursor commands from controller
-        //parse command
-        //keep track of movement state
-        ArrayList<Tile> path = new ArrayList<Tile>();
-        Tile start = new Tile();
-        if("key-pressed"=="right"){}
-            //check is it possible
-            //then
-                //Create a cursor of TIle class
-                    //Added this to path ArrayList
-        Tile end = new Tile();
-        if ("key-pressed" == "Enter") {
+    public void takeTurn() {
 
-             }
+        executeQueues();
 
-        Navigation navigation = new Navigation(path, start, end);
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
         subtractUpkeep();           // subtracts upkeep from all units/structures, ends game if money = 0
@@ -327,7 +314,7 @@ public class Player {
     }
 
     // This function will loop through all armies and structures and execute next command in queue
-    private void updateQueues() {
+    private void executeQueues() {
 
     }
 
