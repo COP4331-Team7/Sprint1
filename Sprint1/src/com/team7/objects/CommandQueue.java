@@ -1,16 +1,19 @@
 package com.team7.objects;
 
-import java.util.Queue;
+import java.util.ArrayList;
 
 public class CommandQueue {
-    private Queue<String> commands;
+
+    // IMPORTANT: The 0th index in this list is the one to be run next, the highest index has the last to be run
+    private ArrayList<Command> commands;
+
+    public CommandQueue() {
+        commands = new ArrayList<Command>();
+    }
     
-    private void addCommand(String command){
+    private void addCommand(Command command){
         commands.add(command);
     }
 
-    private String getNextCommand(){
-        return commands.remove();
-    }
 }
 

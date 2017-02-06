@@ -88,7 +88,7 @@ class MainViewSelection extends JPanel implements MouseListener {
             y_offset = 20 - 7;
 
         setFocus((int)x_offset, (int)y_offset);
-        mainViewImage.zoomToDestination( (int)x_offset, (int)y_offset );
+        mainViewImage.zoomToDestination( (int)x_offset, (int)y_offset, 50 );
     }
 
     public void setMainViewImage(MainViewImage mainViewImage) {

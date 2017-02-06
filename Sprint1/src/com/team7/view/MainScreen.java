@@ -1,5 +1,7 @@
 package com.team7.view;
 
+import com.team7.controller.MainScreenController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,6 +12,7 @@ public class MainScreen extends JPanel {
     private MainViewInfo mainStatusInfo = null;
     private Command commandSelecter = null;
     private MainViewSelection mainViewSelection = null;
+    private MainScreenController msc = null;
 
     public MainScreen() {
 
@@ -19,7 +22,7 @@ public class MainScreen extends JPanel {
         mainViewSelection = new MainViewSelection(  );
         mainAreaView = new MainViewImage( mainViewSelection );
         mainStatusInfo = new MainViewInfo( );
-        try {commandSelecter = new Command( mainStatusInfo ); }
+        try {commandSelecter = new Command( ); }
         catch (Exception e) {
 
         }
@@ -49,7 +52,7 @@ public class MainScreen extends JPanel {
     }
 
     public void drawMap() {
-        mainAreaView.drawMap();
+        mainAreaView.reDrawMap();
     }
 
     public MainViewImage getMainViewImage() {

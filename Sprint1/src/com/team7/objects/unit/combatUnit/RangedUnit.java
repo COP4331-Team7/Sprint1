@@ -9,7 +9,7 @@ import com.team7.objects.unit.UnitStats;
 public class RangedUnit extends CombatUnit {
 
     public RangedUnit(Tile startTile, Player player){
-        UnitStats stats = new UnitStats(10, 5, 10, 6, 100, 4);
+        UnitStats stats = new UnitStats(12, 5, 10, 6, 100, 4);
         int id = ProbabilityGenerator.randomInteger(0, 99999);
         setOwner(player);
         setArmy(null);
@@ -19,7 +19,6 @@ public class RangedUnit extends CombatUnit {
         setLocation(startTile);
         setType("Ranged");
         setMovesFrozen(0);
-        setAttackDirection(0);
         setDefenseDirection(0);
     }
 

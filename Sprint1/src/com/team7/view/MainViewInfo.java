@@ -13,6 +13,7 @@ public class MainViewInfo extends JPanel {
 
     private Unit unit = null;
     private Structure structure = null;
+    private Player currentPlayer = null;
 
     private JLabel offensiveDamageLabel;
     private JLabel defensiveDamageLabel;
@@ -59,7 +60,7 @@ public class MainViewInfo extends JPanel {
             productionLabel.setFont(new Font("Serif", 0, 12));
             itemLabel.setFont(new Font("Serif", 0, 12));
             t.add(itemLabel);
-            lifeLabel = new JLabel("Life:");
+            lifeLabel = new JLabel("Money:");
             lifeLabel.setForeground(Color.red);
             t.add(lifeLabel);
             researchLabel = new JLabel("Research:");
@@ -97,7 +98,7 @@ public class MainViewInfo extends JPanel {
     }
 
     public void clearPlayerStats() {
-        lifeLabel.setText("Life:");
+        lifeLabel.setText("Money:");
         researchLabel.setText("Research:");
         constructionLabel.setText("Construction:");
     }
@@ -117,10 +118,19 @@ public class MainViewInfo extends JPanel {
         // setItemLabel( );
     }
     public void updateStats(Player player) {
+        currentPlayer = player;
         setLifeLabel( Integer.toString( player.getMoney() ) );
         setResearchLabel( Integer.toString( player.getResearch() ) );
         setConstructionLabel( Integer.toString( player.getConstruction() ) );
     }
+
+    public void updateStats() {
+        currentPlayer = currentPlayer;
+        setLifeLabel( Integer.toString( currentPlayer.getMoney() ) );
+        setResearchLabel( Integer.toString( currentPlayer.getResearch() ) );
+        setConstructionLabel( Integer.toString( currentPlayer.getConstruction() ) );
+    }
+
     public void setOffensiveDamageLabel(String s) {
             offensiveDamageLabel.setText("Offensive damage: " + s);
     }
@@ -140,7 +150,7 @@ public class MainViewInfo extends JPanel {
         productionLabel.setText("Production rates: " + s);
     }
     public void setLifeLabel(String s) {
-        lifeLabel.setText("Life: " + s);
+        lifeLabel.setText("Money: " + s);
     }
     public void setResearchLabel(String s) {
         researchLabel.setText("Research: " + s);

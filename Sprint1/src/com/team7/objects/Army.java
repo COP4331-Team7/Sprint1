@@ -15,7 +15,6 @@ public class Army {
     private CommandQueue commands;
     private int slowestSpeed; // Moves with speed of slowest unit
     private Tile rallyPoint;
-    private int attackDirection;
     private int defenseDirection;
     private boolean isPowered;
     private int turnsFrozen;
@@ -30,7 +29,6 @@ public class Army {
         this.owner = player;
         this.slowestSpeed = 100;
         this.rallyPoint = startTile;
-        this.attackDirection = 0;
         this.defenseDirection = 0;
         this.isPowered = true;
         this.turnsFrozen = 0;
@@ -154,14 +152,6 @@ public class Army {
     }
     public String getName() {
         return name;
-    }
-
-    public int getAttackDirection() {
-        return attackDirection;
-    }
-
-    public void setAttackDirection(int attackDirection) {
-        this.attackDirection = attackDirection;
     }
 
     public int getDefenseDirection() {

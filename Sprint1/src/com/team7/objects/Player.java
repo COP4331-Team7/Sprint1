@@ -5,12 +5,12 @@ import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Player {
-    private List<Unit> units;
-    private List<Structure> structures;
-    private List<Army> armies;
+    private ArrayList<Unit> units;
+    private ArrayList<Structure> structures;
+    private ArrayList<Army> armies;
     private int research;
     private int construction;
     private int money;
@@ -35,6 +35,7 @@ public class Player {
     // Big function that controls everything that could happen in a turn
     public void takeTurn() {
 
+        executeQueues();
 
 
         checkUnitArmyStructs();     // check if any structures/units/armies are dead and remove them
@@ -45,19 +46,20 @@ public class Player {
 
 
 
+
+
     // Unit helper functions
 
-    public List<Unit> getUnits() {
+    public ArrayList<Unit> getUnits() {
         return units;
     }
 
-    public void setUnits(List<Unit> units) {
+    public void setUnits(ArrayList<Unit> units) {
         this.units = units;
     }
 
     // Adds unit to Player's ArrayList of Units
     public Unit addUnit(Unit unit) {
-
 
         // Ensures we are able to have a unit
         if(checkMaxUnitsFull() || checkMaxUnitsIndividual()){
@@ -86,6 +88,16 @@ public class Player {
         }
 
         return unit;
+    }
+
+    public Unit getUnit(Unit unit){
+        for(int i = 0; i < units.size(); i++){
+            if(units.get(i) == unit){
+                return unit;
+            }
+        }
+
+        return null;
     }
 
 
@@ -132,11 +144,11 @@ public class Player {
 
     // Structure helper functions
 
-    public List<Structure> getStructures() {
+    public ArrayList<Structure> getStructures() {
         return structures;
     }
 
-    public void setStructures(List<Structure> structures) {
+    public void setStructures(ArrayList<Structure> structures) {
         this.structures = structures;
     }
 
@@ -175,11 +187,11 @@ public class Player {
 
     // Army helper functions
 
-    public List<Army> getArmies() {
+    public ArrayList<Army> getArmies() {
         return armies;
     }
 
-    public void setArmies(List<Army> armies) {
+    public void setArmies(ArrayList<Army> armies) {
         this.armies = armies;
     }
 
@@ -256,7 +268,7 @@ public class Player {
 
     }
 
-    public void subtractUpkeep() {
+    private void subtractUpkeep() {
 
         int sum = 0;
 
@@ -283,7 +295,7 @@ public class Player {
     }
 
 
-    public void subtractMovesFrozen() {
+    private void subtractMovesFrozen() {
 
         // subtract one from moves frozen for all frozen units
         for(int i = 0; i < this.units.size(); i++){
@@ -298,6 +310,11 @@ public class Player {
                 this.structures.get(i).setMovesFrozen(this.structures.get(i).getMovesFrozen() - 1);
             }
         }
+
+    }
+
+    // This function will loop through all armies and structures and execute next command in queue
+    private void executeQueues() {
 
     }
 

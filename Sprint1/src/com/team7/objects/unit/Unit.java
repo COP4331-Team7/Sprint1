@@ -20,7 +20,6 @@ public abstract class Unit {
     private boolean isPowered;
     int movesFrozen;
     private Army army;
-    private int attackDirection;
     private int defenseDirection;
 
 
@@ -101,13 +100,6 @@ public abstract class Unit {
         this.movesFrozen = movesFrozen;
     }
 
-    public int getAttackDirection() {
-        return attackDirection;
-    }
-
-    public void setAttackDirection(int attackDirection) {
-        this.attackDirection = attackDirection;
-    }
 
     public int getDefenseDirection() {
         return defenseDirection;

@@ -7,7 +7,6 @@ import com.team7.objects.structure.Structure;
 import com.team7.objects.terrain.Terrain;
 import com.team7.objects.unit.Unit;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*
@@ -28,11 +27,10 @@ public class Tile {
 
 
     public Tile(int xCoordinate, int yCoordinate) {
-
-        units = new ArrayList<Unit>();
-        armies = new ArrayList<Army>();
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
+        units = new ArrayList<Unit>();
+        armies = new ArrayList<Army>();
 
     }
 
@@ -98,6 +96,8 @@ public class Tile {
         // Physically add the unit
         this.units.add(unit);
 
+
+
         return unit;
     }
 
@@ -142,6 +142,16 @@ public class Tile {
 
         return army;
     }
+
+
+    public void handleAreaEffects(Unit unit) {
+        if(this.getAreaEffect() != null){
+            int effect = this.getAreaEffect().getHealthEffect();
+            unit.getUnitStats().setHealth(unit.getUnitStats().getHealth() + effect);
+            System.out.println(unit.getUnitStats().getHealth());
+        }
+    }
+
 
     public int getxCoordinate() {
         return xCoordinate;
