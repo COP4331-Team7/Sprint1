@@ -99,29 +99,29 @@ public class MainViewImage extends JPanel implements MouseListener {
             this.mainViewSelection = ms;
 
             try {
-               tileImage_1 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/mountainImage.png")).replace("file:","")));
-               tileImage_2 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/hills_img.png")).replace("file:","")));
-               tileImage_3 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/sand_img.jpg")).replace("file:","")));
-               tileImage_4 = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/terrains/grass_img.jpg")).replace("file:","")));
+               tileImage_1 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/mountainImage.png"));
+               tileImage_2 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/hills_img.png"));
+               tileImage_3 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/sand_img.jpg"));
+               tileImage_4 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/grass_img.jpg"));
 
-               moneyBagImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moneyBag.png")).replace("file:","")));
-               moonRockImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/moonRock.png")).replace("file:","")));
-               hieroglyphicBookImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/items/bookImage1.png")).replace("file:","")));
+               moneyBagImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/moneyBag.png"));
+               moonRockImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/moonRock.png"));
+               hieroglyphicBookImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/bookImage1.png"));
 
-               elixerShowerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/elixirShowerImage.png")).replace("file:","")));
-               stormImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/stormImageBig.png")).replace("file:","")));
-               colonistImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/colonistImage.png")).replace("file:","")));
-               explorerImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/explorerImage.png")).replace("file:","")));
+               elixerShowerImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/areaEffects/elixirShowerImage.png"));
+               stormImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/areaEffects/stormImageBig.png"));
+               colonistImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/colonistImage.png"));
+               explorerImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/explorerImage.png"));
 
-               oneShotImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/oneShot.png")).replace("file:","")));
-               obstacleImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/obstacles/stopIcon.png")).replace("file:","")));
+               oneShotImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/obstacles/oneShot.png"));
+               obstacleImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/obstacles/stopIcon.png"));
 
-                meleeImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/meleeImage.png")).replace("file:","")));
-                rangeImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/rangeImage.png")).replace("file:","")));
-                armyImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/units/armyImagepng.png")).replace("file:","")));
-                ventImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/areaEffects/vent.png")).replace("file:","")));
+                meleeImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/meleeImage.png"));
+                rangeImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/rangeImage.png"));
+                armyImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/units/armyImagepng.png"));
+                ventImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/areaEffects/vent.png"));
 
-                skullImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/decals/skullImage.png")).replace("file:","")));
+                skullImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/decals/skullImage.png"));
 
 
                 baseImage = ImageIO.read(new File(String.valueOf(Main.class.getClass().getResource("/resources/structures/baseImage.png")).replace("file:","")));
