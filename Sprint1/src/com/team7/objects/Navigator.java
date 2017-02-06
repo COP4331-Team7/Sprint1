@@ -6,6 +6,7 @@ import com.team7.objects.resource.HieroglyphicBooks;
 import com.team7.objects.resource.MoneyBag;
 import com.team7.objects.resource.MoonRocks;
 import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 
 import java.util.ArrayList;
@@ -200,7 +201,9 @@ public class Navigator {
 
             }
         }
-
+        if (selectedUnit instanceof Colonist || selectedUnit instanceof Explorer){  //boolean return type is only used for ARMY movements
+            return true;                                                            //a Colonist/Explorer cannot be in an ARMY
+        }
         return false;
     }
 
