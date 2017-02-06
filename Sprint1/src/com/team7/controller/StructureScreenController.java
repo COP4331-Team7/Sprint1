@@ -36,6 +36,10 @@ public class StructureScreenController {
                 List<Structure> structures = game.getCurrentPlayer().getStructures();
                 Structure selectedStructureObject = null;
 
+                if (selectedStructure == null) {
+                    return;
+                }
+
                 for (Structure s: structures) {
                     if(selectedStructure.equals(s.getType() + " " + s.getId())) {
                         selectedStructureObject = s;

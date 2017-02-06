@@ -194,7 +194,6 @@ public class UnitScreen extends JPanel {
         String s = (String)unitList.getSelectedValue();
         String stats = getStats(s);
         textArea.setText(stats);
-        setQueueBox(s);
     }
 
     //--TODO-- Missing functionallity in unit to complete this function
