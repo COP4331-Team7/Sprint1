@@ -60,8 +60,7 @@ public class Navigator {
         tilePath = new LinkedList<>();
         tilePath.add(army.getRallyPoint());
 
-       // maxMovement = army.getSlowestSpeed();
-        maxMovement = 100;
+        maxMovement = army.getSlowestSpeed();
 
         unitsAliveInList = selectedUnits.size();
 
@@ -117,11 +116,8 @@ public class Navigator {
         }
 
         if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
-            System.out.println("Inbounds");
             if (isTilePassable(map.getTile(tmpX, tmpY))){//second ensure Tile is passable by current Unit
-                System.out.println("Is passable");
                 if (hasMovementLeft()){ //third ensure that a unit can still move
-                    System.out.println("has movement left");
                     //at this point, the move is VALID from a cursor perspective
                     tilePathList.add(map.getTile(tmpX,tmpY));
                     maxMovement += map.getTile(tmpX, tmpY).getTerrain().getMovementInfluence();
@@ -146,14 +142,11 @@ public class Navigator {
     }
 
     public void reDrawMapViaModel(Tile currentTileInPath) {
-
+        calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnits.get(0));        //Player stats should only be affected ONCE
         boolean dead;
         for (int j = 0; j < selectedUnits.size(); j++) {//iterate through each unit commanded (1 for non-Army)
             selectedUnit = selectedUnits.get(j);
             dead = tryToRemoveUnit(selectedUnits.get(j));
-            if (!dead) {
-                calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnits.get(j));
-            }
             if (unitsAliveInList == 0) {      //if no units are alive, dont move them
                 //delete the army
                 if (selectedUnit.getArmy() != null) {
