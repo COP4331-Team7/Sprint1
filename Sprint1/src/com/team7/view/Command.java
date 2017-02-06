@@ -227,6 +227,14 @@ public class Command extends JPanel implements KeyListener {
             typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?meleeUnits.get(currTypeInstance).getId():""));
             statusInfo.setUnit( meleeUnits.get(currTypeInstance) );
         }
+        // get list of players armies
+        else if(currMode == 0 && currType == -1) { // get list of RallyPoint instances
+            ArrayList<Army> armies = (ArrayList<Army>) currentPlayer.getArmies();
+            for (int n = 0; n < armies.size(); n++) {
+                typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?armies.get(currTypeInstance).getId():""));
+            }
+        }
+
 
     }
 
@@ -425,7 +433,7 @@ public class Command extends JPanel implements KeyListener {
     private int getNumInstances(int currMode, int currType) {      // get # instances of a given type
 
         if(currMode == 2 && currType == 0) { // get list of player's Explorer instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units = currentPlayer.getUnits();
             ArrayList<Explorer> explorers = new ArrayList<Explorer>();
             if( !units.isEmpty() ) {    // if there are units on this tile
                 for(int n = 0; n < units.size(); n++) {
@@ -437,7 +445,7 @@ public class Command extends JPanel implements KeyListener {
             return explorers.size();
         }
         else if(currMode == 2 && currType == 1) { // get list of player's Colonist instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units =  currentPlayer.getUnits();
             ArrayList<Colonist> colonists = new ArrayList<Colonist>();
             if (!units.isEmpty()) {    // if there are units on this tile
                 for (int n = 0; n < units.size(); n++) {
@@ -449,7 +457,7 @@ public class Command extends JPanel implements KeyListener {
             return colonists.size();
         }
         else if(currMode == 2 && currType == 2) { // get list of player's Ranged Unit instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units = currentPlayer.getUnits();
             ArrayList<RangedUnit> rangeUnits = new ArrayList<RangedUnit>();
             if (!units.isEmpty()) {    // if there are units on this tile
                 for (int n = 0; n < units.size(); n++) {
@@ -461,7 +469,7 @@ public class Command extends JPanel implements KeyListener {
             return rangeUnits.size();
         }
         else if(currMode == 2 && currType == 3) { // get list of player's Melee Unit instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units = currentPlayer.getUnits();
             ArrayList<MeleeUnit> meleeUnits = new ArrayList<MeleeUnit>();
             if (!units.isEmpty()) {    // if there are units on this tile
                 for (int n = 0; n < units.size(); n++) {
@@ -472,19 +480,17 @@ public class Command extends JPanel implements KeyListener {
             }
             return meleeUnits.size();
         }
-//        if(currMode == 2 && currType == -1) { // get list of player's army instances
-//            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
-//            ArrayList<Explorer> explorers = new ArrayList<Explorer>();
-//            if( !units.isEmpty() ) {    // if there are units on this tile
-//                for(int n = 0; n < units.size(); n++) {
-//                    if( units.get(n) instanceof Explorer) {
-//                        explorers.add((Explorer) units.get(n));
-//                    }
-//                }
-//            }
-//            return explorers.size();
-//        }
-        else
+        else if(currMode == 0 && currType == -1) { // get # of player's army instances
+            System.out.println("CHECKING ARMY SIZE");
+
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("armysize = " + armies.size());
+                return armies.size();
+            }
+        }
+
+
             return 0;
     }
 
@@ -525,7 +531,7 @@ public class Command extends JPanel implements KeyListener {
         Unit selection = null;
 
         if(currMode == 2 && currType == 0) { // get list of player's Explorer instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units =  currentPlayer.getUnits();
             ArrayList<Explorer> explorers = new ArrayList<Explorer>();
             if( !units.isEmpty() ) {    // if there are units on this tile
                 for(int n = 0; n < units.size(); n++) {
@@ -537,7 +543,7 @@ public class Command extends JPanel implements KeyListener {
             }
         }
         else if(currMode == 2 && currType == 1) { // get list of player's Colonist instances
-            ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
+            ArrayList<Unit> units = currentPlayer.getUnits();
             ArrayList<Colonist> colonists = new ArrayList<Colonist>();
             if( !units.isEmpty() ) {    // if there are units on this tile
                 for(int n = 0; n < units.size(); n++) {
