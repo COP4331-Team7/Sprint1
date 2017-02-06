@@ -100,6 +100,8 @@ public class Command extends JPanel implements KeyListener {
     private static final int RIGHT_KEY_CODE = 39;
     private static final int DOWN_KEY_CODE = 40;
 
+    private char key_char = '1';
+
     public Command() throws AWTException {
 
         robot = new Robot();
@@ -196,7 +198,14 @@ public class Command extends JPanel implements KeyListener {
 //            // attack
 //        }
         else if (currMode == 1 && currCommand == 1 ) {
-            msc.makeUnit( getCurrSelectedBase(), "Colonist" );
+            if(key_char == '1')
+                msc.makeUnit( getCurrSelectedBase(), "Colonist" );
+            else if(key_char == '2')
+                msc.makeUnit( getCurrSelectedBase(), "Explorer" );
+            else if(key_char == '3')
+                msc.makeUnit( getCurrSelectedBase(), "Melee" );
+            else if(key_char == '4')
+                msc.makeUnit( getCurrSelectedBase(), "Ranged" );
         }
 //        else if (currMode == 1 && currCommand == 2 ) {
 //            // defend
@@ -387,6 +396,8 @@ public class Command extends JPanel implements KeyListener {
     public void keyTyped(KeyEvent e)    {}
     public void keyReleased(KeyEvent e) {}
     public void keyPressed(KeyEvent e)  {
+
+        key_char = e.getKeyChar();
 
         if(e.getKeyCode() == UP_KEY_CODE && e.getModifiers() == CONTROL_KEY_CODE ) {
 
