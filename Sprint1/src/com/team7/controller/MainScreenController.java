@@ -91,7 +91,7 @@ public class MainScreenController {
                 public void run() {
                     ArrayList<Tile> pathOfCursorTiles = navigator.updateModel();
                     for(int i = 0; i < pathOfCursorTiles.size(); i++){
-                        if(!navigator.reDrawMapViaModel(pathOfCursorTiles.get(i))){
+                        if(!navigator.reDrawMapViaModel(pathOfCursorTiles.get(i), null)){
                             //user is out of movement, cut arraylist
                             ArrayList<Tile> queuedTiles = new ArrayList<>();
                             for (int j = i; j > 0; j--){        //remove all elements from i and under
@@ -101,7 +101,7 @@ public class MainScreenController {
                             //send queuedTiles to the commandQ
                             return;
                         }
-                        navigator.reDrawMapViaModel(pathOfCursorTiles.get(i));
+                        navigator.reDrawMapViaModel(pathOfCursorTiles.get(i), null);
                         view.getScreen().getMainScreen().getMainViewImage().zoomToDestination( navigator.updateModel().get(i).getxCoordinate() - 11/2, navigator.updateModel().get(i).getyCoordinate() - 7/2, 50);
                         view.getScreen().getMainScreen().getMainViewInfo().updateStats();
 

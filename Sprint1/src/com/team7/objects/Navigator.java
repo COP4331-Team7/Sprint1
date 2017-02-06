@@ -42,7 +42,7 @@ public class Navigator {
         y = selectedUnit.getLocation().getyCoordinate();
 
         maxMovement = selectedUnit.getUnitStats().getMovement();
-        healthOfAllUnits.add(0, selectedUnit.getUnitStats().getHealth());   //add to 0th index the health of the unit passed
+
         unitsAliveInList  = selectedUnits.size();
 
     }
@@ -56,9 +56,7 @@ public class Navigator {
         maxMovement = army.getSlowestSpeed();
 
         unitsAliveInList = selectedUnits.size();
-        for (int i = 0; i < selectedUnits.size(); i++){
-            healthOfAllUnits.add(i, selectedUnits.get(i).getUnitStats().getHealth());   //add army health to arraylist
-        }
+
 
     }
 
@@ -103,20 +101,18 @@ public class Navigator {
 
         if (isInBounds(tmpX, tmpY)){ //first ensure Tile is in Bounds
             if (isTilePassable(map.getTile(tmpX, tmpY))){//second ensure Tile is passable by current Unit
-                //at this point, the move is VALID from a cursor perspective
-                tilePathList.add(map.getTile(tmpX,tmpY));
-                maxMovement += map.getTile(tmpX, tmpY).getTerrain().getMovementInfluence();
-                x = tmpX;
-                y = tmpY;
-                return true;
-               // if (hasMovementLeft()){ //third ensure that a unit can still move
-   //
-     //           }
+                if(!isAnyUnitFrozen(selectedUnits)){
+                    //at this point, the move is VALID from a cursor perspective
+                    tilePathList.add(map.getTile(tmpX,tmpY));
+                    maxMovement += map.getTile(tmpX, tmpY).getTerrain().getMovementInfluence();
+                    x = tmpX;
+                    y = tmpY;
+                    return true;
+                }
             }
         }
 
         return false;
-        //TODO check if unit is frozen
     }
     
     public ArrayList<Tile> updateModel(){
@@ -128,68 +124,83 @@ public class Navigator {
         }
     }
 
-    public boolean reDrawMapViaModel(Tile currentTileInPath) {
-        if (hasMovementLeft()) {
+    public boolean isAnyUnitFrozen(ArrayList<Unit> unitsToCheck){
+        for (int i = 0; i < unitsToCheck.size(); i++){
+            if (unitsToCheck.get(i).getMovesFrozen() > 0){
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public boolean reDrawMapViaModel(Tile currentTileInPath, ArrayList<Unit> selectedUnits) {
+        if (selectedUnits == null){     //check if method called via COMMANDQ (selectedUnits non null)
+            selectedUnits = this.selectedUnits; //or via CONTROLLER (selectedUnits was set in constructor)
+        }
 
-            calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnits.get(0));        //Player stats should only be affected ONCE
-            boolean dead;
-            for (int j = 0; j < selectedUnits.size(); j++) {//iterate through each unit commanded (1 for non-Army)
-                selectedUnit = selectedUnits.get(j);
-                dead = tryToRemoveUnit(selectedUnits.get(j));
-                if (unitsAliveInList == 0) {      //if no units are alive, dont move them
-                    //delete the army
-                    if (selectedUnit.getArmy() != null) {
-                        selectedUnit.setArmy(null);
+        if (!isAnyUnitFrozen(selectedUnits)){
+            if (hasMovementLeft()) {
+
+                calculateNetPlayerStatEffectByTile(currentTileInPath, selectedUnits.get(0));        //Player stats should only be affected ONCE
+                boolean dead;
+                for (int j = 0; j < selectedUnits.size(); j++) {//iterate through each unit commanded (1 for non-Army)
+                    selectedUnit = selectedUnits.get(j);
+                    dead = tryToRemoveUnit(selectedUnits.get(j));
+                    if (unitsAliveInList == 0) {      //if no units are alive, dont move them
+                        //delete the army
+                        if (selectedUnit.getArmy() != null) {
+                            selectedUnit.setArmy(null);
+                        }
+
+                        return true;
                     }
+                    selectedUnit = selectedUnits.get(j);
+                    calculateNetUnitEffectByTile(currentTileInPath, selectedUnit);      //updates the unit health and movement
 
-                    return true;
-                }
-                selectedUnit = selectedUnits.get(j);
-                calculateNetUnitEffectByTile(currentTileInPath, selectedUnit);      //updates the unit health and movement
+                    if (!dead) { //update location
 
-                if (!dead) { //update location
+                        if (selectedUnit.getArmy() != null) {        //make sure army is being referenced, army still alive
+                            selectedUnit.getLocation().removeArmyFromTile(selectedUnit.getArmy());      //remove army from old TILE
 
-                    if (selectedUnit.getArmy() != null) {        //make sure army is being referenced, army still alive
-                        selectedUnit.getLocation().removeArmyFromTile(selectedUnit.getArmy());      //remove army from old TILE
+                            selectedUnit.getArmy().setRallyPoint(currentTileInPath);                    //update ARMY with tile reference
+                            currentTileInPath.addArmyToTile(selectedUnit.getArmy());                    //update TILE with army reference
+                        }
 
-                        selectedUnit.getArmy().setRallyPoint(currentTileInPath);                    //update ARMY with tile reference
-                        currentTileInPath.addArmyToTile(selectedUnit.getArmy());                    //update TILE with army reference
-                    }
-
-                    selectedUnit.getLocation().removeUnitFromTile(selectedUnit);    //remove unit from old TILE
-
-                    selectedUnit.setLocation(currentTileInPath);                    //update UNIT with tile reference
-                    currentTileInPath.addUnitToTile(selectedUnit);                  //update TILE with unit reference
-
-                    //Check the health after it jas been changed on the tile
-                    boolean isDeadAfterEffect = tryToRemoveUnit(selectedUnit);
-                    if (isDeadAfterEffect) {
-                        currentTileInPath.setDecal(new Decal("Skull"));
-                        selectedUnit.getLocation().removeArmyFromTile(selectedUnit.getArmy());      //remove army from old TILE
                         selectedUnit.getLocation().removeUnitFromTile(selectedUnit);    //remove unit from old TILE
+
+                        selectedUnit.setLocation(currentTileInPath);                    //update UNIT with tile reference
+                        currentTileInPath.addUnitToTile(selectedUnit);                  //update TILE with unit reference
+
+                        //Check the health after it jas been changed on the tile
+                        boolean isDeadAfterEffect = tryToRemoveUnit(selectedUnit);
+                        if (isDeadAfterEffect) {
+                            currentTileInPath.setDecal(new Decal("Skull"));
+                            selectedUnit.getLocation().removeArmyFromTile(selectedUnit.getArmy());      //remove army from old TILE
+                            selectedUnit.getLocation().removeUnitFromTile(selectedUnit);    //remove unit from old TILE
+                        }
+
+                    } else {
+
+                        unitsAliveInList--;
+
+                        if (unitsAliveInList > 0) {
+                            selectedUnit.getLocation().removeArmyFromTile(selectedUnit.getArmy());      //remove army from old TILE
+                        }
+                        if (selectedUnit.getArmy() != null) {
+                            selectedUnit.getArmy().removeUnitFromArmy(selectedUnit);        //remove unit from army
+                        }
+                        selectedUnit.getOwner().removeUnit(selectedUnit);
+                        selectedUnit.getLocation().removeUnitFromTile(selectedUnit);
                     }
 
-                } else {
 
-                    unitsAliveInList--;
-
-                    if (unitsAliveInList > 0) {
-                        selectedUnit.getLocation().removeArmyFromTile(selectedUnit.getArmy());      //remove army from old TILE
-                    }
-                    if (selectedUnit.getArmy() != null) {
-                        selectedUnit.getArmy().removeUnitFromArmy(selectedUnit);        //remove unit from army
-                    }
-                    selectedUnit.getOwner().removeUnit(selectedUnit);
-                    selectedUnit.getLocation().removeUnitFromTile(selectedUnit);
                 }
 
+                return true;
 
             }
-
-            return true;
-
         }
+
         return false;
     }
 
