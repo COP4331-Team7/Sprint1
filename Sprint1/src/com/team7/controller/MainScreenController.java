@@ -149,6 +149,22 @@ public class MainScreenController {
             }
         }
 
+        public void decomissionUnit(Unit unit) {
+            unit.decommission();
+        }
+
+        public void powerUpUnit(Unit unit) {
+            unit.powerUp();
+        }
+
+        public void powerDownUnit(Unit unit) {
+            unit.powerDown();
+        }
+
+        // HARDCODED TO ADD TO FIRST ARMY
+        public void reinforceArmy(Unit unit) {
+            game.getCurrentPlayer().getArmies().get(0).addUnitToArmy(unit);
+        }
 
 
     }

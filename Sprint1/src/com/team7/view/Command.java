@@ -693,7 +693,7 @@ public class Command extends JPanel implements KeyListener {
                     }
                 }
             }
-            return colonists.size() + 1;
+            return colonists.size();
         }
         else if(currMode == 2 && currType == 2) { // get list of player's Ranged Unit instances
             ArrayList<Unit> units = currentPlayer.getUnits();
