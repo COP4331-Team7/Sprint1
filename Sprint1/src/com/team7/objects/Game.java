@@ -1,5 +1,6 @@
 package com.team7.objects;
 
+import com.team7.objects.structure.Base;
 import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.objects.unit.nonCombatUnit.Explorer;
 
@@ -52,7 +53,8 @@ public class Game {
     }
 
     // This function will loop through all armies and structures and execute next command in queue
-    private void executeQueues() {
+    // TODO: MAKE THIS PRIVATE
+    public void executeQueues() {
 
         // loop through list of armies and execute next command
         for(int i = 0; i < currentPlayer.getArmies().size(); i++) {
@@ -61,7 +63,7 @@ public class Game {
 
         // loop through list of structures and execute next command
         for(int i = 0; i < currentPlayer.getStructures().size(); i++) {
-            currentPlayer.getStructures().get(i).decodeNextInstruction(map);
+            ((Base) currentPlayer.getStructures().get(i)).decodeNextInstruction(map);
         }
 
         // TODO: UPDATE MAP?

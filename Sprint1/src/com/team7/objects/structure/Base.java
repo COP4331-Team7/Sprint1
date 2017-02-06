@@ -1,8 +1,6 @@
 package com.team7.objects.structure;
 
-import com.team7.objects.CommandQueue;
-import com.team7.objects.Player;
-import com.team7.objects.Tile;
+import com.team7.objects.*;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.combatUnit.MeleeUnit;
 import com.team7.objects.unit.combatUnit.RangedUnit;
@@ -70,6 +68,56 @@ public class Base extends Structure {
         }
 
     }
+
+    // this helper function decodes string of next command in command queue and calls necessary function
+    public void decodeNextInstruction(Map map) {
+
+        // Get the next command to be run and remove it from the queue
+        Command command = this.getCommandQueue().getCommands().get(0);
+        this.getCommandQueue().getCommands().remove(0);
+
+        String commandString = command.getCommandString();
+
+        if(commandString.contains("attack")) {
+            System.out.println("Attack isn't needed for any structures yet");
+        }
+        else if(commandString.contains("make")) {
+            String lastLetter = commandString.substring(commandString.length() - 1);
+            if(lastLetter == "r") {
+                this.createUnit("Explorer");
+            }
+            else if(lastLetter == "t") {
+                this.createUnit("Colonist");
+            }
+            else if(lastLetter == "e") {
+                this.createUnit("Melee");
+            }
+            else if(lastLetter == "d") {
+                this.createUnit("Ranged");
+            }
+        }
+        else if(commandString.contains("defend")) {
+            int dir = Integer.parseInt(commandString.substring(commandString.length() - 1));
+            setDefenseDirection(dir);
+        }
+        else if(commandString.contains("heal")) {
+            this.healUnits();
+        }
+        else if(commandString.contains("decomission")) {
+            this.decommission();
+        }
+        else if(commandString.contains("down")) {
+            this.powerDown();
+        }
+        else if(commandString.contains("cancel")) {
+            this.getCommandQueue().getCommands().clear();
+        }
+
+
+
+
+    }
+
 
 
 }

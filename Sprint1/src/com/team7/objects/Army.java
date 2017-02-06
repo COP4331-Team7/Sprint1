@@ -73,11 +73,11 @@ public class Army {
         this.units = units;
     }
 
-    public CommandQueue getCommands() {
+    public CommandQueue getCommandQueue() {
         return commands;
     }
 
-    public void setCommands(CommandQueue commands) {
+    public void setCommandQueue(CommandQueue commands) {
         this.commands = commands;
     }
 
@@ -170,8 +170,16 @@ public class Army {
         this.name = name;
     }
 
-    public void attack(int direction) {
-        //Attacker attacker = new Attacker();
+    public void attack(Map map, int direction) {
+        Attacker attacker = new Attacker(map, this.units, direction);
+        attacker.attack();
+    }
+
+    public void moveArmy(Map map, ArrayList<Tile> tiles) {
+        Navigator navigator = new Navigator(map, this);
+        for(int i = 0; i < tiles.size(); i++) {
+            navigator.reDrawMapViaModel(tiles.get(i));
+        }
     }
 
 
@@ -184,10 +192,37 @@ public class Army {
 
         String commandString = command.getCommandString();
 
-        if(commandString.contains("Attack")){
 
+        if(commandString.contains("attack")) {
+            int dir = Integer.parseInt(commandString.substring(commandString.length() - 1));
+            attack(map, dir);
         }
-
+        else if(commandString.contains("defend")) {
+            int dir = Integer.parseInt(commandString.substring(commandString.length() - 1));
+            setDefenseDirection(dir);
+        }
+        else if(commandString.contains("move")) {
+            ArrayList<Tile> tiles = command.getMovementTiles();
+            moveArmy(map, tiles);
+        }
+        else if(commandString.contains("wait")) {
+            System.out.println("WAIT :)");
+        }
+        else if(commandString.contains("disband")) {
+            this.disband();
+        }
+        else if(commandString.contains("decommission")) {
+            this.decommission();
+        }
+        else if(commandString.contains("down")) {
+            this.powerDown();
+        }
+        else if(commandString.contains("up")) {
+            this.powerUp();
+        }
+        else if(commandString.contains("cancel")) {
+            this.commands.getCommands().clear();
+        }
 
     }
 
