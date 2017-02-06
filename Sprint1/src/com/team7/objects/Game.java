@@ -1,5 +1,6 @@
 package com.team7.objects;
 
+import com.team7.objects.structure.Base;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.combatUnit.MeleeUnit;
 import com.team7.objects.unit.combatUnit.RangedUnit;
@@ -44,8 +45,12 @@ public class Game {
         players[1].addUnit(new Explorer(this.map.getGrid()[3][17], players[1]));
         players[1].addUnit(new Colonist(this.map.getGrid()[4][18], players[1]));
 
-        Player player1 = players[0];
 
+        players[0].addStructure(new Base(this.map.getGrid()[15][4], players[0]));
+        players[0].addStructure(new Base(this.map.getGrid()[15][5], players[0]));
+
+
+        Player player1 = players[0];
         // create army and units for each player
         Unit melee1 = new MeleeUnit(map.getGrid()[17][2], player1);
         Unit melee2 = new MeleeUnit(map.getGrid()[17][2], player1);

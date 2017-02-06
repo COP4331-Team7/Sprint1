@@ -3,6 +3,8 @@ package com.team7.view;
 import com.team7.controller.MainScreenController;
 import com.team7.objects.Army;
 import com.team7.objects.Player;
+import com.team7.objects.structure.Base;
+import com.team7.objects.structure.Structure;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.combatUnit.MeleeUnit;
 import com.team7.objects.unit.combatUnit.RangedUnit;
@@ -175,7 +177,6 @@ public class Command extends JPanel implements KeyListener {
         if(currTypeInstance == -1) {
             typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): ");
             statusInfo.clearStats();
-
         }
         else if(currMode == 2 && currType == 0) { // get list of player's Colonist instances
             ArrayList<Unit> units = (ArrayList<Unit>) currentPlayer.getUnits();
@@ -235,6 +236,18 @@ public class Command extends JPanel implements KeyListener {
             for (int n = 0; n < armies.size(); n++) {
                 typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?armies.get(currTypeInstance).getId():""));
             }
+        }
+        // get list of players armies
+        else if(currMode == 3) { // get list of RallyPoint instances
+            ArrayList<Army> armies = (ArrayList<Army>) currentPlayer.getArmies();
+            for (int n = 0; n < armies.size(); n++) {
+                typeInstanceLabel.setText("TYPE INSTANCE (\u2190 / \u2192): " + ((currTypeInstance != -1)?armies.get(currTypeInstance).getId():""));
+            }
+        }
+
+        if(currMode == 1 && currType == 0) { // get list of BaseInstances
+
+
         }
 
 
@@ -331,7 +344,7 @@ public class Command extends JPanel implements KeyListener {
                     }
                     break;
                 case '5':
-                    System.out.println("5 = " );
+                    System.out.println("unit function");
                     if(isTrackingPath == false) {
                         isTrackingPath = true;
                         if(currMode == 2) {      // 2 = UNIT
@@ -433,6 +446,7 @@ public class Command extends JPanel implements KeyListener {
                     }
                     break;
                 case '5':
+                    System.out.println("army function");
                     if(isTrackingPath == false) {
                         isTrackingPath = true;
                         if(currMode == 0) {      // 0 = RALLY POINT
@@ -589,16 +603,52 @@ public class Command extends JPanel implements KeyListener {
             return meleeUnits.size();
         }
         else if(currMode == 0 && currType == -1) { // get # of player's army instances
-            System.out.println("CHECKING ARMY SIZE");
-
             ArrayList<Army> armies =  currentPlayer.getArmies();
             if (armies.size() != 0) {
                 System.out.println("armysize = " + armies.size());
                 return armies.size();
             }
         }
-
-
+        else if(currMode == 3 && currType == 0) { // get # : ENTIRE ARMY
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("armysize = " + armies.size());
+                return armies.size();
+            }
+        }
+        else if(currMode == 3 && currType == 0) { // get # : ENTIRE ARMY
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("ENTIRE_ARMY = " + armies.size());
+                return armies.size();
+            }
+        }
+        else if(currMode == 3 && currType == 1) { // get # : BATTLE GROUP
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("BATTLE GROUP = " + armies.size());
+                return armies.size();
+            }
+        }
+        else if(currMode == 3 && currType == 2) { // get # : REINFORCEMENTS
+            ArrayList<Army> armies =  currentPlayer.getArmies();
+            if (armies.size() != 0) {
+                System.out.println("REINFORCEMENTS = " + armies.size());
+                return armies.size();
+            }
+        }
+        else if(currMode == 1 && currType == 0) { // get # of player's base instances
+            ArrayList<Structure> structs =  currentPlayer.getStructures();
+            ArrayList<Base> bases = new ArrayList<Base>();
+            if (!structs.isEmpty()) {    // if there are units on this tile
+                for (int n = 0; n < structs.size(); n++) {
+                    if (structs.get(n) instanceof Base) {
+                        bases.add((Base) structs.get(n));
+                    }
+                }
+                return bases.size();
+            }
+        }
             return 0;
     }
 
@@ -738,11 +788,14 @@ public class Command extends JPanel implements KeyListener {
     }
 
     public void moveCursorToSelectedUnit() {
+        Unit selection=null;
+        if(currMode==0) {
 
-        Unit selection = getCurrSelectedUnit();
-        if (getCurrSelectedArmy() != null){
             selection = getCurrSelectedArmy().getUnits().get(0);
             System.out.println("got reference of army in movecursor");
+        }
+        else{
+            selection = getCurrSelectedUnit();
         }
 
 
