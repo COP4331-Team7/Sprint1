@@ -32,13 +32,7 @@ public class Navigator {
     int unitsLeft;
     ArrayList<Integer> healthOfAllUnits = new ArrayList<>();
 
-    int health;
-    int movement;
-    int collectedResearch = 0;
-    int collectedMoney = 0;
-    int collectedConstruction = 0;
-
-    boolean tmpTileInQueue;
+   int maxMovement;
 
     //when MOVE mode is executed
     public Navigator(Map map, Unit selectedUnit){
@@ -49,11 +43,13 @@ public class Navigator {
         x = selectedUnit.getLocation().getxCoordinate();
         y = selectedUnit.getLocation().getyCoordinate();
 
-        movement = selectedUnit.getUnitStats().getMovement();
+        maxMovement = selectedUnit.getUnitStats().getMovement();
 
         unitsLeft = selectedUnits.size();
         healthOfAllUnits.add(0, selectedUnit.getUnitStats().getHealth());   //add to 0th index the health of the unit passed
         unitsAliveInList  = selectedUnits.size();
+
+
     }
 
     public Navigator(Map map, Army army){
@@ -63,7 +59,8 @@ public class Navigator {
         y = army.getRallyPoint().getyCoordinate();
         tilePath = new LinkedList<>();
         tilePath.add(army.getRallyPoint());
-        movement = army.getSlowestSpeed();
+
+        maxMovement = army.getSlowestSpeed();
 
         unitsAliveInList = selectedUnits.size();
 
@@ -271,7 +268,7 @@ public class Navigator {
     }
 
     private boolean hasMovementLeft() {
-
-        return true;
+        maxMovement--;
+        return maxMovement > 0;
     }
 }
