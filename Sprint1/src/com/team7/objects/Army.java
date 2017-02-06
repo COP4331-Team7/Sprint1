@@ -173,6 +173,12 @@ public class Army {
     // this helper function decodes string of next command in command queue and calls necessary function
     public void decodeNextInstruction() {
 
+        // Get the next command to be run and remove it from the queue
+        Command command = commands.getCommands().get(0);
+        commands.getCommands().remove(0);
+
+
+
     }
 
 }

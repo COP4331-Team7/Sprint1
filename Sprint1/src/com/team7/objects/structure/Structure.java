@@ -1,5 +1,6 @@
 package com.team7.objects.structure;
 
+import com.team7.objects.Command;
 import com.team7.objects.Player;
 import com.team7.objects.Tile;
 import com.team7.objects.unit.Unit;
@@ -10,7 +11,7 @@ public abstract class Structure {
     private Player owner;
     private Tile location;
     private StructureStats stats;
-    private CommandQueue commandQueue;
+    private CommandQueue commands;
     private String type;
     private boolean isPowered;
     int movesFrozen;
@@ -113,6 +114,12 @@ public abstract class Structure {
 
     // this helper function decodes string of next command in command queue and calls necessary function
     public void decodeNextInstruction() {
+
+        // Get the next command to be run and remove it from the queue
+        Command command = commands.getCommands().get(0);
+        commands.getCommands().remove(0);
+
+
 
     }
 

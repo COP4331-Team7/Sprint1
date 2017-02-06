@@ -15,5 +15,12 @@ public class CommandQueue {
         commands.add(command);
     }
 
+    public ArrayList<Command> getCommands() {
+        return commands;
+    }
+
+    public void setCommands(ArrayList<Command> commands) {
+        this.commands = commands;
+    }
 }
 
