@@ -160,8 +160,11 @@ public class Command extends JPanel implements KeyListener {
             targetUnit = getCurrSelectedUnit();
         }
         else if ( getCurrSelectedArmy() != null ) {
+            System.out.println("army has been selected");
             targetArmy = getCurrSelectedArmy();
+            System.out.println("targetArmy: " + targetArmy);
             targetArmy.getCommandQueue().addCommand( new CommandObject( command_string, path ));
+            System.out.println("commands in q " + targetArmy.getCommandQueue().getCommands().get(0));
         }
         else if ( getCurrSelectedBase() != null ) {
             targetBase = getCurrSelectedBase();
@@ -230,7 +233,7 @@ public class Command extends JPanel implements KeyListener {
         else if (currMode == 3)
             commandLabel.setText("COMMAND (\u2191 / \u2193): " + ((currCommand != -1)?armyCommands[currCommand]:"")); //up / down arrow
         else if (currMode == 0 && currTypeInstance != -1)
-            commandLabel.setText("COMMAND (\u2191 / \u2193): " + "MOVE");
+            commandLabel.setText("COMMAND (\u2191 / \u2193): " + "move");
         else
             commandLabel.setText("COMMAND (\u2191 / \u2193): ");
 

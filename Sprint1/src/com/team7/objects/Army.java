@@ -190,11 +190,11 @@ public class Army {
         if (commands.getCommands().size() > 0) {
 
             command = commands.getCommands().get(0);
-        commands.getCommands().remove(0);
-
-        commandString = command.getCommandString();
+            commands.getCommands().remove(0);
+            commandString = command.getCommandString();
         }
 
+        System.out.println("Command String: " + commandString);
         if(commandString.contains("attack")) {
             int dir = Integer.parseInt(commandString.substring(commandString.length() - 1));
             attack(map, dir);
@@ -205,6 +205,7 @@ public class Army {
         }
         else if(commandString.contains("move")) {
             ArrayList<Tile> tiles = command.getMovementTiles();
+            System.out.println("about to MOVE army to: " + tiles.toString());
             moveArmy(map, tiles);
         }
         else if(commandString.contains("wait")) {

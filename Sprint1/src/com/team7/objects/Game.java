@@ -92,13 +92,14 @@ public class Game {
         //             give the other player control s
         //
 
-        while (!players[0].isDefeated() && !players[1].isDefeated()) {
+ /*       while (!players[0].isDefeated() && !players[1].isDefeated()) {
             executeQueues();
             currentPlayer.takeTurn();
+            nextTurn();
         }
 
         endGame();
-
+*/
     }
 
     // This function will loop through all armies and structures and execute next command in queue
@@ -121,7 +122,9 @@ public class Game {
 
     //Switches the turn to the next player
     public void nextTurn() {
-        
+        executeQueues();
+        currentPlayer.takeTurn();
+
         if(currentPlayer == players[0])
             currentPlayer = players[1];
         else 

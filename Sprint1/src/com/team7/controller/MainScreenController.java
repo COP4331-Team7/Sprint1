@@ -60,6 +60,7 @@ public class MainScreenController {
                     setCurrentPlayer( game.getCurrentPlayer() );
                     view.getScreen().getUnitScreen().setUnits((ArrayList<Unit>) game.getCurrentPlayer().getUnits());
                     view.getScreen().getMainScreen().giveCommandFocus();
+                    view.getScreen().getMainScreen().drawMap();
                 }
             }
         } );
@@ -132,9 +133,6 @@ public class MainScreenController {
         }
         }
 
-        public void getTilePath() {
-
-        }
 
         public ArrayList<Tile> getQueuedTile() {
             System.out.println("getQdTiles: " + queuedTiles.toString());
@@ -143,15 +141,6 @@ public class MainScreenController {
 
         public String getCommandString() {
             return view.getScreen().getMainScreen().getCommand().extractCommand();
-        }
-
-        public void queueCommand() {
-         //    QUEUE THE COMMAND
-        Unit targetUnit = null;
-        Army targetArmy = null;
-        Base targetBase = null;
-        ArrayList<Tile> path = null;
-
         }
 
 
