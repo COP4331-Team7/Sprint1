@@ -64,6 +64,7 @@ public abstract class Unit {
     public void powerDown() {
 
         this.getUnitStats().setUpkeep(1);
+        this.getUnitStats().setMovement(0);
         isPowered = false;
     }
 

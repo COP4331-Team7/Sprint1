@@ -115,7 +115,9 @@ public class Army {
 
         for(int i = 0; i < units.size(); i++) {
             this.units.get(i).getUnitStats().setUpkeep(1);
+            this.units.get(i).getUnitStats().setMovement(0);
         }
+
 
         isPowered = false;
     }
