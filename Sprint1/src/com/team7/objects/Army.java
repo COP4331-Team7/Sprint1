@@ -170,8 +170,10 @@ public class Army {
         this.name = name;
     }
 
-    // function processQueue will take in a string, and check for validity,
-    // decode to call helper function for attack, defend etc..
+    // this helper function decodes string of next command in command queue and calls necessary function
+    public void decodeNextInstruction() {
+
+    }
 
 }
 

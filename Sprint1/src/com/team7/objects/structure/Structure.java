@@ -109,4 +109,9 @@ public abstract class Structure {
     public void setDefenseDirection(int defenseDirection) {
         this.defenseDirection = defenseDirection;
     }
+
+    // this helper function decodes string of next command in command queue and calls necessary function
+    public void decodeNextInstruction() {
+
+    }
 }

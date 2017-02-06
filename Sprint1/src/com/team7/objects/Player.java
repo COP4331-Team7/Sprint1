@@ -316,6 +316,16 @@ public class Player {
     // This function will loop through all armies and structures and execute next command in queue
     private void executeQueues() {
 
+        // loop through list of armies and execute next command
+        for(int i = 0; i < this.armies.size(); i++) {
+            this.armies.get(i).decodeNextInstruction();
+        }
+
+        // loop through list of structures and execute next command
+        for(int i = 0; i < this.armies.size(); i++) {
+            this.structures.get(i).decodeNextInstruction();
+        }
+
     }
 
 
