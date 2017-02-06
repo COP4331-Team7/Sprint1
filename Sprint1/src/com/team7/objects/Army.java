@@ -178,7 +178,7 @@ public class Army {
     public void moveArmy(Map map, ArrayList<Tile> tiles) {
         Navigator navigator = new Navigator(map, this);
         for(int i = 0; i < tiles.size(); i++) {
-            navigator.reDrawMapViaModel(tiles.get(i));
+            navigator.reDrawMapViaModel(tiles.get(i),units);
         }
     }
 

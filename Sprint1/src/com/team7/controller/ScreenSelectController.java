@@ -23,6 +23,7 @@ public class ScreenSelectController {
         view.getScreen().getMainScreen().getScreenSelectButtons().getMainScreenButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getScreen().getMainScreen().getScreenSelectButtons().getMainScreenButton()) {
+                    view.getScreen().getMainScreen().getMainViewImage().rePaintMap();
                     view.getScreen().setCurrScreen("MAIN");
                 }
             }
@@ -48,6 +49,7 @@ public class ScreenSelectController {
         view.getScreen().getUnitScreen().getScreenSelectButtons().getMainScreenButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getScreen().getUnitScreen().getScreenSelectButtons().getMainScreenButton()) {
+                    view.getScreen().getMainScreen().getMainViewImage().rePaintMap();
                     view.getScreen().setCurrScreen("MAIN");
                 }
             }
@@ -73,6 +75,7 @@ public class ScreenSelectController {
         view.getScreen().getStructureScreen().getScreenSelectButtons().getMainScreenButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == view.getScreen().getStructureScreen().getScreenSelectButtons().getMainScreenButton()) {
+                    view.getScreen().getMainScreen().getMainViewImage().rePaintMap();
                     view.getScreen().setCurrScreen("MAIN");
                 }
             }
