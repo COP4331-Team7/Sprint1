@@ -73,6 +73,7 @@ public class Command extends JPanel implements KeyListener {
                                                       "MOVE",
                                                         "MAKE BASE"};
 
+
    // private final static String[] types = { "STRUCTURE", "UNIT", "ARMY" };
 
     private final static String[] structureTypes = { "BASE" };
@@ -169,6 +170,51 @@ public class Command extends JPanel implements KeyListener {
         }
         else if (currMode == 2 && currCommand == 3 ) {
             msc.powerUpUnit( getCurrSelectedUnit() );
+        }
+        else if (currMode == 3 && currCommand == 0 ) {
+            msc.armyAttack( getCurrSelectedArmy(),8 );
+        }
+        else if (currMode == 3 && currCommand == 1 ) {
+            msc.armyDefend( getCurrSelectedArmy(), 8 );
+        }
+        else if (currMode == 3 && currCommand == 4 ) {
+            msc.disbandArmy( getCurrSelectedArmy() );
+        }
+        else if (currMode == 3 && currCommand == 5 ) {
+            msc.decomissionArmy( getCurrSelectedArmy() );
+        }
+        else if (currMode == 3 && currCommand == 6 ) {
+            msc.powerDownArmy( getCurrSelectedArmy() );
+        }
+        else if (currMode == 3 && currCommand == 7 ) {
+            msc.powerUpArmy( getCurrSelectedArmy() );
+        }
+        else if (currMode == 3 && currCommand == 8 ) {
+           msc.cancelQueue( getCurrSelectedArmy() );
+        }
+//        else if (currMode == 1 && currCommand == 0 ) {
+//            // attack
+//        }
+        else if (currMode == 1 && currCommand == 1 ) {
+            msc.makeUnit( getCurrSelectedBase(), "Colonist" );
+        }
+//        else if (currMode == 1 && currCommand == 2 ) {
+//            // defend
+//        }
+        else if (currMode == 1 && currCommand == 3 ) {
+            msc.healUnit( getCurrSelectedBase() );
+        }
+        else if (currMode == 1 && currCommand == 4 ) {
+            msc.decomissionStructure( getCurrSelectedBase() );
+        }
+        else if (currMode == 1 && currCommand == 5 ) {
+            msc.powerUpStructure( getCurrSelectedBase() );
+        }
+        else if (currMode == 1 && currCommand == 6 ) {
+            msc.powerDownStructure( getCurrSelectedBase() );
+        }
+        else if (currMode == 1 && currCommand == 7 ) {
+            msc.cancelQueueStructure( getCurrSelectedBase() );
         }
         else if (getCurrSelectedBase() == null && getCurrSelectedArmy() != null ) {
             System.out.println("army has been selected");
