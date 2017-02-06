@@ -1,6 +1,5 @@
 package com.team7.tests;
 
-import com.sun.source.tree.AssertTree;
 import com.team7.objects.*;
 import com.team7.objects.unit.Unit;
 import com.team7.objects.unit.combatUnit.MeleeUnit;
