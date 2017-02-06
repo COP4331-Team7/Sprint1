@@ -2,6 +2,7 @@ package com.team7.controller;
 
 import com.team7.objects.structure.Base;
 import com.team7.objects.unit.Unit;
+import com.team7.objects.unit.nonCombatUnit.Colonist;
 import com.team7.view.*;
 import com.team7.objects.*;
 
@@ -137,6 +138,17 @@ public class MainScreenController {
         public String getCommandString() {
             return view.getScreen().getMainScreen().getCommand().extractCommand();
         }
+
+
+
+
+        // COMMANDS
+        public void createBase(Unit unit){
+            if(unit instanceof Colonist){
+                ((Colonist) unit).buildBase();
+            }
+        }
+
 
 
     }
