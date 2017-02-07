@@ -15,7 +15,7 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
 
   ![alt tag](demo/instantDeath.gif)
   
-## Colonist creatiog Base
+## Colonist establishing a Base
 
   ![alt tag](demo/makeBase.gif)
 
