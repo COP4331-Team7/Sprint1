@@ -5,6 +5,12 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
  1. Download the JAR file [test](https://www.google.com/) file (Java JDK must be installed) 
  2. Click on the executable, or run 'java -jar Sprint1.jar' from the command line
 
+# Each player starts with 2 explorers and a colonist
+
+# Unit movement
+
+# Units interacting with terrain
+
 
 #Design of Game
 ##Theme
