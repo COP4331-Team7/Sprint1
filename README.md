@@ -7,9 +7,15 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
 
 # Each player starts with 2 explorers and a colonist
 
+ ![alt tag](mapDemo.gif)
+
 # Unit movement
 
+ ![alt tag](gatherResource.gif)
+
 # Units interacting with terrain
+
+  ![alt tag](instantDeath.gif)
 
 
 #Design of Game
