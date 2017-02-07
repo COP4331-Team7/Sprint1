@@ -18,6 +18,10 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
 ## Colonist establishing a Base
 
   ![alt tag](demo/makeBase.gif)
+  
+## Unit ordered to walk across map
+
+  ![alt tag](demo/farWalk.gif)
 
 #Design
 https://drive.google.com/drive/folders/0B1tlQl7ckmbka1Z2LXkyRGVVaVE
