@@ -3,21 +3,25 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
 
 [Iteration 1 requirements](Iteration1_Requirements.pdf)
 
-# Each player starts with 2 explorers and a colonist
+## Each player starts with 2 explorers and a colonist
 
  ![alt tag](mapDemo.gif)
 
-# Unit movement
+## Unit movement
 
  ![alt tag](gatherResource.gif)
 
-# Units interacting with terrain
+## Units interacting with terrain
 
-  ![alt tag](instantDeath.gif)
+ ![alt tag](instantDeath.gif)
   
-# Colonist creating Base
+## Unit ordered to walk across map
 
-  ![alt tag](makeBase.gif)
+![alt tag](demo/farWalk.gif)
+  
+## Colonist creating Base
+
+ ![alt tag](makeBase.gif)
 
   
 #Running the Game
