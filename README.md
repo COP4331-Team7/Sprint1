@@ -7,7 +7,7 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
 
  ![alt tag](mapDemo.gif)
 
-## Unit movement
+## Unit movement/ Players alternating turns
 
  ![alt tag](gatherResource.gif)
 
