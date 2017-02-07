@@ -17,7 +17,7 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
   
 ## Unit ordered to walk across map
 
-![alt tag](demo/farWalk.gif)
+![alt tag](farWalk.gif)
   
 ## Colonist creating Base
 
@@ -29,8 +29,7 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
  2. Click on the executable, or run 'java -jar Sprint1.jar' from the command line
 
 #Design of Game
-##Theme
-Futuristic/Space
+##Futuristic/SpaceTheme
 
 ##Map(s)
 In the first iteration, there is one map that is 20x20 tiles. The map is described by 4 different terrains: 
