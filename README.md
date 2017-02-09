@@ -1,6 +1,31 @@
 # Sprint1 (Space Wars)
 First Sprint Iteration of OOP Turn-Based Strategy Game
 
+[Iteration 1 requirements](Iteration1_Requirements.pdf)
+
+## Each player starts with 2 explorers and a colonist
+
+ ![alt tag](mapDemo.gif)
+ 
+## Unit ordered to walk across map
+
+![alt tag](farWalk.gif)
+
+## Unit movement/ Players alternating turns
+
+ ![alt tag](gatherResource.gif)
+
+## Units interacting with terrain
+
+ ![alt tag](instantDeath.gif)
+  
+  
+## Colonist creating Base
+
+ ![alt tag](makeBase.gif)
+
+  
+
 #Running the Game
  1. Download the JAR file [test](https://www.google.com/) file (Java JDK must be installed) 
  2. Click on the executable, or run 'java -jar Sprint1.jar' from the command line
