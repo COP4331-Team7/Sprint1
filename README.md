@@ -1,5 +1,5 @@
 # Iteration 1
-First Iteration OOP Turn-Based Strategy Game
+First Iteration of our OOP Turn-Based Strategy Game
 
 [Iteration 1 requirements](Iteration1_Requirements.pdf)
 
