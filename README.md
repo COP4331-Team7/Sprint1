@@ -5,23 +5,23 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
 
 ## Each player starts with 2 explorers and a colonist
 
- ![alt tag](mapDemo.gif)
+ ![alt tag](gifs/mapDemo.gif)
 
 ## Unit movement/ Players alternating turns
 
- ![alt tag](gatherResource.gif)
+ ![alt tag](gifs/gatherResource.gif)
 
 ## Units interacting with terrain
 
- ![alt tag](instantDeath.gif)
+ ![alt tag](gifs/instantDeath.gif)
   
 ## Unit ordered to walk across map
 
-![alt tag](farWalk.gif)
+![alt tag](gifs/farWalk.gif)
   
 ## Colonist creating Base
 
- ![alt tag](makeBase.gif)
+ ![alt tag](gifs/makeBase.gif)
 
   
 #Running the Game
