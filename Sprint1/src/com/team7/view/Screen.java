@@ -27,7 +27,7 @@ public class Screen extends JFrame
         unitScreen = new UnitScreen();
         structureScreen = new StructureScreen();
 
-        setCurrScreen("HOME");
+        setCurrScreen("MAIN");
 
         this.setVisible( true );
     }
@@ -103,7 +103,7 @@ public class Screen extends JFrame
         } );
         fileMenu.add( drawMapItem );
 
-        JMenuItem saveItem = new JMenuItem( "Save image" );     // create a new menu item
+        JMenuItem saveItem = new JMenuItem( "Save full map image" );     // create a new menu item
         saveItem.addActionListener( new ActionListener()
                                    {
             public void actionPerformed( ActionEvent event )
@@ -123,7 +123,9 @@ public class Screen extends JFrame
     private void saveImage()    // prompt the user to specify the size of the n by n image
     {
 
-        BufferedImage temp_img = null;
+
+
+      BufferedImage temp_img = getMainScreen().getMainViewImage().getFullMapImage();
 
         String inputString = JOptionPane.showInputDialog("ouput file?");
         try

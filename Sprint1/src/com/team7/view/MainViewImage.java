@@ -35,17 +35,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainViewImage extends JPanel implements MouseListener {
+public class MainViewImage extends JPanel implements MouseListener, MapStats {
 
         public static BufferedImage image;
         private Graphics2D g2d;
         private int MAP_IMAGE_WIDTH_IN_PIXELS;
         private int MAP_IMAGE_HEIGHT_IN_PIXELS;
 
-        private final static int TILE_SIZE = 67;   // in pixels
+        private int TILES_VISIBLE_X;
+        private int TILES_VISIBLE_Y;
 
-        private final static int TILES_VISIBLE_X = 11;
-        private final static int TILES_VISIBLE_Y = 7;
+        private final static double mapScale_x = 0.95;
+        private final static double mapScale_y = 0.60;
 
         //
         public int x_center, y_center;    // where the window is focused on
@@ -76,9 +77,10 @@ public class MainViewImage extends JPanel implements MouseListener {
 
         private  BufferedImage skullImage;
         private  BufferedImage baseImage;
+    BufferedImage tempImg ;
+    Graphics2D g2ds;
 
             //
-        private BufferedImage mapImage;
         private MainViewSelection mainViewSelection;
 
         // -------
@@ -89,8 +91,11 @@ public class MainViewImage extends JPanel implements MouseListener {
 
         public MainViewImage( MainViewSelection ms )
         {
-            MAP_IMAGE_WIDTH_IN_PIXELS = 733;
-            MAP_IMAGE_HEIGHT_IN_PIXELS = 469;
+            MAP_IMAGE_WIDTH_IN_PIXELS = (int)(java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth()   * mapScale_x);
+            MAP_IMAGE_HEIGHT_IN_PIXELS = (int)(java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight() * mapScale_y);
+
+            TILES_VISIBLE_Y = (int)((MAP_IMAGE_WIDTH_IN_PIXELS / (2 * TILE_SIZE - TILE_SIZE/1.73))) - 1;
+            TILES_VISIBLE_X = (int)(2 * MAP_IMAGE_HEIGHT_IN_PIXELS / TILE_SIZE) + 2;
 
             image = new BufferedImage(MAP_IMAGE_WIDTH_IN_PIXELS, MAP_IMAGE_HEIGHT_IN_PIXELS, BufferedImage.TYPE_INT_ARGB);
             g2d = (Graphics2D)image.createGraphics();
@@ -99,10 +104,10 @@ public class MainViewImage extends JPanel implements MouseListener {
             this.mainViewSelection = ms;
 
             try {
-               tileImage_1 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/mountainImage.png"));
-               tileImage_2 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/hills_img.png"));
-               tileImage_3 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/sand_img.png"));
-               tileImage_4 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/grass_img.png"));
+               tileImage_1 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/a.png"));
+               tileImage_2 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/a.png"));
+               tileImage_3 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/c.png"));
+               tileImage_4 = ImageIO.read(Main.class.getClass().getResourceAsStream("/terrains/c.png"));
 
                moneyBagImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/moneyBag.png"));
                moonRockImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/items/moonRock.png"));
@@ -126,27 +131,31 @@ public class MainViewImage extends JPanel implements MouseListener {
 
                 baseImage = ImageIO.read(Main.class.getClass().getResourceAsStream("/structures/baseImage.png"));
 
-                // moonRockImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+
                 // hieroglyphicBookImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 
-                // mapImage = new BufferedImage(1340 , 1340, BufferedImage.TYPE_INT_ARGB);
-                // Graphics2D g2 = (Graphics2D)mapImage.createGraphics();
+
             }
             catch (IOException e) {}
 
             mainViewSelection.setMainViewImage( this );
 
+            tempImg = new BufferedImage( MAP_IMAGE_WIDTH_IN_PIXELS, MAP_IMAGE_HEIGHT_IN_PIXELS, BufferedImage.TYPE_INT_ARGB);
+            g2ds = (Graphics2D)tempImg.createGraphics();
             drawMapArea();
 
             x_center = 0;   // initially focus on top left corner of the map
             y_center = 0;
             x_dest = 0;
             y_dest = 0;
+
         }
 
         public void setMap(Map map) {
             this.map = map;
             this.grid = map.getGrid();
+            mainViewSelection.setMiniMapImage( getFullMapImage(), TILES_VISIBLE_X, TILES_VISIBLE_Y );
+
         }
 
         public void setCurrentPlayer( Player player ) {
@@ -160,145 +169,195 @@ public class MainViewImage extends JPanel implements MouseListener {
 
          }
 
+         public BufferedImage getFullMapImage() {
+             BufferedImage mapImage;
+             int tempInt = (int)(MAP_TILE_WIDTH * (TILE_SIZE - TILE_SIZE / 1.73) + TILE_SIZE);
+             mapImage = new BufferedImage(TILE_SIZE*MAP_TILE_WIDTH + tempInt  , (int)(TILE_SIZE*MAP_TILE_HEIGHT/1.5), BufferedImage.TYPE_INT_ARGB);
+             Graphics2D g2 = (Graphics2D)mapImage.createGraphics();
+             int x_coord, y_coord;   // pixel coordinates of top left corner of image drawn
+             int x_offset = 0;
+             int y_offset = 0;
+             int counter = 0;
+             int changePerStep = TILE_SIZE - (int)(TILE_SIZE/1.73);
+             int changePerYstep = 10;
+             int step = 0;
+
+             for(int j = 0; j < MAP_TILE_WIDTH; j++) {          // tile index on sub-screen
+                 x_offset = changePerStep;
+                 y_offset = 0;
+                 counter = 0;
+                 if(step % 2 == 0) {
+                     x_offset += changePerStep;
+                 }
+                 else {
+                     x_offset -= changePerStep;
+                     x_offset += 10;
+                 }
+                 step++;
+                 for(int i = 0; i < MAP_TILE_HEIGHT; i++) {
+
+
+                     counter = 1;
+
+                     int xx = i;                // tile index on whole map
+                     int yy = j;
+
+                     if(xx < 0)                     // adjust if out of bounds
+                         xx = 0;
+                     else if (xx >= MAP_TILE_WIDTH)
+                         xx = MAP_TILE_WIDTH - 1;
+
+                     if(yy < 0)
+                         yy = 0;
+                     else if(yy >= MAP_TILE_HEIGHT)
+                         yy = MAP_TILE_HEIGHT - 1;
+
+                     x_coord = i * TILE_SIZE;
+                     y_coord = (int)(j * TILE_SIZE / 2.4);
+
+
+                     // draw terrain
+                     if( grid[xx][yy].getTerrain() instanceof Mountains) {
+                         g2.drawImage(tileImage_1, x_coord + x_offset, y_coord, null);
+                         x_offset += changePerStep * counter;
+                         // y_offset += changePerYstep;
+                         counter++;
+                     }
+                     else if (grid[xx][yy].getTerrain() instanceof Crater) {
+                         g2.drawImage(tileImage_2, x_coord + x_offset, y_coord, null);
+                         x_offset += changePerStep * counter;
+                         //  y_offset += changePerYstep;
+                         counter++;
+                     }
+                     else if (grid[xx][yy].getTerrain() instanceof Desert) {
+                         g2.drawImage(tileImage_3, x_coord + x_offset, y_coord, null);
+                         x_offset += changePerStep * counter;
+                         //   y_offset += changePerYstep;
+                         counter++;
+                     }
+                     else if (grid[xx][yy].getTerrain() instanceof FlatLand) {
+                         g2.drawImage(tileImage_4, x_coord + x_offset, y_coord, null);
+                         x_offset += changePerStep * counter;
+                         //     y_offset += changePerYstep;
+                         counter++;
+                     }
+
+                 }
+             }
+
+             return mapImage;
+
+         }
+
         private BufferedImage drawSubsectionOfMap(int x, int y) {
 
+            g2ds.setFont(new Font("default", Font.BOLD, 11));
+            g2ds.setColor( new Color(230, 230, 230, 140)  );
 
-            BufferedImage tempImg = new BufferedImage(733, 439, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2ds = (Graphics2D)tempImg.createGraphics();
-            g2ds.setFont(g2ds.getFont().deriveFont(25f));
 
             int x_coord, y_coord;   // pixel coordinates of top left corner of image drawn
+            int x_offset = 0;
+            int y_offset = 0;
+            int counter = 0;
+            int changePerStep = TILE_SIZE - (int)(TILE_SIZE/1.73);
+            int changePerYstep = 10;
+            int step = 0;
+            for(int j = 0; j < TILES_VISIBLE_X; j++) {          // tile index on sub-screen
+                x_offset = changePerStep;
+                y_offset = 0;
+                counter = 0;
+                if(step % 2 == 0) {
+                    x_offset += changePerStep;
+                }
+                else {
+                    x_offset -= changePerStep;
+                    x_offset += 10;
+                }
+                step++;
+                for(int i = 0; i < TILES_VISIBLE_Y; i++) {
 
-            for(int i = 0; i < TILES_VISIBLE_X; i++) {          // tile index on sub-screen
-                for(int j = 0; j < TILES_VISIBLE_Y; j++) {
+
+                counter = 1;
 
                     int xx = x + i;                // tile index on whole map
                     int yy = y + j;
 
                     if(xx < 0)                     // adjust if out of bounds
                         xx = 0;
-                    else if (xx > 19)
-                        xx = 19;
+                    else if (xx >= MAP_TILE_WIDTH)
+                        xx = MAP_TILE_WIDTH - 1;
 
                     if(yy < 0)
                         yy = 0;
-                    else if(yy > 19)
-                        yy = 19;
+                    else if(yy >= MAP_TILE_HEIGHT)
+                        yy = MAP_TILE_HEIGHT - 1;
 
                     x_coord = i * TILE_SIZE;
-                    y_coord = j * TILE_SIZE;
+                    y_coord = (int)(j * TILE_SIZE / 2.4);
+
 
                     // draw terrain
                     if( grid[xx][yy].getTerrain() instanceof Mountains) {
-                        g2ds.drawImage(tileImage_1, x_coord, y_coord, null);
+                        g2ds.drawImage(tileImage_1, x_coord + x_offset, y_coord, null);
+                        x_offset += changePerStep * counter;
+                       // y_offset += changePerYstep;
+                        counter++;
                     }
                     else if (grid[xx][yy].getTerrain() instanceof Crater) {
-                        g2ds.drawImage(tileImage_2, x_coord, y_coord, null);
+                        g2ds.drawImage(tileImage_2, x_coord + x_offset, y_coord, null);
+                        x_offset += changePerStep * counter;
+                      //  y_offset += changePerYstep;
+                        counter++;
                     }
                     else if (grid[xx][yy].getTerrain() instanceof Desert) {
-                        g2ds.drawImage(tileImage_3, x_coord, y_coord, null);
+                        g2ds.drawImage(tileImage_3, x_coord + x_offset, y_coord, null);
+                        x_offset += changePerStep * counter;
+                     //   y_offset += changePerYstep;
+                        counter++;
                     }
                     else if (grid[xx][yy].getTerrain() instanceof FlatLand) {
-                        g2ds.drawImage(tileImage_4, x_coord, y_coord, null);
+                        g2ds.drawImage(tileImage_4, x_coord + x_offset, y_coord, null);
+                        x_offset += changePerStep * counter;
+                   //     y_offset += changePerYstep;
+                        counter++;
                     }
 
-                    // draw area effects
-                    if(grid[xx][yy].getAreaEffect() instanceof Storm) {
-                        g2ds.drawImage(stormImage, x_coord, y_coord, null);
-                    }
-                    else if (grid[xx][yy].getAreaEffect() instanceof ElixirShower) {
-                        g2ds.drawImage(elixerShowerImage, x_coord + 10, y_coord + 10, null);
-                    }
-                    else if (grid[xx][yy].getAreaEffect() instanceof VolcanicVent) {
-                        g2ds.drawImage(ventImage, x_coord + 10, y_coord + 10, null);
-                    }
+                    int s1_x = -15;
+                    int s1_y =  31;
 
-                    // draw obstacles
-                    if(grid[xx][yy].getItem() instanceof Obstacle) {
-                        g2ds.drawImage(obstacleImage, x_coord + 20, y_coord + 20, null);
-                    }
-                    else if(grid[xx][yy].getItem() instanceof OneShotItem) {
-                        g2ds.drawImage(oneShotImage, x_coord + 20, y_coord + 20, null);
-                    }
+                    g2ds.setColor( new Color(0, 30, 230, 90)  ); // blue
+                    // g2ds.setColor( new Color(0x015E83BF)  );
+                    // g2ds.setColor( new Color(36, 255, 244, 70)  );
+                   // g2ds.setColor( new Color(0, 200, 61, 70)  );
+                    //g2ds.setColor( new Color(255, 71, 71, 90)  );
+                    //g2ds.setColor( new Color(0, 7, 222, 100)  );
+                    //g2ds.setColor( new Color(0, 30, 100, 70)  );
+                    if(drawOnTile) {
 
-                    // draw decals
-                    if( grid[xx][yy].getDecal() != null) {
-                        if(Objects.equals(grid[xx][yy].getDecal().getType(), "Skull" )) {
-                          g2ds.drawImage(skullImage, x_coord, y_coord + 35, null);
-                      }
-                    }
+                        g2ds.fillOval(x_coord + x_offset + s1_x, y_coord + s1_y, 18, 18);
 
+                        g2ds.setColor(new Color(255, 255, 100, 70));
+                        g2ds.setColor(new Color(255, 128, 100, 150));
 
-                    // draw resources
-                    if( grid[xx][yy].getResource() instanceof MoonRocks) {
-                        g2ds.drawImage(moonRockImage, x_coord, y_coord + 35, null);
-                    }
-                    else if ( grid[xx][yy].getResource() instanceof MoneyBag) {
-                        g2ds.drawImage(moneyBagImage, x_coord + 35, y_coord, null);
-                    }
-                    else if ( grid[xx][yy].getResource() instanceof HieroglyphicBooks) {
-                        g2ds.drawImage(hieroglyphicBookImage, x_coord + 25, y_coord + 30, null);
-                    }
+                        g2ds.fillOval(x_coord + x_offset + 5, y_coord + s1_y, 18, 18);
 
-                    if ( grid[xx][yy].getStructure() instanceof Base) {
-                        g2ds.drawImage(baseImage, x_coord, y_coord, null);
-                    }
+                        g2ds.setColor(new Color(0, 0, 0, 255));
 
-                    // draw units
-                    int colonistCount = 0, explorerCount = 0;
-                    int meleeCount = 0, rangeCount = 0, armyCount = 0;
-                    int sizeOfArmy = 0;
-                    ArrayList<Unit> units = grid[xx][yy].getUnits();
-                    if(grid[xx][yy].getArmies() != null) {
-                        ArrayList<Army> armies = grid[xx][yy].getArmies();
-                        if(grid[xx][yy].getArmies().size() != 0) {
-                            Army army = armies.get(0);
-                            sizeOfArmy = army.getUnits().size();
-                            g2ds.drawImage(armyImage, x_coord, y_coord, null);
-                            g2ds.drawString( Integer.toString( sizeOfArmy ), x_coord, y_coord + 45);
-                        }
-                    }
-                    if( sizeOfArmy == 0 && !units.isEmpty() ) {    // if there are units on this tile
-                        for(int n = 0; n < units.size(); n++) {
-                            if( units.get(n) instanceof Colonist)
-                                colonistCount++;
-                            if( units.get(n) instanceof Explorer)
-                                explorerCount++;
-                            if( units.get(n) instanceof MeleeUnit)
-                                meleeCount++;
-                            if( units.get(n) instanceof RangedUnit)
-                                rangeCount++;
-                        }
-                        //System.out.println("tile[" + xx + "][" + yy + "] has " + colonistCount + " colonist and " + explorerCount + " explorer(s)");
-                        if (colonistCount != 0) {
-                            g2ds.drawImage(colonistImage, x_coord, y_coord, null);
-                            g2ds.drawString(Integer.toString(colonistCount), x_coord, y_coord + 45);
-                        }
-                        if (explorerCount != 0) {
-                            g2ds.drawImage(explorerImage, x_coord, y_coord, null);
-                            g2ds.drawString(Integer.toString(explorerCount), x_coord, y_coord + 45);
-                        }
-                        if (meleeCount != 0) {
-                            g2ds.drawImage(meleeImage, x_coord, y_coord, null);
-                            g2ds.drawString(Integer.toString(meleeCount), x_coord, y_coord + 45);
-                        }
-                        if (rangeCount != 0) {
-                            g2ds.drawImage(rangeImage, x_coord, y_coord, null);
-                            g2ds.drawString(Integer.toString(rangeCount), x_coord, y_coord + 45);
-                        }
-                    }
+                        String s = Integer.toString(xx);
+                        g2ds.drawString(s, x_coord + x_offset + s1_x + 3, y_coord + s1_y + 13);
 
-
+                        s = Integer.toString(yy);
+                        g2ds.drawString(s, x_coord + x_offset + s1_x + 22, y_coord + s1_y + 13);
+                    }
 
                 }
             }
 
-            int center_pixel_x = (TILES_VISIBLE_X/2)*TILE_SIZE  + TILE_SIZE/2;
-            int center_pixel_y = (TILES_VISIBLE_Y/2)*TILE_SIZE  + TILE_SIZE/2;
-
-             g2ds.setColor(Color.BLACK);
-             g2ds.drawLine(center_pixel_x - 5, center_pixel_y, center_pixel_x + 5, center_pixel_y );
-             g2ds.drawLine(center_pixel_x , center_pixel_y - 5, center_pixel_x, center_pixel_y + 5 );
+            //int center_pixel_x = MAP_IMAGE_WIDTH_IN_PIXELS  / 2;
+            //int center_pixel_y = MAP_IMAGE_HEIGHT_IN_PIXELS / 2;
+             //g2ds.setColor(Color.BLACK);
+             //g2ds.drawLine(center_pixel_x - 5, center_pixel_y, center_pixel_x + 5, center_pixel_y );
+             //g2ds.drawLine(center_pixel_x , center_pixel_y - 5, center_pixel_x, center_pixel_y + 5 );
 
             return tempImg;
         }
@@ -306,7 +365,7 @@ public class MainViewImage extends JPanel implements MouseListener {
         public void paintComponent( Graphics g )
         {
             super.paintComponent( g );
-            g.drawImage( image, 33, 0, this );
+            g.drawImage( image, (int)(java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth()  * (1-mapScale_x)), 0, this );
         }
 
     public void drawMapArea() {
@@ -340,8 +399,10 @@ public class MainViewImage extends JPanel implements MouseListener {
 
         public void mouseClicked(MouseEvent e) {
 
-           double x_offset = (e.getX() - 733/2 - 33)/(double)TILE_SIZE;   // offset in number of tiles
-           double y_offset = -1*(469/2 - e.getY())/(double)TILE_SIZE;
+            int center_pixel_x = MAP_IMAGE_WIDTH_IN_PIXELS  / 2;
+            int center_pixel_y = MAP_IMAGE_HEIGHT_IN_PIXELS / 2;
+           double x_offset = (e.getX() - center_pixel_x)/(double)TILE_SIZE;   // offset in number of tiles
+           double y_offset = -1*(center_pixel_y - e.getY())/(double)TILE_SIZE;
 
            if(x_offset % 1 > 0.5) {
             x_offset += 1;
@@ -357,8 +418,15 @@ public class MainViewImage extends JPanel implements MouseListener {
             y_offset += -1;
            }
 
-           x_dest = x_center + (int)x_offset;
-           y_dest = y_center + (int)y_offset;
+            //System.out.println("offset (" + (int)x_offset + ", " + (int)y_offset + ")" );
+
+
+            x_dest = x_center + (int)x_offset;
+           y_dest = y_center + (int)(y_offset * 1.5);
+
+           //System.out.println("center (" + (int)x_center + ", " + (int)y_center + ")" );
+           // System.out.println("dest (" + (int)x_dest + ", " + (int)y_dest + ")" );
+
 
             zoomToDestination( x_dest, y_dest, 50 );
         }
@@ -367,20 +435,20 @@ public class MainViewImage extends JPanel implements MouseListener {
 
             if(x_dest < 0)              // adjust if out of bounds
                 x_dest = 0;
-            else if (x_dest >= 20 - TILES_VISIBLE_X)
-                x_dest = 20 - TILES_VISIBLE_X;
+            else if (x_dest >= MAP_TILE_WIDTH - TILES_VISIBLE_Y)
+                x_dest = MAP_TILE_WIDTH - TILES_VISIBLE_Y;
 
             if(y_dest < 0)
                 y_dest = 0;
-            else if(y_dest >= 20 - TILES_VISIBLE_Y)
-                y_dest = 20 - TILES_VISIBLE_Y;
+            else if(y_dest >= MAP_TILE_HEIGHT - TILES_VISIBLE_X)
+                y_dest = MAP_TILE_HEIGHT - TILES_VISIBLE_X;
 
             final int x_destination  = x_dest;
             final int y_destination  = y_dest;
 
-            if( x_center != x_destination || y_center != y_destination) {
+            //System.out.println("zoom to: " + x_dest + "," + y_dest);
 
-                mainViewSelection.setFocus( x_destination , y_destination );
+            if( x_center != x_destination || y_center != y_destination) {
 
                 new Thread( new Runnable()
                 {
@@ -409,9 +477,11 @@ public class MainViewImage extends JPanel implements MouseListener {
                                 y_diff -= delta_y;
                             }
 
-                            // System.out.println("get frame focus at (" + (int)x_center + ", " + (int)y_center + ")" );
+                           // System.out.println("get frame focus at (" + (int)x_center + ", " + (int)y_center + ")" );
 
                             final BufferedImage mapSubsection = drawSubsectionOfMap(x_center, y_center);
+                            mainViewSelection.setFocus(x_center, y_center);
+
                             SwingUtilities.invokeLater( new Runnable()   // queue frame i on EDT for display
                             {
                                 public void run()

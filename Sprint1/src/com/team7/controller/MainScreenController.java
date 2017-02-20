@@ -23,10 +23,9 @@ public class MainScreenController {
         this.game = game;
         this.view = view;
         setMap( game.getMap() );
-        setCurrentPlayer( game.getCurrentPlayer() );
+        //setCurrentPlayer( game.getCurrentPlayer() );
         view.getScreen().getMainScreen().getCommand().setScreen( view.getScreen() );
         view.getScreen().getMainScreen().getCommand().setController( this );    // give controller
-
         addActionListeners();
     }
 

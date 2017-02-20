@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class View
 {
-    private static final int WIDTH  = 800;
-    private static final int HEIGHT = 800;
+    private static final int WIDTH  = (int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    private static final int HEIGHT = (int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     private Screen frame = null;
 
     public View()

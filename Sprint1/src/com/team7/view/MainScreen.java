@@ -35,8 +35,8 @@ public class MainScreen extends JPanel {
                                     // only one JPanel can be in a specific location, so we add 2 panels to a single panel
                                     // then add the single panel where we want both panels
 
-        temp.add( mainStatusInfo, BorderLayout.WEST );
-        temp.add( commandSelecter, BorderLayout.SOUTH);
+        //temp.add( mainStatusInfo, BorderLayout.WEST );
+        //temp.add( commandSelecter, BorderLayout.SOUTH);
         temp.add( mainViewSelection, BorderLayout.NORTH);
 
         this.add( temp, BorderLayout.SOUTH );

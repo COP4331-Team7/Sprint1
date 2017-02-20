@@ -17,6 +17,8 @@ public class Main {
         // view
         View view = new View();
 
+
+
         waitForGUI( view );
 
         // controller
