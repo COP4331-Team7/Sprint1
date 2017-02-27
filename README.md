@@ -27,9 +27,16 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
   
 
 #Running the Game
- 1. Download the JAR file [here](Sprint1.jar) (Java JDK must be installed) 
- 2. Click on the executable, or run 'java -jar Sprint1.jar' from the command line
-
+Download the JAR file [here](Sprint1.jar) (Java JDK must be installed) 
+ 
+```javascript
+wget "https://drive.google.com/ucexport=download&id=0BwOm5RXo3vn5bFl6Q3pTTURERjA" -O Sprint1.jar 
+```
+ 
+Click on the executable, or run from the command line
+```javascript
+java -jar Sprint1.jar 
+```
 
 #Design of Game
 ##Theme
