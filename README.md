@@ -10,7 +10,7 @@ Click [here](Sprint1.jar) or use the UNIX/Linux command *wget* to download the J
 ```javascript
 wget "https://raw.githubusercontent.com/COP4331-Team7/Sprint1/development/Sprint1.jar" -O Sprint1.jar 
 ```
-## Run the JAR file
+## Run the JAR file (JRE required)
 Run from the command line or double-click on the executable JAR file:
 ```javascript
 java -jar Sprint1.jar 
