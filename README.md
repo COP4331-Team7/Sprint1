@@ -4,14 +4,14 @@ First Iteration of our OOP Turn-Based Strategy Game
 [Iteration 1 requirements](Iteration1_Requirements.pdf)
 
 #Running the Game
-##Download JAR file containing the packaged application
-Click [here](Sprint1.jar) to download the JAR file, or use Linux/UNIX command wget to download the file:
+##Download a JAR file containing the packaged application
+Click [here](Sprint1.jar) or use Linux/UNIX command wget to download the JAR file:
  
 ```javascript
-wget "https://drive.google.com/ucexport=download&id=0BwOm5RXo3vn5bFl6Q3pTTURERjA" -O Sprint1.jar 
+wget "https://raw.githubusercontent.com/COP4331-Team7/Sprint1/development/Sprint1.jar" -O Sprint1.jar 
 ```
-##Run the packaged application
-Click on the executable, or run from the command line:
+## Run the JAR file
+Run from the command line or double-click on the executable JAR file:
 ```javascript
 java -jar Sprint1.jar 
 ```
