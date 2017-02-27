@@ -3,6 +3,19 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
 
 [Iteration 1 requirements](Iteration1_Requirements.pdf)
 
+#Running the Game
+##Download JAR file containing the packaged application
+Click [here](Sprint1.jar) to download the JAR file, or use Linux/UNIX command wget to download the file:
+ 
+```javascript
+wget "https://drive.google.com/ucexport=download&id=0BwOm5RXo3vn5bFl6Q3pTTURERjA" -O Sprint1.jar 
+```
+##Run the packaged application
+Click on the executable, or run from the command line:
+```javascript
+java -jar Sprint1.jar 
+```
+
 ## Each player starts with 2 explorers and a colonist
 
  ![alt tag](mapDemo.gif)
@@ -24,20 +37,6 @@ First Sprint Iteration of OOP Turn-Based Strategy Game
 
  ![alt tag](makeBase.gif)
 
-  
-
-#Running the Game
-##Download JAR file containing the packaged application
-Click [here](Sprint1.jar) to download the JAR file, or use Linux/UNIX command wget to download the file:
- 
-```javascript
-wget "https://drive.google.com/ucexport=download&id=0BwOm5RXo3vn5bFl6Q3pTTURERjA" -O Sprint1.jar 
-```
-##Run the packaged application
-Click on the executable, or run from the command line:
-```javascript
-java -jar Sprint1.jar 
-```
 
 #Design of Game
 ##Theme
