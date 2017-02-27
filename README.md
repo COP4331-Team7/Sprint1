@@ -5,7 +5,7 @@ First Iteration of our OOP Turn-Based Strategy Game
 
 #Running the Game
 ##Download a JAR file containing the packaged Java application
-Click [here](Sprint1.jar) or use the UNIX/Linux command *wget* to download the JAR file from the command line:
+Click [here](Sprint1.jar) or use the UNIX/Linux command *wget* to download the JAR file:
  
 ```javascript
 wget "https://raw.githubusercontent.com/COP4331-Team7/Sprint1/development/Sprint1.jar" -O Sprint1.jar 
