@@ -18,24 +18,24 @@ java -jar Sprint1.jar
 
 ## Each player starts with 2 explorers and a colonist
 
- ![alt tag](mapDemo.gif)
+ ![alt tag](demo/mapDemo.gif)
  
 ## Unit ordered to walk across map
 
-![alt tag](farWalk.gif)
+![alt tag](demo/farWalk.gif)
 
 ## Unit movement/ Players alternating turns
 
- ![alt tag](gatherResource.gif)
+ ![alt tag](demo/gatherResource.gif)
 
 ## Units interacting with terrain
 
- ![alt tag](instantDeath.gif)
+ ![alt tag](demo/instantDeath.gif)
   
   
 ## Colonist creating Base
 
- ![alt tag](makeBase.gif)
+ ![alt tag](demo/makeBase.gif)
 
 
 #Design of Game
