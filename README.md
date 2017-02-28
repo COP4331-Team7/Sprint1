@@ -3,7 +3,9 @@ First Iteration of OOP Turn-Based Strategy Game
 
 [Iteration 1 requirements](demo/Iteration1_Requirements.pdf)
 
+---
 #Running the Game
+
 ##Download a JAR file containing the packaged Java application
 Click [here](Sprint1.jar) or use the UNIX/Linux command *wget* to download the JAR file:
  
@@ -15,7 +17,7 @@ Run from the command line or double-click the executable JAR file:
 ```javascript
 java -jar Sprint1.jar 
 ```
-
+---
 ## Each player starts with 2 explorers and a colonist
 
  ![alt tag](demo/mapDemo.gif)
@@ -37,6 +39,7 @@ java -jar Sprint1.jar
 
  ![alt tag](demo/makeBase.gif)
 
+---
 
 #Design of Game
 ##Theme
@@ -79,6 +82,8 @@ An area effect is a process that is automatically triggered when a unit enters a
   A Decal augments the UI of the game:
    1. Skull and Crossbones - loaded to the screen when a unit dies 
    2. Red Cross - not in this iteration. no gameplay reason was decided
+ 
+ ---
  
 #Design
 https://drive.google.com/drive/folders/0B1tlQl7ckmbka1Z2LXkyRGVVaVE
