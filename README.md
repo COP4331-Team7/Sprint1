@@ -16,7 +16,6 @@ Run from the command line or double-click the executable JAR file:
 ```javascript
 java -jar Sprint1.jar 
 ```
----
 ## Each player starts with 2 explorers and a colonist
 
  ![alt tag](demo/mapDemo.gif)
