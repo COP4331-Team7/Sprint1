@@ -1,7 +1,7 @@
 # Sprint1 (Space Wars)
 First Iteration of OOP Turn-Based Strategy Game
 
-[Iteration 1 requirements](demo/Iteration1_Requirements.pdf)
+<!--[Iteration 1 requirements](demo/Iteration1_Requirements.pdf)-->
 
 #Running the Game
 
